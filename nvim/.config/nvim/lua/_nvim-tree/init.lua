@@ -1,12 +1,8 @@
-vim.g.nvim_tree_width = 35
--- "1 by default, disables netrw
-vim.g.nvim_tree_disable_netrw = 0
 -- "0 by default, this option shows indent markers when folders are open
 vim.g.nvim_tree_indent_markers = 1
--- "0 by default, this option allows the cursor to be updated when entering a buffer
-vim.g.nvim_tree_follow = 1
+
 --List of filenames that gets highlighted with NvimTreeSpecialFile
-vim.g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE' }
+vim.g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE', 'Dockerfile' }
 -- 0 by default, append a trailing slash to folder names
 vim.g.nvim_tree_add_trailing = 1
 
@@ -38,7 +34,19 @@ vim.g.nvim_tree_icons = {
     }
 }
 
-local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+require('nvim-tree').setup {
+    nvim_tree_disable_netrw = true,
+    disable_netrw = true,
+    hijack_netrw = true
+}
+
+vim.api.nvim_set_keymap('n', '<leader>nt', ':NvimTreeToggle <CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>rf', ':NvimTreeRefresh <CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>nf', ':NvimTreeFindFile <CR>', { noremap = true })
+
+vim.cmd([[
+  highlight NvimTreeFolderIcon guibg=white
+]])
 
 -- vim.g.nvim_tree_bindings = {
 --
@@ -75,11 +83,3 @@ local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 --   ["-"]              = tree_cb("dir_up"),
 --   ["q"]              = tree_cb("close"),
 -- }
-
-vim.api.nvim_set_keymap('n', '<leader>nt', ':NvimTreeToggle <CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>rf', ':NvimTreeRefresh <CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>nf', ':NvimTreeFindFile <CR>', { noremap = true })
-
-vim.cmd([[
-  highlight NvimTreeFolderIcon guibg=white
-]])

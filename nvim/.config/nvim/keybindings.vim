@@ -5,8 +5,8 @@ noremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
-nnoremap <leader>h :split<Space>
-nnoremap <leader>v :vsplit<Space>
+nnoremap <leader>hs :split<Space>
+nnoremap <leader>vs :vsplit<Space>
 
 " Navigate around splits with a single key combo.
 nnoremap <C-l> <C-w><C-l>
@@ -42,8 +42,8 @@ nnoremap <leader>j :lnext<CR>
 nnoremap <leader>k :lprev<CR>
 
 " Format paragraph (selected or not) to 80 character lines.
-nnoremap <leader>g gqap
-xnoremap <leader>g gqa
+nnoremap <leader>fp gqap
+xnoremap <leader>fp gqa
 
 " Enable Disable Auto Indent
 map <leader>I :setlocal autoindent!<CR>
@@ -99,14 +99,14 @@ nmap <leader>cf :ClearQuickfixList<CR>
 nmap <Leader>x <Plug>StripTrailingWhitespace
 
 " Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fb <cmd>Telescope buffers<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-" Using lua functions
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-" nnoremap <silent> <Leader>c :call QuickFix_toggle()<CR>
+" " Using lua functions
+" nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+" nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+" nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" " nnoremap <silent> <Leader>c :call QuickFix_toggle()<CR>

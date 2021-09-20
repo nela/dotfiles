@@ -6,25 +6,36 @@
 #   python -m pip install virtualenv
 #   asdf reshim python
 
-# source $(brew --prefix)/Cellar/asdf/$(ls /usr/local/Cellar/asdf)/asdf.sh
+source $(brew --prefix)/Cellar/asdf/$(ls /usr/local/Cellar/asdf)/asdf.sh
 
-source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
-
-export WORKON_HOME=$XDG_DATA_HOME/virtual-envs/
+export WORKON_HOME=$XDG_DATA_HOME/virtualenvs/nela
+export PROJECT_HOME=$HOME/projects/python
 
 mkenv() {
   virtualenv -p $(asdf where python "$1")/bin/python "$WORKON_HOME"/"$2"
 }
 
 workon() {
-	echo "1. statnett\n\t2.nela"
-	read dir
-	export PROJECT_HOME=${HOME}/${dir}/python
   source "$WORKON_HOME"/"$1"/bin/activate
-  [ -d "$PROJECT_HOME"/"$1" ] && cd "$PROJECT_HOME"/"$1"
+  if [ -d "$PROJECT_HOME"/"$1" ]
+  then
+    cd "$PROJECT_HOME"/"$1"
+  fi
 }
+
+deactivate() {
+  source "$WORKON_HOME"/"$1"/bin/de
+  if [ -d "$PROJECT_HOME"/"$1" ]
+  then
+    cd "$PROJECT_HOME"/"$1"
+  fi
+}
+
 
 envdelete() {
   rm -rf "$WORKON_HOME"/"$1"
+}
+
+envlist() {
+  ls "$WORKON_HOME"
 }
