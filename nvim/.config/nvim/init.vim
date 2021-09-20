@@ -46,8 +46,8 @@ Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'  }
-
 Plug 'akinsho/toggleterm.nvim'
+
 if has('mac')
   Plug 'lervag/vimtex'
   Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
@@ -71,17 +71,16 @@ lua require '_lualine'
 lua require '_nvim-lspinstall'
 lua require '_toggleterm'
 
-
-" if has('mac')
-"   lua require 'lsp.texlab'
-"   lua require 'lsp.omnisharp'
-"   lua require 'lsp.typescript'
-" endif
+if has('mac')
+  lua require 'lsp.texlab'
+  lua require 'lsp.omnisharp'
+  lua require 'lsp.typescript'
+endif
 
 set background=dark
+
 let g:gruvbox_material_palette = 'material'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_disable_italic_comment = 0
 colorscheme gruvbox-material
-
