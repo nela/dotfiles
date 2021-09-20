@@ -1,0 +1,13 @@
+# bleopt keymap_vi_mode_show=0
+#
+# Disable syntax highlighting
+bleopt highlight_syntax=
+
+# Disable highlighting based on filenames
+bleopt highlight_filename=
+
+# Disable highlighting based on variable types
+bleopt highlight_variable=
+
+
+
