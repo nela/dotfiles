@@ -1,0 +1,30 @@
+# Script made for using the asdf as a virtual env manager for python projects
+# Based on: https://github.com/asdf-vm/asdf/issues/636#issuecomment-674092994
+#
+# Note that a virtualenv (python -m pip install virtualenv) should be installed
+# for each python version! Commands:
+#   python -m pip install virtualenv
+#   asdf reshim python
+
+# source $(brew --prefix)/Cellar/asdf/$(ls /usr/local/Cellar/asdf)/asdf.sh
+
+source $HOME/.asdf/asdf.sh
+source $HOME/.asdf/completions/asdf.bash
+
+export WORKON_HOME=$XDG_DATA_HOME/virtual-envs/
+
+mkenv() {
+  virtualenv -p $(asdf where python "$1")/bin/python "$WORKON_HOME"/"$2"
+}
+
+workon() {
+	echo "1. statnett\n\t2.nela"
+	read dir
+	export PROJECT_HOME=${HOME}/${dir}/python
+  source "$WORKON_HOME"/"$1"/bin/activate
+  [ -d "$PROJECT_HOME"/"$1" ] && cd "$PROJECT_HOME"/"$1"
+}
+
+envdelete() {
+  rm -rf "$WORKON_HOME"/"$1"
+}
