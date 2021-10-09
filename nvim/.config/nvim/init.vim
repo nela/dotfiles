@@ -47,6 +47,11 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'  }
 
+<<<<<<< HEAD
+=======
+
+Plug 'akinsho/toggleterm.nvim'
+>>>>>>> 81a5ac0... Added bashit, tmux, fixed init.vim
 "Plug 'supercollider/scvim'
 " Unused
 if has('mac')
@@ -74,6 +79,7 @@ lua require '_lspsaga'
 lua require '_colorizer'
 lua require '_lualine'
 lua require '_nvim-lspinstall'
+<<<<<<< HEAD
 
 if has('mac')
   lua require 'lsp.texlab'
@@ -81,14 +87,32 @@ if has('mac')
   lua require 'lsp.typescript'
 endif
 
+=======
+lua require '_toggleterm'
+
+if has('mac')
+  lua require 'lsp.texlab'
+  lua require 'lsp.omnisharp'
+  lua require 'lsp.typescript'
+endif
+
+>>>>>>> 81a5ac0... Added bashit, tmux, fixed init.vim
 set termguicolors
 
-let g:nvcode_termcolors=256
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_disable_italic_comment = 1
+colorscheme gruvbox-material
+
 " Set the color scheme
 
+<<<<<<< HEAD
 " let g:vscode_style = "dark"
 let g:material_style = 'darker'
 
 colorscheme material
 " set background=dark
+=======
+set background=dark
+>>>>>>> 81a5ac0... Added bashit, tmux, fixed init.vim
 " source $XDG_CONFIG_HOME/nvim/transparent-bg.vim

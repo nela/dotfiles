@@ -12,7 +12,7 @@ export NVIM_CONFIG=${NVIM_CONFIG_HOME}/init.vim
 # Add this lines at the top of .bashrc:
 # [[ $- == *i* ]] && source ${HOME}/repos/ble.sh/out/ble.sh --noattach
 
-source $DOTFILES_HOME/scripts/asdf-pyvirtual-envs
+source $DOTFILES_HOME/scripts/asdf-pyvirtual-envs.sh
 source $DOTFILES_HOME/scripts/fzf
 source $DOTFILES_HOME/scripts/bash-it
 
