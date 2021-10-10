@@ -16,6 +16,9 @@ endif
 call plug#begin('$XDG_DATA_HOME/nvim/plugged')
 " Visual
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'wadackel/vim-dogrun'
+Plug 'AlessandroYorba/Sierra'
+Plug 'marko-cerovac/material.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'hoob3rt/lualine.nvim'
@@ -69,6 +72,7 @@ lua require '_lspsaga'
 lua require '_colorizer'
 lua require '_lualine'
 lua require '_nvim-lspinstall'
+<<<<<<< HEAD
 lua require '_toggleterm'
 
 
