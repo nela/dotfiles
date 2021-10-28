@@ -2,10 +2,10 @@
 -- https://github.com/ChristianChiarulli/LunarVim/blob/master/lua/lsp/init.lua
 -- https://github.com/awesome-streamers/awesome-streamerrc/blob/master/ThePrimeagen/plugin/lsp.vim
 
-vim.cmd("nnoremap <leader>vd <cmd>lua vim.lsp.buf.definition()<CR>")
-vim.cmd("nnoremap <leader>vi <cmd>lua vim.lsp.buf.implementation()<CR>")
-vim.cmd("nnoremap <leader>vrr <cmd>lua vim.lsp.buf.references()<CR>")
-vim.cmd("nnoremap <leader>vll :call LspLocationList()<CR>")
+-- vim.cmd("nnoremap <leader>dd <cmd>lua vim.lsp.buf.definition()<CR>")
+-- vim.cmd("nnoremap <leader>vi <cmd>lua vim.lsp.buf.implementation()<CR>")
+-- vim.cmd("nnoremap <leader>vrr <cmd>lua vim.lsp.buf.references()<CR>")
+-- vim.cmd("nnoremap <leader>vll :call LspLocationList()<CR>")
 
 -- Done by LspSaga
 -- vim.cmd("nnoremap <leader>vrn :lua vim.lsp.buf.rename()<CR>")

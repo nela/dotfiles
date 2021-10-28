@@ -1,5 +1,11 @@
-set textwidth=79
+set colorcolumn=120
+set textwidth=119
 set spell spelllang=en_gb
+
+" Format paragraph (selected or not) to 80 character lines.
+nnoremap <leader>gp gqap
+xnoremap <leader>gp gqa
+
 
 map <F9> :w <bar> compiler vlty <bar> make <bar> :cw <cr><esc>
 

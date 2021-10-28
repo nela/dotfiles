@@ -8,12 +8,12 @@ set path+=**
 
 set backspace=indent,eol,start
 
-silent !mkdir $HOME/.nvim/backup > /dev/null 2>&1
-silent !mkdir $HOME/.nvim/swap > /dev/null 2>&1
-silent !mkdir $HOME/.nvim/undo > /dev/null 2>&1
-set backupdir=$HOME/.nvim/backup
-set directory=$HOME/.nvim/swap
-set undodir=$HOME/.nvim/undo
+silent !mkdir $XDG_CACHE_HOME/.nvim/backup > /dev/null 2>&1
+silent !mkdir $XDG_CACHE_HOME/.nvim/swap > /dev/null 2>&1
+silent !mkdir $XDG_CACHE_HOME/.nvim/undo > /dev/null 2>&1
+set backupdir=$XDG_CACHE_HOME/.nvim/backup
+set directory=$XDG_CACHE_HOME/.nvim/swap
+set undodir=$XDG_CACHE_HOME/.nvim/undo
 set undofile
 set ttimeout
 set ttyfast
@@ -23,7 +23,7 @@ set hidden
 
 " Autocompletion (with AutoComplPop)
 " set complete+=kspell
-set completeopt=menuone,noselect
+" set completeopt=menuone,noselect
 
 " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
 " found' messages

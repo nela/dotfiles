@@ -1,9 +1,3 @@
-vim.cmd('nnoremap <leader>ff <cmd>Telescope find_files<cr>')
-vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
-vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
-vim.cmd('nnoremap <leader>fw <cmd>Telescope file_browser<cr>')
-vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
-
 require('telescope').setup{
   defaults = {
     file_sorter = require('telescope.sorters').get_fzy_sorter,
@@ -34,3 +28,15 @@ require('telescope').setup{
 }
 
 require('telescope').load_extension('fzf')
+
+local M = {}
+
+M.search_dotfiles = function()
+  require("telescope.builtin").find_files({
+    prompt_title = "Dotfiles",
+    cwd = vim.env.DOTFILES,
+    hidden = true
+  })
+end
+
+return M
