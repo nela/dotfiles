@@ -1,3 +1,7 @@
+source ${NVIM_CONFIG_HOME}/settings.vim
+source ${NVIM_CONFIG_HOME}/autocommands.vim
+source ${NVIM_CONFIG_HOME}/keybindings.vim
+
 " Set Vim Global python virtualtenviornment
 let g:python3_host_prog = "$XDG_DATA_HOME/nelapys/py3nvim/bin/python"
 
@@ -30,7 +34,6 @@ Plug 'nvim-treesitter/playground'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'onsails/lspkind-nvim'
 
@@ -39,7 +42,10 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
+" Completion
 Plug 'hrsh7th/nvim-cmp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
@@ -60,6 +66,8 @@ if has('mac')
   " Plug 'ThePrimeagen/vim-be-good'
 endif
 call plug#end()
+
+lua require 'nvim_lsp'
 
 set background=dark
 let g:gruvbox_material_palette = 'mix'
