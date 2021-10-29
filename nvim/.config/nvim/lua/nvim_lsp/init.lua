@@ -32,17 +32,29 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+local lsp_installer = require 'nvim-lsp-installer'
+lsp_installer.on_server_ready(function(server)
+  local opts = {
+    on_attach = on_attach,
+    -- flags = { debounce_text_changes = 150 }
+  }
+  server:setup(opts)
+
+  vim.cmd [[ do User LspAttachBuffers ]]
+end)
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local lspinstall = require'lspinstall'
-lspinstall.setup()
-local servers = lspinstall.installed_servers()
-
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
+-- local lspinstall = require'lspinstall'
+-- lspinstall.setup()
+-- local servers = lspinstall.installed_servers()
+--
+-- for _, lsp in ipairs(servers) do
+--   nvim_lsp[lsp].setup {
+--     on_attach = on_attach,
+--     flags = {
+--       debounce_text_changes = 150,
+--     }
+--   }
+-- end
+--

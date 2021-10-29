@@ -34,7 +34,8 @@ Plug 'nvim-treesitter/playground'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+" Plug 'kabouzeid/nvim-lspinstall'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'onsails/lspkind-nvim'
 
 " Telescope things
