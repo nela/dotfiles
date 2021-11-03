@@ -8,9 +8,9 @@ set path+=**
 
 set backspace=indent,eol,start
 
-set backupdir=$XDG_CACHE_HOME/.nvim/backup
-set directory=$XDG_CACHE_HOME/.nvim/swap
-set undodir=$XDG_CACHE_HOME/.nvim/undo
+set backupdir=$XDG_CACHE_HOME/nvim/backup
+set directory=$XDG_CACHE_HOME/nvim/swap
+set undodir=$XDG_CACHE_HOME/nvim/undo
 set undofile
 set ttimeout
 set ttyfast

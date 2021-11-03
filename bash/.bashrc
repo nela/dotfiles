@@ -5,6 +5,7 @@
 
 export XDG_DATA_HOME=${HOME}/.local/share
 export XDG_CONFIG_HOME=${HOME}/.config
+export XDG_CACHE_HOME=${HOME}/.local/cache
 export DOTFILES=${HOME}/dotfiles
 export NVIM_CONFIG_HOME=${DOTFILES}/nvim/.config/nvim
 export NVIM_CONFIG=${NVIM_CONFIG_HOME}/init.vim
