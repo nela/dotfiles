@@ -1,5 +1,3 @@
-local nvim_lsp = require 'lspconfig'
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(_, bufnr)
@@ -9,7 +7,6 @@ local on_attach = function(_, bufnr)
   -- Enable completion triggered by <C-x><C-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings
   local opts = { noremap = true, silent = true }
 
    -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -33,29 +30,72 @@ local on_attach = function(_, bufnr)
 end
 
 local lsp_installer = require 'nvim-lsp-installer'
-lsp_installer.on_server_ready(function(server)
-  print(vim.inspect(on_attach))
-  local opts = {
-    on_attach = on_attach,
-    -- flags = { debounce_text_changes = 150 }
-  }
-  server:setup(opts)
 
-  vim.cmd [[ do User LspAttachBuffers ]]
+lsp_installer.on_server_ready(function(server)
+ local opts = {
+   on_attach = on_attach,
+   flags = { debounce_text_changes = 150 }
+ }
+
+ server:setup(opts)
+ vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
--- local lspinstall = require'lspinstall'
--- lspinstall.setup()
--- local servers = lspinstall.installed_servers()
---
+-- local nvim_lsp = require 'lspconfig'
+-- local servers = { 'sumneko_lua' }
 -- for _, lsp in ipairs(servers) do
---   nvim_lsp[lsp].setup {
---     on_attach = on_attach,
---     flags = {
---       debounce_text_changes = 150,
---     }
---   }
--- end
+--   -- local opts = {
+--   --   on_attach = on_attach,
+--   --   flags = {
+--   --     debounce_text_changes = 150,
+--   --   }
+--   -- }
+--   --
+--   local system_name
+--   if vim.fn.has("mac") == 1 then
+--     system_name = "macOS"
+--   elseif vim.fn.has("unix") == 1 then
+--     system_name = "Linux"
+--   elseif vim.fn.has('win32') == 1 then
+--     system_name = "Windows"
+--   else
+--     print("Unsupported system for sumneko")
+--   end
 --
+--   -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
+--   local sumneko_root_path = os.getenv("LANG_SERVERS")..'lua-language-server'
+--   local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+--
+--   local runtime_path = vim.split(package.path, ';')
+--   table.insert(runtime_path, "lua/?.lua")
+--   table.insert(runtime_path, "lua/?/init.lua")
+--
+--   local opts = {
+--     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+--     settings = {
+--       Lua = {
+--         runtime = {
+--           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--           version = 'LuaJIT',
+--           -- Setup your lua path
+--           path = runtime_path,
+--         },
+--         diagnostics = {
+--           -- Get the language server to recognize the `vim` global
+--           globals = {'vim'},
+--         },
+--         workspace = {
+--           -- Make the server aware of Neovim runtime files
+--           library = vim.api.nvim_get_runtime_file("", true),
+--         },
+--         -- Do not send telemetry data containing a randomized but unique identifier
+--         telemetry = {
+--           enable = false,
+--         },
+--       },
+--     },
+--     on_attach = on_attach
+--   }
+--
+--   nvim_lsp[lsp].setup(opts)
+-- end

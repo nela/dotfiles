@@ -8,9 +8,6 @@ set path+=**
 
 set backspace=indent,eol,start
 
-silent !mkdir $XDG_CACHE_HOME/.nvim/backup > /dev/null 2>&1
-silent !mkdir $XDG_CACHE_HOME/.nvim/swap > /dev/null 2>&1
-silent !mkdir $XDG_CACHE_HOME/.nvim/undo > /dev/null 2>&1
 set backupdir=$XDG_CACHE_HOME/.nvim/backup
 set directory=$XDG_CACHE_HOME/.nvim/swap
 set undodir=$XDG_CACHE_HOME/.nvim/undo
@@ -109,6 +106,16 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin('$XDG_DATA_HOME/nvim/plugged')
+
+Plug 'cocopon/iceberg.vim'
+Plug 'jacoborus/tender.vim'
+Plug 'nanotech/jellybeans.vim'
+Plug 'savq/melange'
+Plug 'jacoborus/tender.vim'
+Plug 'AlessandroYorba/Despacio'
+Plug 'haystackandroid/carbonized'
+Plug 'chase/focuspoint-vim'
+
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -159,15 +166,23 @@ if has('mac')
   " Plug 'OmniSharp/omnisharp-vim'
   Plug 'Seudev/vscode-java-snippets'
   Plug 'JeffersonQin/VSCode-LaTeX-Snippets'
-  " Plug 'ThePrimeagen/vim-be-good'
+  Plug 'ThePrimeagen/vim-be-good'
 endif
 call plug#end()
 
 lua require 'nvim_lsp'
 
 set background=dark
-let g:gruvbox_material_palette = 'mix'
+
+
+let g:gruvbox_material_palette = 'original'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_disable_italic_comment = 0
+
+let g:despacio_Midnight = 1
+
+let g:alduin_Shout_Dragon_Aspect = 1
+let g:alduin_Shout_Fire_Breath = 1
+
 colorscheme gruvbox-material

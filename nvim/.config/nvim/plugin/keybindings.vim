@@ -32,15 +32,15 @@ nnoremap <leader>bp :bprevious<CR>
 nnoremap <leader>bl :ls<CR>:b<Space>
 
 "Cycle through quickfix listk
-nnoremap <leader>qn :cnext<CR>
-nnoremap <leader>qp :cprev<CR>
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprev<CR>
 nnoremap <leader>lj :lnext<CR>
 nnoremap <leader>lk :lprev<CR>
 
 " Tab navigation
 nnoremap TF :tabfirst<CR>
 nnoremap TJ :tabnext<CR>
-nnoremap TJ :tabprev<CR>
+nnoremap TK :tabprev<CR>
 nnoremap TL :tablast<CR>
 nnoremap TN :tabnew<Space>
 nnoremap TM :tabm<Space>

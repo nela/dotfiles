@@ -27,7 +27,7 @@ cmp.setup {
     -- { name = 'zsh' },
     { name = 'nvim_lsp' },
     { name = 'path' },
-    -- { name = 'luasnip' },
+    { name = 'luasnip' },
     { name = 'buffer', keyword_length = 5 },
   },
   sorting = {
@@ -57,6 +57,11 @@ cmp.setup {
     }
   },
   -- -- snippet plugin here
+  snippet = {
+    expand = function(args)
+      require 'luasnip'.lsp_expand(args.body)
+    end,
+  },
 
   formatting = {
     format = lspkind.cmp_format {

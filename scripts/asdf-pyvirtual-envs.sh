@@ -8,9 +8,15 @@
 
 # source $(brew --prefix)/Cellar/asdf/$(ls /usr/local/Cellar/asdf)/asdf.sh
 
-source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
-export WORKON_HOME=$XDG_DATA_HOME/virtual-envs
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  source $(brew --prefix asdf)/libexec/asdf.sh
+else
+  source $HOME/.asdf/asdf.sh
+  source $HOME/.asdf/completions/asdf.bash
+fi
+
+export WORKON_HOME=$XDG_DATA_HOME/nelapys/
 
 mkenv() {
   if [[ -z $1 ]] || [[ -z $2 ]]; then
@@ -20,15 +26,15 @@ mkenv() {
   elif [ ! -d "${HOME}/.asdf/installs/python/${2}" ]; then
     printf '%s\n' "Python version ${2} not installed"
     return -1
-  elif [ -d "${WORKON_HOME}/${1}" ]; then
-    printf '%s\n' "Virtual environment already exists at ${WORKON_HOME}/${1}"
+  elif [ -d "${WORKON_HOME}${1}" ]; then
+    printf '%s\n' "Virtual environment already exists at ${WORKON_HOME}${1}"
     return -1
   fi
 
   echo $1 $2
 
-  virtualenv -p $(asdf where python "$2")/bin/python ${WORKON_HOME}/${1}
-  printf '%s\n' "Virtal environment created at ${WORKON_HOME}/${1}"
+  virtualenv -p $(asdf where python "$2")/bin/python ${WORKON_HOME}${1}
+  printf '%s\n' "Virtal environment created at ${WORKON_HOME}${1}"
 }
 
 workon() {
@@ -39,8 +45,8 @@ workon() {
 
   printf '%s\n' "Checking if environment exists..."
 
-  if [ ! -d "${WORKON_HOME}/${1}" ]; then
-    printf '%s\n' "Virtual environment not located ${WORKON_HOME}/${1}"
+  if [ ! -d "${WORKON_HOME}${1}" ]; then
+    printf '%s\n' "Virtual environment not located ${WORKON_HOME}${1}"
     printf '%s\n' "Check if the environment is created at ${WORKON_HOME}"
     printf '%s\n' "Exiting..."
     return -1
@@ -59,9 +65,9 @@ workon() {
     export unset PROJECT_HOME
   fi
 
-  printf '%s\n' "Activating enviroment ${WORKON_HOME}/${1}"
-  source ${WORKON_HOME}/${1}/bin/activate
-  printf '%s\n' "Environment ${WORKON_HOME}/${1} activated."
+  printf '%s\n' "Activating enviroment ${WORKON_HOME}${1}"
+  source ${WORKON_HOME}${1}/bin/activate
+  printf '%s\n' "Environment ${WORKON_HOME}${1} activated."
 
   if [ ! -z $dir ]; then
     printf '%s\n' "Found project in parent directory: ${dir}"
@@ -85,7 +91,7 @@ deactivate() {
   printf '\n%s\n' "Remember to run following command from the commandline in order to unset PROJECT_HOME"
   printf '\n\t%s\n' "unset PROJECT_HOME"
 
-  source ${WORKON_HOME}/${1}/bin/deactivate
+  source ${WORKON_HOME}${1}/bin/deactivate
 }
 
 envdelete() {
@@ -94,10 +100,10 @@ envdelete() {
     return -1
   fi
 
-  source ${WORKON_HOME}/${1}/bin/deactivate
+  source ${WORKON_HOME}${1}/bin/deactivate
 
   printf '\n%s\n' "Remember to run following command from the commandline in order to unset PROJECT_HOME"
   printf '\n\t%s\n' "unset PROJECT_HOME"
 
-  rm -rf ${WORKON_HOME}/${1}
+  rm -rf ${WORKON_HOME}${1}
 }

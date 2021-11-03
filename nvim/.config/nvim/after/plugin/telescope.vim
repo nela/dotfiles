@@ -4,3 +4,5 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fw <cmd>Telescope file_browser<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>dot <cmd> :lua require('nelavim.telescope').search_dotfiles()<CR>
+nnoremap <leader>vim <cmd> :lua require('nelavim.telescope').search_nvimfiles()<CR>
+nnoremap <leader>zsh <cmd> :lua require('nelavim.telescope').search_zshfiles()<CR>
