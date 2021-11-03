@@ -1,10 +1,19 @@
-set textwidth=79
+set colorcolumn=100
+set textwidth=99
 set spell spelllang=en_gb
+" set foldmethod=syntax
 
-map <F9> :w <bar> compiler vlty <bar> make <bar> :cw <cr><esc>
+" Format paragraph (selected or not) to 80 character lines.
+nnoremap <leader>gp gqap
+xnoremap <leader>gp gqa
 
 let g:vimtex_complete_recursive_bib=1
 let g:vimtex_fold_enabled=1
+
+set fillchars=fold:\
+
+map <F9> :w <bar> compiler vlty <bar> make <bar> :cw <cr><esc>
+
 
 let g:tex_flavor = 'latex'
 

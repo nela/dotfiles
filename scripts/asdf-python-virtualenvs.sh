@@ -8,7 +8,7 @@
 
 source $(brew --prefix)/Cellar/asdf/$(ls /usr/local/Cellar/asdf)/asdf.sh
 
-export WORKON_HOME=$XDG_DATA_HOME/virtualenvs/nela
+export WORKON_HOME=$XDG_DATA_HOME/nelapys
 export PROJECT_HOME=$HOME/projects/python
 
 mkenv() {
