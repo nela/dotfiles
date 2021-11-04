@@ -67,8 +67,8 @@ xnoremap <leader>rc :s///gc<Left><Left><Left>
 
 " Type a replacement term and press . to repeat the replacement again. Useful
 " for replacing a few instances of the term (comparable to multiple cursors).
-nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
-xnoremap <silent> s* "sy:let @/=@s<CR>cgn
+" nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+" xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 
 " Prevent x from overriding what's in the clipboard.
 " noremap x "_x
@@ -84,9 +84,11 @@ map <F4> :setlocal spell!<CR>
 " Automatically fix the last misspelled word and jump back to where you were.
 nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
-" inoremap <c-c> <ESC>
-
 xnoremap <silent> K <Plug>MoveUp
 xnoremap <silent> J <Plug>MoveDown
 nnoremap <leader>cf :ClearQuickfixList<CR>
 nnoremap <leader>sw <Plug>StripTrailingWhitespace
+
+" -  2-character  forward   /-like
+" nmap s <Plug>Lightspeed_s
+" vmap s <Plug>Lightspeed_s

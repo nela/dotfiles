@@ -122,9 +122,13 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'sainnhe/gruvbox-material'
 
+Plug 'tpope/vim-surround'
+Plug 'wellle/targets.vim'
+Plug 'ggandor/lightspeed.nvim'
+Plug 'numToStr/Comment.nvim'
+
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
 Plug 'Valloric/ListToggle'
 Plug 'windwp/nvim-autopairs'
 " Plug 'jiangmiao/auto-pairs'
@@ -157,15 +161,14 @@ Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'  }
 Plug 'mfussenegger/nvim-dap'
 Plug 'Pocco81/DAPInstall.nvim'
-Plug 'numToStr/Comment.nvim'
 
 if has('mac')
   Plug 'lervag/vimtex'
   Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
   " Plug 'mfussenegger/nvim-jdtls'
   " Plug 'OmniSharp/omnisharp-vim'
-  Plug 'Seudev/vscode-java-snippets'
-  Plug 'JeffersonQin/VSCode-LaTeX-Snippets'
+  " Plug 'Seudev/vscode-java-snippets'
+  " Plug 'JeffersonQin/VSCode-LaTeX-Snippets'
   Plug 'ThePrimeagen/vim-be-good'
 endif
 call plug#end()
@@ -178,19 +181,10 @@ let g:gruvbox_material_palette = 'material'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_disable_italic_comment = 0
-=======
-set background=dark
-
-
-let g:gruvbox_material_palette = 'original'
-let g:gruvbox_material_background = 'hard'
-let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_disable_italic_comment = 0
 
 let g:despacio_Midnight = 1
 
 let g:alduin_Shout_Dragon_Aspect = 1
 let g:alduin_Shout_Fire_Breath = 1
 
->>>>>>> nela
 colorscheme gruvbox-material
