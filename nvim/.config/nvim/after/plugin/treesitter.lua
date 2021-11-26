@@ -1,34 +1,40 @@
 require 'nvim-treesitter.configs'.setup {
-  ensure_installed = {  "bash",
-                        "bibtex",
-                        "c",
-                        "c_sharp",
-                        "comment",
-                        "cpp",
-                        "css",
-                        "go",
-                        "graphql",
-                        "html",
-                        "java",
-                        "javascript",
-                        "jsdoc",
-                        "json",
-                        "julia",
-                        "kotlin",
-                        "latex",
-                        "lua",
-                        "python",
-                        "regex",
-                        "rst",
-                        "rust",
-                        "supercollider",
-                        "svelte",
-                        "tsx",
-                        "typescript",
-                        "yaml"
-                      }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed =
+    {  "bash",
+      "bibtex",
+      "c",
+      "comment",
+      "cpp",
+      "css",
+      "go",
+      "graphql",
+      "html",
+      "java",
+      "javascript",
+      "jsdoc",
+      "json",
+      "julia",
+      "kotlin",
+      "latex",
+      "lua",
+      "python",
+      "regex",
+      "rst",
+      "rust",
+      "supercollider",
+      "svelte",
+      "tsx",
+      "typescript",
+      "yaml",
+      "hcl"
+  }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- List of parsers to ignore installing
-  highlight = { enable = true, disable = {} },
+
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = true,
+  },
+
   indent = { enable = true },
 
   playground = {
@@ -45,8 +51,18 @@ require 'nvim-treesitter.configs'.setup {
         focus_language = 'f',
         unfocus_language = 'F',
         update = 'R',
-        goto_node = '<cr>',
+        goto_node = '<Cr>',
         show_help = '?',
       },
+    },
+
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = '<Cr>',
+      scope_incremental = '<Cr>',
+      node_incremental = '<Tab>',
+      node_decremental = '<S-Tab>'
     }
+  }
 }

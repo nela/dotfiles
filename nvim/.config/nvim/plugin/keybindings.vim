@@ -4,7 +4,7 @@
 " " noremap <Up> gk
 " " inoremap <Down> <C-o>gj
 " " inoremap <Up> <C-o>gk
-"
+
 nnoremap <leader>hs :split<Space>
 nnoremap <leader>vs :vsplit<Space>
 
@@ -38,15 +38,15 @@ nnoremap <leader>lj :lnext<CR>
 nnoremap <leader>lk :lprev<CR>
 
 " Tab navigation
-nnoremap TF :tabfirst<CR>
-nnoremap TJ :tabnext<CR>
-nnoremap TK :tabprev<CR>
-nnoremap TL :tablast<CR>
-nnoremap TN :tabnew<Space>
-nnoremap TM :tabm<Space>
-nnoremap TD :tabclose<CR>
-nnoremap TE :tabedit<Space>
-nnoremap TN :tabnext<Space>
+" nnoremap TF :tabfirst<CR>
+" nnoremap TJ :tabnext<CR>
+" nnoremap TK :tabprev<CR>
+" nnoremap TL :tablast<CR>
+" nnoremap TN :tabnew<Space>
+" nnoremap TM :tabm<Space>
+" nnoremap TD :tabclose<CR>
+" nnoremap TE :tabedit<Space>
+" nnoremap TN :tabnext<Space>
 
 " Toggle AutoIndent
 map <leader>I :setlocal autoindent!<CR>

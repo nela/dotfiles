@@ -10,7 +10,7 @@ require('telescope').setup{
     },
 
     dynamic_preview_title = true,
-    file_ignore_patterns = { "^.git", "node_modules", "__pycache__" }
+    file_ignore_patterns = { "^.git", "node_modules", "__pycache__", "terragrunt%-cache" }
   },
   pickers = {
     find_files = {

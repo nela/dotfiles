@@ -107,14 +107,9 @@ endif
 
 call plug#begin('$XDG_DATA_HOME/nvim/plugged')
 
-" Plug 'cocopon/iceberg.vim'
-" Plug 'jacoborus/tender.vim'
-" Plug 'nanotech/jellybeans.vim'
-" Plug 'savq/melange'
-" Plug 'jacoborus/tender.vim'
-" Plug 'AlessandroYorba/Despacio'
-" Plug 'haystackandroid/carbonized'
-" Plug 'chase/focuspoint-vim'
+"""""" Under Review" """""
+Plug 'shaunsingh/nord.nvim'
+""""""""""""
 
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -161,6 +156,7 @@ Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install'  }
 Plug 'mfussenegger/nvim-dap'
 Plug 'Pocco81/DAPInstall.nvim'
+" Plug 'yorinasub17/vim-terragrunt'
 
 if has('mac')
   Plug 'lervag/vimtex'
@@ -177,20 +173,23 @@ lua require 'nvim_lsp'
 
 set background=dark
 
-let g:gruvbox_material_palette = 'material'
-let g:gruvbox_material_background = 'hard'
-
 if has ('mac')
+  let g:gruvbox_material_palette = 'material'
+  let g:gruvbox_material_background = 'hard'
   let g:gruvbox_material_enable_italic = 1
   let g:gruvbox_material_disable_italic_comment = 0
+  colorscheme gruvbox-material
 else
+  let g:gruvbox_material_palette = 'original'
+  let g:gruvbox_material_background = 'hard'
   let g:gruvbox_material_enable_italic = 0
   let g:gruvbox_material_disable_italic_comment = 1
+
+  " Example config in Vim-Script
+  " let g:nord_contrast = v:true
+  " let g:nord_borders = v:true
+  " let g:nord_disable_background = v:true
+  " let g:nord_enable_sidebar_background = v:true
+  " let g:nord_italic = v:false
+  colorscheme gruvbox-material
 endif
-
-let g:despacio_Midnight = 1
-
-let g:alduin_Shout_Dragon_Aspect = 1
-let g:alduin_Shout_Fire_Breath = 1
-
-colorscheme gruvbox-material
