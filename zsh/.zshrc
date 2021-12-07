@@ -13,6 +13,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 export LANG_SERVERS="$XDG_DATA_HOME/lang-servers/"
+export NELAPYS="$XDG_DATA_HOME/nelapys"
 
 # export TERM=xterm-256color
 
