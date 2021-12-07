@@ -28,6 +28,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'luasnip' },
+    { name = 'omni' },
     { name = 'buffer', keyword_length = 5 },
   },
   sorting = {
@@ -39,15 +40,15 @@ cmp.setup {
       -- copied from cmp-under, but I don't think I need the plugin for this.
       -- I might add some more of my own. <-- Shameless copy from TJ, really this whole config
       function(entry1, entry2)
-      local _, entry1_under = entry1.completion_item.label:find "^_+"
-      local _, entry2_under = entry2.completion_item.label:find "^_+"
-      entry1_under = entry1_under or 0
-      entry2_under = entry2_under or 0
-      if entry1_under > entry2_under then
-      return false
-      elseif entry1_under < entry2_under then
-      return true
-      end
+        local _, entry1_under = entry1.completion_item.label:find "^_+"
+        local _, entry2_under = entry2.completion_item.label:find "^_+"
+        entry1_under = entry1_under or 0
+        entry2_under = entry2_under or 0
+        if entry1_under > entry2_under then
+          return false
+        elseif entry1_under < entry2_under then
+          return true
+        end
       end,
 
       cmp.config.compare.kind,
@@ -70,8 +71,8 @@ cmp.setup {
         buffer = '[buf]',
         nvim_lsp = '[LSP]',
         nvim_lua = '[api]',
-        path = '[path]'
-        -- luasnip = '[snip]',
+        path = '[path]',
+        luasnip = '[snip]',
         -- gh_issues = '[issues]',
       },
     },
