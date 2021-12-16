@@ -89,6 +89,7 @@ xnoremap <silent> J <Plug>MoveDown
 nnoremap <leader>cf :ClearQuickfixList<CR>
 nnoremap <leader>sw <Plug>StripTrailingWhitespace
 
-" -  2-character  forward   /-like
-" nmap s <Plug>Lightspeed_s
-" vmap s <Plug>Lightspeed_s
+" Shift + J/K moves selected lines down/up in visual mode
+" vnoremap J :m '>+1<CR>gv=gv
+" vnoremap K :m '<-2<CR>gv=gv
+
