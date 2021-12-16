@@ -23,12 +23,14 @@ autocmd InsertLeave * silent! set nopaste
 autocmd FileType make setlocal noexpandtab
 
 " Fix tex file type set
-autocmd BufRead,BufNewFile *.tex set filetype=tex
-autocmd BufRead,BufNewFile *.md set filetype=markdown
+" autocmd BufRead,BufNewFile *.tex set filetype=tex
+" autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 " SuperCollider filetype
-autocmd BufRead,BufNewFile *.scd set filetype=supercollider
-autocmd BufRead,BufNewFile *.sc set filetype=supercollider
+augroup SuperCollider
+  autocmd BufRead,BufNewFile *.scd set filetype=supercollider
+  autocmd BufRead,BufNewFile *.sc set filetype=supercollider
+augroup END
 
 " Only show the cursor line in the active buffer.
 augroup CursorLine
