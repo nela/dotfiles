@@ -1,44 +1,46 @@
 set colorcolumn=100
 set textwidth=99
 set spell spelllang=en_gb
-" set foldmethod=syntax
 
-" Format paragraph (selected or not) to 80 character lines.
+" Format paragraph (selected or not)
 nnoremap <leader>gp gqap
 xnoremap <leader>gp gqa
 
 let g:vimtex_complete_recursive_bib=1
 let g:vimtex_fold_enabled=1
-
+" set foldmethod=syntax
 set fillchars=fold:\
-
-map <F9> :w <bar> compiler vlty <bar> make <bar> :cw <cr><esc>
-
 
 let g:tex_flavor = 'latex'
 
-" let g:vimtex_grammar_vlty = {
-"       \ 'lt_command': 'languagetool',
-"       \ 'show_suggestions' : 1,
-"       \ 'server': 'my',
-"       \ 'shell_options':
-"           \   ' --multi-language',
-"           \ . ' --packages "*"',
-"           \ . ' --define ~/vlty/defs.tex',
-"           \ . ' --replace ~/vlty/repls.txt',
-"           \ . ' --equation-punctuation display',
-"           \ . ' --single-letters "i.\,A.\|z.\,B.\|\|"',
-"   }
+function! Callback(msg)
+  let l:m = matchlist(a:msg, '\vRun number (\d+) of rule ''(.*)''')
+  if !empty(l:m)
+    echomsg l:m[2] . ' (' . l:m[1] . ')'
+  endif
+endfunction
 
-let g:vimtex_grammar_vlty = {}
-" let g:vimtex_grammar_vlty.lt_directory = '~/lib/LanguageTool-5.0'
-let g:vimtex_grammar_vlty.lt_command = 'languagetool'
-let g:vimtex_grammar_vlty.server = 'no'
-let g:vimtex_grammar_vlty.show_suggestions = 1
-" let g:vimtex_grammar_vlty.shell_options =
-"         \   ' --multi-language'
-"         \ . ' --packages "*"'
-"         \ . ' --define ~/vlty/defs.tex'
-"         \ . ' --replace ~/vlty/repls.txt'
-"         \ . ' --equation-punctuation display'
-"         \ . ' --single-letters "i.\,A.\|z.\,B.\|\|"'
+let g:vimtex_compiler_latexmk = {
+      \ 'callback' : 1,
+      \ 'continuous' : 1,
+      \ 'executable' : 'latexmk',
+      \ 'hooks' : [function('Callback')]
+      \ }
+
+let g:vimtex_view_method = 'skim'
+let g:vimtex_view_skim_activate = 1
+let g:vimtex_view_skim_reading_bar = 1
+
+let g:vimtex_grammar_vlty = {
+      \ 'lt_command': 'languagetool',
+      \ 'show_suggestions' : 1,
+      \ 'server': 'no',
+      \ 'shell_options':
+          \  ' --packages "*"'
+          \ . ' --add-modules /Users/nela/skole/master/thesis/main.tex'
+          \ . ' --define /Users/nela/skole/master/thesis/aux/commands.tex'
+          \ . ' --equation-punctuation display'
+          \ }
+          " \ . ' --single-letters "I.\,A.\|a.\,B.\|\|"'
+
+map <F9> :w <bar> compiler vlty <bar> make <bar> :cw <cr><esc>
