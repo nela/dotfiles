@@ -108,7 +108,6 @@ call plug#begin('$XDG_DATA_HOME/nvim/plugged')
 
 """""" Under Review" """""
 Plug 'shaunsingh/nord.nvim'
-""""""""""""
 
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -134,7 +133,6 @@ Plug 'nvim-treesitter/playground'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
-" Plug 'kabouzeid/nvim-lspinstall'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'onsails/lspkind-nvim'
 
@@ -142,6 +140,7 @@ Plug 'onsails/lspkind-nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-symbols.nvim'
 
 " Completion
 Plug 'hrsh7th/nvim-cmp'
@@ -188,12 +187,5 @@ else
   let g:gruvbox_material_background = 'hard'
   let g:gruvbox_material_enable_italic = 0
   let g:gruvbox_material_disable_italic_comment = 1
-
-  " Example config in Vim-Script
-  " let g:nord_contrast = v:true
-  " let g:nord_borders = v:true
-  " let g:nord_disable_background = v:true
-  " let g:nord_enable_sidebar_background = v:true
-  " let g:nord_italic = v:false
   colorscheme gruvbox-material
 endif
