@@ -1,0 +1,5 @@
+[user]
+	name = Nemanja Lakicevic
+	email = n@lakicevic.no
+[core]
+	editor = nvim
