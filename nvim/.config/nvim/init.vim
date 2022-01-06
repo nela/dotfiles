@@ -106,10 +106,6 @@ endif
 
 call plug#begin('$XDG_DATA_HOME/nvim/plugged')
 
-"""""" Under Review" """""
-Plug 'shaunsingh/nord.nvim'
-""""""""""""
-
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -134,7 +130,6 @@ Plug 'nvim-treesitter/playground'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
-" Plug 'kabouzeid/nvim-lspinstall'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'onsails/lspkind-nvim'
 
