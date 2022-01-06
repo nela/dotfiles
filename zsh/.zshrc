@@ -44,5 +44,6 @@ source ${DOTS}/scripts/miniforge-init.sh
 source ${DOTS}/fzf/fzf.zsh
 source ${HOME}/.asdf/plugins/java/set-java-home.zsh
 
+alias ll="ls -al"
 
 # alias luamake=/Users/nela/.local/share/lang-servers/lua-language-servers/3rd/luamake/luamake
