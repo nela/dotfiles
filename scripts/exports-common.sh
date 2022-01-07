@@ -6,13 +6,12 @@ export XDG_LIB_HOME="${HOME}/.local/lib"
 
 export DOTS="${HOME}/dotfiles"
 export NVIM="${DOTS}/nvim/.config/nvim"
+export ZSH="${DOTS}/zsh"
+export ZSHRC="${ZSH}/.zshrc"
 export LANG_SERVERS="${XDG_DATA_HOME}/lang-servers/"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
-
-export PNPM_STORE="${XDG_LIB_HOME}/pnpm-store"
-export PNPM_GLOBAL="${XDG_LIB_HOME}/pnpm-global"
-export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm-global"
-export PNPM_STATE="${XDG_DATA_HOME}/pnpm-state"
+export BASH="${DOTS}/bash"
+export BASHRC="${DOTS}/bash/.bashrc"
 
 [[ ":${PATH}:" != *":/usr/local/bin:"* ]] && export PATH="/usr/local/bin:${PATH}"
 [[ ":${PATH}:" != *":${XDG_BIN_HOME}:"* ]] && export PATH="${XDG_BIN_HOME}:${PATH}"
