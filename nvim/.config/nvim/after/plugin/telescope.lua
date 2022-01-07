@@ -10,7 +10,7 @@ require('telescope').setup {
     },
 
     dynamic_preview_title = true,
-    file_ignore_patterns = { "^.git", "node_modules", "__pycache__", "terragrunt%-cache" }
+    file_ignore_patterns = {  "./.git", "node_modules", "__pycache__", "terragrunt%-cache" }
   },
   pickers = {
     find_files = {
@@ -23,7 +23,7 @@ require('telescope').setup {
       override_generic_sorter = true,  -- override the generic sorter
       override_file_sorter = true,     -- override the file sorter
       case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-    }
+    },
   }
 }
 
