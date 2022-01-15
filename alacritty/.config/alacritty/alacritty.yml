@@ -1,17 +1,16 @@
 alt_send_esc: false
 
 import:
-  - ${DOTS}/alacritty/.config/alacritty/gruvbox-material-alacritty.yml
+  - ~/dotfiles/alacritty/.config/alacritty/gruvbox-material-alacritty.yml
 
-background_opacity: 0.80
+background_opacity: 0.9
 window:
-  # startup_mode: SimpleFullScreen
-  #dimensions:
-  #  columns: 120
-  #  lines: 40
+  dimensions:
+    columns: 120
+    lines: 40
   padding:
-    x: 2
-    y: 2
+    x: 4
+    y: 4
   dynamic_padding: true
   decorations: buttonless
   opacity: 0.0
@@ -24,7 +23,15 @@ font:
     x: 1
     y: 4
   use_thin_strokes: true
-  draw_bold_text_with_bright_colors: true
+  glyph_offset:
+    x: 0
+    y: 2
+
+draw_bold_text_with_bright_colors: true
+
+bell:
+  animation: EaseOutExpo
+  duration: 0
 
 cursor:
   style:
@@ -32,6 +39,11 @@ cursor:
     blinking: Always
     blink_interval: 1750
     thickness: 0.15
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+  hide_when_typing: true
 
 scrolling:
   # How many lines of scrollback to keep,

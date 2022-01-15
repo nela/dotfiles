@@ -205,19 +205,19 @@
 
   ##################################[ dir: current directory ]##################################
   # Default current directory color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#afb482' #31
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#b0ba11' #'#a9b665' #'#afb482' #31
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
   # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=103
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#a9b665' #103
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#a9b665' #39
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#b0bf16' #'#adbf65'  # #b1df46' # #39
   # Display anchor directory segments in bold.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=false
   # Don't shorten directories that contain any of these files. They are anchors.
   local anchor_files=(
     .bzr
@@ -519,10 +519,10 @@
   typeset -g POWERLEVEL9K_VCS_COMMIT_ICON=' '
   typeset -g POWERLEVEL9K_VCS_STAGED_ICON=' '
   typeset -g POWERLEVEL9K_VCS_UNSTAGED_ICON=' '
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='✩ '
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='✩'
   typeset -g POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON='⇣'
   typeset -g POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON='⇡'
-  typeset -g POWERLEVEL9K_VCS_STASH_ICON='* '
+  typeset -g POWERLEVEL9K_VCS_STASH_ICON='*'
   typeset -g POWERLEVEL9K_VCS_TAG_ICON=' '
   ##########################[ status: exit code of the last command ]###########################
   # Enable OK_PIPE, ERROR_PIPE and ERROR_SIGNAL status states to allow us to enable, disable and

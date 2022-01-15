@@ -34,8 +34,7 @@ source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # source ~/dotfiles/scripts/zsh-theme-gruvbox-material-dark
 
-source ~/dotfiles/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-
+source ${DOTS}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ${DOTS}/scripts/zsh-newuser-install.sh
 source ${DOTS}/scripts/compinstall.sh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -48,6 +47,9 @@ source ${DOTS}/scripts/miniforge-init.sh
 source ${DOTS}/fzf/fzf.zsh
 source ${HOME}/.asdf/plugins/java/set-java-home.zsh
 
+eval $(gdircolors ~/dotfiles/dircolors/dircolors.ansi-dark)
+
+alias ls="gls --color=auto"
 alias ll="ls -al"
 
 # alias luamake=/Users/nela/.local/share/lang-servers/lua-language-servers/3rd/luamake/luamake
