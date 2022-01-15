@@ -14,6 +14,8 @@ nnoremap <C-h> <C-w><C-h>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-j> <C-w><C-j>
 
+nnoremap <M
+
 " Yank whole line
 nnoremap Y y$
 
