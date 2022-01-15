@@ -1,14 +1,56 @@
+alt_send_esc: false
+
+import:
+  - ${DOTS}/alacritty/.config/alacritty/gruvbox-material-alacritty.yml
+
+background_opacity: 0.80
 window:
+  # startup_mode: SimpleFullScreen
+  #dimensions:
+  #  columns: 120
+  #  lines: 40
   padding:
-    x: 40
-    y: 40
+    x: 2
+    y: 2
   dynamic_padding: true
-  decorations: none
-  opacity: 0.5
+  decorations: buttonless
+  opacity: 0.0
 
 font:
-  size: 12.0
+  size: 12.5
+  normal:
+    family: "MesloLGS NF"
+  offset:
+    x: 1
+    y: 4
+  use_thin_strokes: true
+  draw_bold_text_with_bright_colors: true
 
 cursor:
-  blinking: On
-  blink_interval: 1200
+  style:
+    shape: Block
+    blinking: Always
+    blink_interval: 1750
+    thickness: 0.15
+
+scrolling:
+  # How many lines of scrollback to keep,
+  # '0' will disable scrolling.
+  history: 10000
+
+  # Number of lines the viewport will move for every line
+  # scrolled when scrollback is enabled (history > 0).
+  multiplier: 3
+
+  # Faux Scrolling
+  #
+  # The `faux_multiplier` setting controls the number
+  # of lines the terminal should scroll when the alternate
+  # screen buffer is active. This is used to allow mouse
+  # scrolling for applications like `man`.
+  #
+  # To disable this completely, set `faux_multiplier` to 0.
+
+  # Automatically scroll to the bottom when new text is written
+  # to the terminal.
+  #  auto_scroll: false
