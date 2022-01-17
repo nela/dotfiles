@@ -38,6 +38,7 @@ source ${DOTS}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ${DOTS}/scripts/zsh-newuser-install.sh
 source ${DOTS}/scripts/compinstall.sh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
 source ${DOTS}/scripts/zsh-completions.sh
 source ${DOTS}/scripts/todo-init.sh
 source ${DOTS}/scripts/aliases.sh
