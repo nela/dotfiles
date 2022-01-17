@@ -5,22 +5,34 @@ augroup numbertoggle
 augroup END
 
 " Auto-resize splits when Vim gets resized.
-autocmd VimResized * wincmd =
+augroup SplitResize
+  au!
+  autocmd VimResized * wincmd =
+augroup END
 
 " Vertically center document when entering insert mode
 " autocmd InsertEnter * norm zz
 
-" Remove trailing whitespace on save
-autocmd BufWritePre * %s/\s\+$//e
 
-" Update a buffer's contents on focus if it changed outside of Vim.
-au FocusGained,BufEnter * :checktime
+augroup BufUpdate
+  au!
+  " Update a buffer's contents on focus if it changed outside of Vim.
+  autocmd FocusGained,BufEnter * :checktime
+  " Remove trailing whitespace on save
+  autocmd BufWritePre * %s/\s\+$//e
+augroup END
 
 " Unset paste on InsertLeave.
-autocmd InsertLeave * silent! set nopaste
+augroup UnsetPaste
+  au!
+  autocmd InsertLeave * silent! set nopaste
+augroup END
 
 " Ensure tabs don't get converted to spaces in Makefiles.
-autocmd FileType make setlocal noexpandtab
+augroup MakefileTap
+  au!
+  autocmd FileType make setlocal noexpandtab
+augroup END
 
 " Fix tex file type set
 " autocmd BufRead,BufNewFile *.tex set filetype=tex
@@ -28,16 +40,19 @@ autocmd FileType make setlocal noexpandtab
 
 " SuperCollider filetype
 augroup SuperCollider
+  au!
   autocmd BufRead,BufNewFile *.scd set filetype=supercollider
   autocmd BufRead,BufNewFile *.sc set filetype=supercollider
 augroup END
 
-" Only show the cursor line in the active buffer.
-augroup CursorLine
-    au!
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
+augroup Solidity
+  au!
+  autocmd BufRead,BufNewFile *.sol set filetype=solidity
 augroup END
 
-"" Load Rainbow Parantheses
-"au VimEnter * RainbowParentheses!!
+" Only show the cursor line in the active buffer.
+augroup CursorLine
+  au!
+  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+augroup END
