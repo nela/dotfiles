@@ -66,3 +66,11 @@ scrolling:
   # Automatically scroll to the bottom when new text is written
   # to the terminal.
   #  auto_scroll: false
+key_bindings:
+  - { key: E, mods: Alt, chars: "\x1be" }
+  - { key: S, mods: Alt, chars: "\x1bs" }
+  - { key: V, mods: Alt, chars: "\x1bv" }
+  - { key: X, mods: Alt, chars: "\x1bx" }
+  - { key: W, mods: Alt, chars: "\x1bw" }
+  - { key: C, mods: Alt, chars: "\x1bw" }
+  - { key: Key6, mods: Control, chars: "\x1e" }
