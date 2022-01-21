@@ -1,7 +1,7 @@
 alt_send_esc: false
 
 import:
-  - ~/dotfiles/alacritty/.config/alacritty/gruvbox-material-alacritty.yml
+  - ~/dotfiles/alacritty/.config/alacritty/gruvbox-dark.yaml
 
 background_opacity: 0.9
 window:

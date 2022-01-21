@@ -1,16 +1,16 @@
---[[ require('telescope').setup {
+require('telescope').setup {
   defaults = {
+		prompt_prefix = "❯ ",
+    selection_caret = "❯ ",
     file_sorter = require('telescope.sorters').get_fzy_sorter,
     color_devicons = true,
-
     mappings = {
       i = {
         ["<C-h>"] = "which_key"
       }
     },
-
     dynamic_preview_title = true,
-    file_ignore_patterns = {  "./.git", "node_modules", "__pycache__", "terragrunt%-cache" }
+    file_ignore_patterns = {  "./.git", "^.git", "node_modules", "__pycache__", "terragrunt%-cache" }
   },
   pickers = {
     find_files = {
@@ -27,4 +27,4 @@
   }
 }
 
-require('telescope').load_extension('fzf') ]]
+require('telescope').load_extension('fzf')

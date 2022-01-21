@@ -10,3 +10,4 @@ nnoremap <leader>fr <cmd>Telescope registers<CR>
 nnoremap <leader>dot <cmd> :lua require('nelescope').search_dotfiles()<CR>
 nnoremap <leader>vim <cmd> :lua require('nelescope').search_nvimfiles()<CR>
 nnoremap <leader>zsh <cmd> :lua require('nelescope').search_zshfiles()<CR>
+" nnoremap <leader>ff <cmd> :lua require('nelescope').find_files()<CR>

@@ -15,7 +15,6 @@ source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 export FZF_COMPLETION_TRIGGER=",,"
 export FZF_DEFAULT_COMMAND="fd --type f --hidden -E .git -E node_modules -E __pycache__ -E Library -E Music -E Movies "
 
-export FZF_DEFAULT_OPTS="--preview='bat {}'"
-# export FZF_DEFAULT_OPTS="--no-mouse --height 40% --layout=reverse --multi --inline-info  --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --theme=TwoDark --color=always {} || cat {}) 2> /dev/null | head -n 300' --preview-window='right:hidden:wrap' --bind='f3:execute(bat --style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
+preview="--preview=' [[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --number {} || cat {}) 2> /dev/null | head -n 300' --preview-window='wrap' "
 
-# export FZF_DEFAULT_OPTS="--no-mouse --height 40% --layout=reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --theme=TwoDark --color=always {} || cat {}) 2> /dev/null | head -n 300' --preview-window='right:hidden:wrap' --bind='f3:execute(bat --style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
+export FZF_DEFAULT_OPTS="--no-mouse --layout=reverse --multi --info=inline --bind 'f3:execute(bat -style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)' "${preview}"" 
