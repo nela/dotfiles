@@ -1,8 +1,16 @@
 _ = vim.cmd [[packadd packer.nvim]]
 
+local fn = vim.fn
+
 local has = function(x)
   return vim.fn.has(x) == 1
 end
+
+-- local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+--
+-- if fn.empty(fn.glob(install_path)) > 0 then
+-- 	packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+-- end
 
 -- local packer = nil
 --
@@ -16,7 +24,7 @@ end
 --   packer.reset()
 --
 require("packer").startup(function(use)
-  use 'wbthomason/packer.nvim'
+  use { 'wbthomason/packer.nvim', opt = true }
   use 'tpope/vim-surround'
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
@@ -132,6 +140,10 @@ require("packer").startup(function(use)
 			opt = true
 		}
 	end
+
+	-- if packer_bootstrap then
+    	-- 	require('packer').sync()
+  	-- end
 end)
 
 -- require("packer").startup(luggage)

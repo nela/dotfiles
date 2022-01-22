@@ -29,8 +29,8 @@ nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
 
 " Buffer navigation
-nnoremap <leader>bn :bnext<CR>
-nnoremap <leader>bp :bprevious<CR>
+nnoremap <Tab>n :bnext<CR>
+nnoremap <Tab>p :bprevious<CR>
 nnoremap <leader>bl :ls<CR>:b<Space>
 
 "Cycle through quickfix listk
@@ -88,8 +88,8 @@ nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
 xnoremap <silent> K <Plug>MoveUp
 xnoremap <silent> J <Plug>MoveDown
-nnoremap <leader>cf :ClearQuickfixList<CR>
-nnoremap <leader>sw <Plug>StripTrailingWhitespace
+nnoremap <leader>cq :ClearQuickfixList<CR>
+" nnoremap <leader>sw <Plug>StripTrailingWhitespace
 
 " Shift + J/K moves selected lines down/up in visual mode
 " vnoremap J :m '>+1<CR>gv=gv

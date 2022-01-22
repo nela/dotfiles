@@ -161,12 +161,9 @@ _G.packer_plugins = {
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
   ["nvim-autopairs"] = {
-    commands = { "asdf adfko akf " },
     config = { "\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/nela/.local/share/nvim/site/pack/packer/opt/nvim-autopairs",
+    loaded = true,
+    path = "/Users/nela/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
@@ -218,8 +215,9 @@ _G.packer_plugins = {
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
-    loaded = true,
-    path = "/Users/nela/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/nela/.local/share/nvim/site/pack/packer/opt/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
   playground = {
@@ -297,6 +295,10 @@ time([[Defining packer_plugins]], false)
 time([[Setup for nvim-tree.lua]], true)
 try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21nelavim.nvimtree\frequire\0", "setup", "nvim-tree.lua")
 time([[Setup for nvim-tree.lua]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
+time([[Config for nvim-autopairs]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
@@ -304,11 +306,10 @@ time([[Config for Comment.nvim]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file VimtexView lua require("packer.load")({'vimtex'}, { cmd = "VimtexView", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[au CmdUndefined asdf adfko akf  ++once lua require"packer.load"({'nvim-autopairs'}, {}, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file ColorizerAttachToBuffer lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerAttachToBuffer", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file VimtexCompile lua require("packer.load")({'vimtex'}, { cmd = "VimtexCompile", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file VimtexView lua require("packer.load")({'vimtex'}, { cmd = "VimtexView", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file ColorizerAttachToBuffer lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerAttachToBuffer", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file MarkdownPreview lua require("packer.load")({'markdown-preview.nvim'}, { cmd = "MarkdownPreview", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
@@ -316,20 +317,20 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType sc ++once lua require("packer.load")({'scnvim'}, { ft = "sc" }, _G.packer_plugins)]]
+vim.cmd [[au FileType sol ++once lua require("packer.load")({'vim-solidity'}, { ft = "sol" }, _G.packer_plugins)]]
+vim.cmd [[au FileType scd ++once lua require("packer.load")({'scnvim'}, { ft = "scd" }, _G.packer_plugins)]]
 vim.cmd [[au FileType md ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "md" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tex ++once lua require("packer.load")({'vimtex'}, { ft = "tex" }, _G.packer_plugins)]]
-vim.cmd [[au FileType sol ++once lua require("packer.load")({'vim-solidity'}, { ft = "sol" }, _G.packer_plugins)]]
-vim.cmd [[au FileType sc ++once lua require("packer.load")({'scnvim'}, { ft = "sc" }, _G.packer_plugins)]]
-vim.cmd [[au FileType scd ++once lua require("packer.load")({'scnvim'}, { ft = "scd" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/scnvim/ftdetect/supercollider.vim]], true)
-vim.cmd [[source /Users/nela/.local/share/nvim/site/pack/packer/opt/scnvim/ftdetect/supercollider.vim]]
-time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/scnvim/ftdetect/supercollider.vim]], false)
 time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/vim-solidity/ftdetect/solidity.vim]], true)
 vim.cmd [[source /Users/nela/.local/share/nvim/site/pack/packer/opt/vim-solidity/ftdetect/solidity.vim]]
 time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/vim-solidity/ftdetect/solidity.vim]], false)
+time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/scnvim/ftdetect/supercollider.vim]], true)
+vim.cmd [[source /Users/nela/.local/share/nvim/site/pack/packer/opt/scnvim/ftdetect/supercollider.vim]]
+time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/scnvim/ftdetect/supercollider.vim]], false)
 time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]], true)
 vim.cmd [[source /Users/nela/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]]
 time([[Sourcing ftdetect script at: /Users/nela/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]], false)

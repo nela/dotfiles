@@ -1,7 +1,3 @@
--- local path = os.getenv("XDG_DATA_HOME") .. '/nvim/plugged/friendly-snippets'
--- vim.inspect(print(path))
--- vim.o.runtimepath = vim.o.runtimepath .. ',' .. path
-
 require'luasnip/loaders/from_vscode'.load()
 
 local function prequire(...)
@@ -27,21 +23,23 @@ end
 
 _G.tab_complete = function()
     if luasnip and luasnip.expand_or_jumpable() then
-        return t("<Plug>luasnip-expand-or-jump")
+        return t('<Plug>luasnip-expand-or-jump')
     else check_back_space()
-        return t "<Tab>"
+        return t('<Tab>')
     end
-    return ""
+    return ''
 end
 
 _G.s_tab_complete = function()
     if luasnip and luasnip.jumpable(-1) then
-        return t("<Plug>luasnip-jump-prev")
+        return t('<Plug>luasnip-jump-prev')
     else
-        return t "<S-Tab>"
+        return t('<S-Tab>')
     end
-    return ""
+    return ''
 end
+
+
 
 vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})

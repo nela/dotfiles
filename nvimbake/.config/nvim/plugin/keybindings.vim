@@ -34,8 +34,8 @@ nnoremap <leader>bp :bprevious<CR>
 nnoremap <leader>bl :ls<CR>:b<Space>
 
 "Cycle through quickfix listk
-nnoremap <Tab> :cnext<CR>
-nnoremap <S-Tab> :cprev<CR>
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprev<CR>
 nnoremap <leader>lj :lnext<CR>
 nnoremap <leader>lk :lprev<CR>
 
@@ -88,8 +88,8 @@ nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
 xnoremap <silent> K <Plug>MoveUp
 xnoremap <silent> J <Plug>MoveDown
-nnoremap <leader>cq :ClearQuickfixList<CR>
-" nnoremap <leader>sw <Plug>StripTrailingWhitespace
+nnoremap <leader>cf :ClearQuickfixList<CR>
+nnoremap <leader>sw <Plug>StripTrailingWhitespace
 
 " Shift + J/K moves selected lines down/up in visual mode
 " vnoremap J :m '>+1<CR>gv=gv
