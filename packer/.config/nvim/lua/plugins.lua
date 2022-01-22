@@ -3,18 +3,18 @@ _ = vim.cmd [[packadd packer.nvim]]
 local has = function(x)
   return vim.fn.has(x) == 1
 end
- 
+
 -- local packer = nil
--- 
+--
 -- local function init()
 --   if packer == nil then
 --     packer = require 'packer'
 -- 	packer.init()
 --   end
--- 
+--
 --   local use = packer.use
 --   packer.reset()
--- 
+--
 require("packer").startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'tpope/vim-surround'
@@ -24,7 +24,7 @@ require("packer").startup(function(use)
   use 'ggandor/lightspeed.nvim'
 	use 'sainnhe/gruvbox-material'
 
-  
+
   use {
     'numToStr/Comment.nvim',
     config = function() require('Comment').setup() end
@@ -41,26 +41,24 @@ require("packer").startup(function(use)
 
 	use {
  		'nvim-lualine/lualine.nvim',
-  	requires = { 
+  	requires = {
 			{ 'kyazdani42/nvim-web-devicons', opt = true },
 			{ 'arkav/lualine-lsp-progress', opt = true },
 		}
 	}
 
-	use { 
+	use {
 		'windwp/nvim-autopairs',
 		config = function() require('nvim-autopairs').setup() end,
-		cmd = { 'asdf adfko akf ' }
 	}
 
 	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 	use { 'nvim-treesitter/playground' }
 
-	use { 
+	use {
 		'neovim/nvim-lspconfig',
 		'williamboman/nvim-lsp-installer'
 	}
-
 
 	use {
 		'onsails/lspkind-nvim'
@@ -68,7 +66,7 @@ require("packer").startup(function(use)
 
 	use {
   	'nvim-telescope/telescope.nvim',
-  	requires = { 
+  	requires = {
 			{ 'nvim-lua/plenary.nvim' },
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
 			{ 'nvim-telescope/telescope-symbols.nvim' }
@@ -90,7 +88,7 @@ require("packer").startup(function(use)
 		'saadparwaiz1/cmp_luasnip',
 		'rafamadriz/friendly-snippets'
 	}
-	
+
 	use {
  		'mfussenegger/nvim-dap',
  		'Pocco81/DAPInstall.nvim'
