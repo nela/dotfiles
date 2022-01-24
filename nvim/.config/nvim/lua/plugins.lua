@@ -6,23 +6,6 @@ local has = function(x)
   return vim.fn.has(x) == 1
 end
 
--- local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
---
--- if fn.empty(fn.glob(install_path)) > 0 then
--- 	packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
--- end
-
--- local packer = nil
---
--- local function init()
---   if packer == nil then
---     packer = require 'packer'
--- 	packer.init()
---   end
---
---   local use = packer.use
---   packer.reset()
---
 require("packer").startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
   use 'tpope/vim-surround'
@@ -31,7 +14,8 @@ require("packer").startup(function(use)
   use 'wellle/targets.vim'
   use 'ggandor/lightspeed.nvim'
 	use 'sainnhe/gruvbox-material'
-
+  use 'junegunn/vim-easy-align'
+  use 'romainl/vim-qf'
 
   use {
     'numToStr/Comment.nvim',
@@ -57,7 +41,11 @@ require("packer").startup(function(use)
 
 	use {
 		'windwp/nvim-autopairs',
-		config = function() require('nvim-autopairs').setup() end,
+		config = function()
+      require('nvim-autopairs').setup({
+        fast_wrap = { map = '<M-w>' }
+      })
+    end,
 	}
 
 	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -129,7 +117,7 @@ require("packer").startup(function(use)
 
 		use {
 			'davidgranstrom/scnvim',
-			ft = { 'sc', 'scd' },
+			ft = { 'supercollider' },
 			run = function() vim.fn['-> scnvim#install']() end,
 			config = function() require('scnvim') end
 		}
@@ -141,19 +129,4 @@ require("packer").startup(function(use)
 		}
 	end
 
-	-- if packer_bootstrap then
-    	-- 	require('packer').sync()
-  	-- end
 end)
-
--- require("packer").startup(luggage)
-
---[[ local plugins = setmetatable({}, {
-  __index = function(_, key)
-    init()
-    return packer[key]
-  end,
-})
-
-\end
-return plugins ]]

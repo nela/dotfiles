@@ -1,9 +1,11 @@
 " " noremap j gj
 " " noremap k gk
-" " noremap <Down> gj
 " " noremap <Up> gk
+" " noremap <Down> gj
 " " inoremap <Down> <C-o>gj
 " " inoremap <Up> <C-o>gk
+"
+"
 
 nnoremap <leader>hs :split<Space>
 nnoremap <leader>vs :vsplit<Space>
@@ -86,12 +88,15 @@ map <F4> :setlocal spell!<CR>
 " Automatically fix the last misspelled word and jump back to where you were.
 nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
-xnoremap <silent> K <Plug>MoveUp
-xnoremap <silent> J <Plug>MoveDown
-nnoremap <leader>cq :ClearQuickfixList<CR>
-" nnoremap <leader>sw <Plug>StripTrailingWhitespace
+" xnoremap <silent> K <Plug>MoveUp
+" xnoremap <silent> J <Plug>MoveDown
 
+nnoremap <Tab>q <Plug>QuickfixToggle
+nnoremap <leader>cq :ClearQuickfixList<CR>
+
+
+" nnoremap <leader>sw <Plug>StripTrailingWhitespace
 " Shift + J/K moves selected lines down/up in visual mode
-" vnoremap J :m '>+1<CR>gv=gv
-" vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
