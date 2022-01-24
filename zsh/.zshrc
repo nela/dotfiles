@@ -29,33 +29,67 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+[[ -f /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme ]] \
+  && source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+
+tabs 4
+error='\e[0;31m \e[1;91m%s\e[0m\n'
+fix='\t\e[1;93m\e[0m  %s\n'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ${DOTS}/scripts/.p10k-custom.zsh ]] || source ${DOTS}/scripts/.p10k-custom.zsh
+[[ -r ${ZSH}/p10k-custom.zsh ]] && source ${ZSH}/p10k-custom.zsh \
+  || printf '\e[1;31m%s\e[0m\n' "Custom p10k theme not loaded"
 
-source ${DOTS}/scripts/zsh-newuser-install.sh
-source ${DOTS}/scripts/compinstall.sh
+[[ -r ${ZSH}/zsh-user.conf ]] && source ${ZSH}/zsh-user.conf \
+  || printf '\e[1;31m%s\e[0m\n' "Zsh user config not loaded"
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# [[ -f ${DOTS}/scripts/compinstall.sh ]] \
+#   && source ${DOTS}/scripts/compinstall.sh \
+#   || printf '\e[1;31m%s\e[0m\n' "Compinstall not loaded."
+
+[[ -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] \
+  && source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  || printf ${error} "Zsh Autosuggestions not loaded"
+
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
-source ~/dotfiles/scripts/zsh-autosuggestions.zsh
 
-source ${DOTS}/scripts/zsh-completions.sh
-source ${DOTS}/scripts/todo-init.sh
-source ${DOTS}/scripts/aliases.sh
-source ${DOTS}/scripts/locale.sh
-source ${DOTS}/scripts/asdf-pyvirtual-envs.sh
-# source ${DOTS}/scripts/miniforge-init.sh
-source ${DOTS}/fzf/fzf.zsh
-# source ${HOME}/.asdf/plugins/java/set-java-home.zsh
+[[ -r ${ZSH}/zsh-autosuggestions.conf ]] && source ${ZSH}/zsh-autosuggestions.conf \
+  || printf ${error} "Zsh Autosuggestions config not loaded"
 
-source ${REPOS}/forgit/forgit.plugin.zsh
-source ${REPOS}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-eval $(gdircolors ${REPOS}/dircolors/dircolors.ansi-dark)
+[[ -r ${ZSH}/zsh-completion.sh ]] && source ${ZSH}/zsh-completion.sh \
+  || printf ${error} "Zsh Completions not loaded"
 
-alias ls="gls --color=auto"
+# [[ -r ${DOTS}/scripts/todo-init.sh ]] || source ${DOTS}/scripts/todo-init.sh
+[[ -r ${DOTS}/scripts/aliases.sh ]] && source ${DOTS}/scripts/aliases.sh \
+ || printf ${error} "Aliases not loaded"
+
+[[ -r ${DOTS}/scripts/locale.sh ]] && source ${DOTS}/scripts/locale.sh \
+  || printf ${error} "Locale not loaded"
+
+[[ -r ${HOME}/.asdf/plugins/java/set-java-home.zsh ]] \
+  && command -v asdf >/dev/null 2>&1 && [[ -d ${HOME}/.asdf/installs/java ]] \
+  && source ${HOME}/.asdf/plugins/java/set-java-home.zsh \
+  || { printf ${error} "ASDF plugin set-java-home not loaded";
+  printf ${fix} "Check if asdf and asdf-managed java executables are installed" }
+
+[[ -r ${DOTS}/asdf/asdf-pyvirtual-envs.sh ]] \
+  && type asdf &>/dev/null && source ${DOTS}/asdf/asdf-pyvirtual-envs.sh \
+  || { printf ${error} "ASDF python virtualenv management scripts not loaded";
+  printf ${fix} "Check if asdf is installed, or script is available" }
+
+# [[ -r ${DOTS}/scripts/miniforge-init.sh ]] &&  command -v conda >/dev/null 2>&1  && source ${DOTS}/scripts/miniforge-init.sh
+[[ -r ${DOTS}/scripts/fzf.zsh ]] && source ${DOTS}/scripts/fzf.zsh \
+  || printf ${error} "FZF config not loaded"
+
+[[ -r ${REPOS}/forgit/forgit.plugin.zsh ]] && source ${REPOS}/forgit/forgit.plugin.zsh \
+  || printf ${error} "Forgit not loaded"
+
+[[ -r ${REPOS}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]] \
+  && source ${REPOS}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
+  || printf ${error} "Fast Syntax Highlighting not loaded"
+
+[[ -r ${REPOS}/dircolors/dircolors.ansi-dark ]] \
+  && { eval $(gdircolors ${REPOS}/dircolors/dircolors.ansi-dark); alias ls="gls --color=auto" } \
+  || printf ${error} "Dircolors not loaded"
+
 alias ll="ls -al"
-
-
-# alias luamake=/Users/nela/.local/share/lang-servers/lua-language-servers/3rd/luamake/luamake
