@@ -19,6 +19,7 @@ export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm-global"
 export PNPM_STATE="${XDG_DATA_HOME}/pnpm-state"
 
 [[ ":${PATH}:" != *":/usr/local/bin:"* ]] && export PATH="/usr/local/bin:${PATH}"
+[[ ":${PATH}:" != *":/usr/local/sbin:"* ]] && export PATH="/usr/local/sbin:${PATH}"
 [[ ":${PATH}:" != *":${XDG_BIN_HOME}:"* ]] && export PATH="${XDG_BIN_HOME}:${PATH}"
 [[ ":${PATH}:" != *":${PNPM_GLOBAL_BIN}:"* ]] && export PATH="${PNPM_GLOBAL_BIN}:${PATH}"
 
@@ -91,5 +92,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
 [[ -r ${REPOS}/dircolors/dircolors.ansi-dark ]] \
   && { eval $(gdircolors ${REPOS}/dircolors/dircolors.ansi-dark); alias ls="gls --color=auto" } \
   || printf ${error} "Dircolors not loaded"
+
+source ${DOTS}/tmux/tmux-scripts.sh
 
 alias ll="ls -al"

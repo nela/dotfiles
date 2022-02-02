@@ -1,9 +1,12 @@
+env:
+  TERM: xterm-256color
+
 alt_send_esc: false
 
 import:
   - ~/dotfiles/alacritty/.config/alacritty/gruvbox-dark.yaml
 
-background_opacity: 0.9
+# background_opacity: 0.9
 window:
   dimensions:
     columns: 120
@@ -13,7 +16,7 @@ window:
     y: 4
   dynamic_padding: true
   decorations: buttonless
-  opacity: 0.0
+  opacity: 0.9
 
 font:
   size: 12.5
@@ -72,5 +75,5 @@ key_bindings:
   - { key: V, mods: Alt, chars: "\x1bv" }
   - { key: X, mods: Alt, chars: "\x1bx" }
   - { key: W, mods: Alt, chars: "\x1bw" }
-  - { key: C, mods: Alt, chars: "\x1bw" }
+  - { key: C, mods: Alt, chars: "\x1bc" }
   - { key: Key6, mods: Control, chars: "\x1e" }

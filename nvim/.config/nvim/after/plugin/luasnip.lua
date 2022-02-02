@@ -1,4 +1,7 @@
-require'luasnip/loaders/from_vscode'.load()
+local from_vs = require'luasnip/loaders/from_vscode'
+from_vs.load()
+from_vs.load({ paths = {'~/dotfiles/acro-snippets'} })
+
 
 local function prequire(...)
 local status, lib = pcall(require, ...)
