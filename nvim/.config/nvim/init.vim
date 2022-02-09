@@ -60,7 +60,6 @@ hi SpellCap cterm=underline "ctermfg=203 guifg=#ff5f5f
 set termguicolors
 set background=dark
 
-" lua require('plugins')
 lua require('nelspconfig')
 
 " set foldmethod=expr

@@ -58,6 +58,8 @@ workon() {
     dir="statnett"
   elif [ -d "${HOME}/nela/${1}" ]; then
     dir="nela"
+  elif [ -d "${HOME}/projects/${1}" ]; then
+    dir="projects"
   else
     printf '%s\n' "Unable to locate project directory. "
     printf '%s\n' "Continuing environment activation without defining PROJECT_HOME"

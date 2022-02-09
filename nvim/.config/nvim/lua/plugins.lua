@@ -1,7 +1,6 @@
 _ = vim.cmd [[packadd packer.nvim]]
 
-local fn = vim.fn
-
+-- local fn = vim.fn
 local has = function(x)
   return vim.fn.has(x) == 1
 end
@@ -89,6 +88,10 @@ require("packer").startup(function(use)
  		'mfussenegger/nvim-dap',
  		'Pocco81/DAPInstall.nvim'
 	}
+
+  use {
+    'mfussenegger/nvim-jdtls'
+  }
 
 	if has('mac') then
 

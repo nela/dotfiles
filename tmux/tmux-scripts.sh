@@ -14,3 +14,7 @@ attach_to() {
 
 alias master="attach_to master ${HOME}/skole/master 'cd thesis && nvim main.tex'"
 alias dots="attach_to dots ${DOTS}"
+
+laki() {
+  attach_to laki ${HOME}/projects/laki "pnpm dev"
+}

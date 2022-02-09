@@ -32,16 +32,20 @@ end
 local lsp_installer = require('nvim-lsp-installer')
 local util = require('lspconfig/util')
 
-
 lsp_installer.on_server_ready(function(server)
-	local opts = {
-  	on_attach = on_attach,
-		flags = { debounce_text_changes = 150 }
-	}
+  local opts = {
+      on_attach = on_attach,
+      flags = { debounce_text_changes = 150 }
+    }
 
-  if server.name == "terraformls" then
-    opts.root_dir = util.root_pattern(".terraform", ".git")
+  if server.name == 'jdtls' then
+    vim.g.jdtls_ready = true
+  else
+    server:setup(opts)
   end
-	server:setup(opts)
+  --   --[[ if server.name == "terraformls" then
+  --     opts.root_dir = util.root_pattern(".terraform", ".git")
+  --   end ]]
+
 	vim.cmd [[ do User LspAttachBuffers ]]
 end)

@@ -148,7 +148,7 @@ local branch = {
 	icon = " ", --icon = '',
 	padding = 1,
 	color = { fg = gruv_normal.gray }
-} 
+}
 
 local diff = {
 	'diff',

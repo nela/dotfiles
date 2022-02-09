@@ -34,6 +34,11 @@
     "body": "\\acf{$1} $0",
     "description": "Reference full acronym form"
   },
+  "AcronymPlural": {
+    "prefix": "acp",
+    "body": "\\acp{$1} $0",
+    "description": "Reference acronym plural form"
+  },
   "AcronymShortPlural": {
     "prefix": "acsp" ,
     "body": "\\acsp{$1} $0",

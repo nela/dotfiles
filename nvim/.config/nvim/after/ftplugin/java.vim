@@ -9,24 +9,14 @@ imap <buffer> <F8> <esc>:w<CR>:exec '!javac' shellescape(@%, 1)<CR>
 map <buffer> <F9> :w<CR>:exec '!java' shellescape(fnamemodify(@%, ':r'), 1)<CR>
 imap <buffer> <F9> <esc>:w<CR>:exec '!java' shellescape(fnamemodify(@%, ':r'), 1)<CR>
 
+nnoremap <A-o> <Cmd>lua require'jdtls'.organize_imports()<CR>
+nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
+vnoremap crv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
+nnoremap crc <Cmd>lua require('jdtls').extract_constant()<CR>
+vnoremap crc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
+vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
 
-" Jdtls config
-if has('nvim-0.5')
-    lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh', '/Users/nela/.local/share/eclipse/jdtls-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')}})
-endif
-
-" -- `code_action` is a superset of vim.lsp.buf.code_action and you'll be able to
-" -- use this mapping also with other language servers
-nnoremap <A-CR> <cmd>lua require('jdtls').code_action()<CR>
-vnoremap <A-CR> <Esc><cmd>lua require('jdtls').code_action(true)<CR>
-nnoremap <leader>r <cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
-
-nnoremap <A-o> <cmd>lua require'jdtls'.organize_imports()<CR>
-nnoremap crv <cmd>lua require('jdtls').extract_variable()<CR>
-vnoremap crv <Esc><cmd>lua require('jdtls').extract_variable(true)<CR>
-vnoremap crm <Esc><cmd>lua require('jdtls').extract_method(true)<CR>
-
-" -- If using nvim-dap
-" -- This requires java-debug and vscode-java-test bundles, see install steps in this README further below.
-" nnoremap <leader>df <cmd>lua require'jdtls'.test_class()<CR>
-" nnoremap <leader>dn <cmd>lua require'jdtls'.test_nearest_method()<CR>
+" If using nvim-dap
+" This requires java-debug and vscode-java-test bundles, see install steps in this README further below.
+" nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
+" nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
