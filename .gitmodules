@@ -1,0 +1,9 @@
+[submodule "fast-syntax-highlighting"]
+	path = fast-syntax-highlighting
+	url = git@github.com:zdharma-continuum/fast-syntax-highlighting.git
+[submodule "dircolors"]
+	path = dircolors
+	url = git@github.com:gibbling/dircolors.git
+[submodule "forgit"]
+	path = forgit
+	url = https://github.com/wfxr/forgit
