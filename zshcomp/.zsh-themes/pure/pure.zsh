@@ -487,7 +487,7 @@ prompt_pure_async_refresh() {
 prompt_pure_check_git_arrows() {
 	setopt localoptions noshwordsplit
 	local ret left=${1:-0} right=${2:-0}
-  (( left )) && ret+="${PURE_GIT_DOWN_ARROW:-⇡}%F{${prompt_pure_colors[git:ahead]}}$left"
+  (( left )) && ret+="${PURE_GIT_UP_ARROW:-⇡}%F{${prompt_pure_colors[git:ahead]}}$left"
   # (( left && right )) ret+=" : "
   (( right )) && ret+="%F{${prompt_pure_colors[git:behind]}}$right${PURE_GIT_DOWN_ARROW:-⇣}"
 
@@ -814,9 +814,9 @@ prompt_pure_setup() {
 	typeset -gA prompt_pure_colors_default prompt_pure_colors
 	prompt_pure_colors_default=(
 		execution_time       yellow
-		git:arrow            cyan
     git:ahead            green
-    git:behind           ews
+    git:behind           red
+    git:arrow            cyan
 		git:stash            cyan
 		git:branch           242
 		git:branch:cached    red
