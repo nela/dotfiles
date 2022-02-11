@@ -225,11 +225,11 @@ prompt_pure_precmd() {
 	# Nix package manager integration. If used from within 'nix shell' - shell name is shown like so:
 	# ~/Projects/flake-utils-plus master
 	# flake-utils-plus ❯
-	if zstyle -T ":prompt:pure:environment:nix-shell" show; then
-		if [[ -n $IN_NIX_SHELL ]]; then
-			psvar[12]="${name:-nix-shell}"
-		fi
-	fi
+	# if zstyle -T ":prompt:pure:environment:nix-shell" show; then
+	# 	if [[ -n $IN_NIX_SHELL ]]; then
+	# 		psvar[12]="${name:-nix-shell}"
+	# 	fi
+	# fi
 
 	# Make sure VIM prompt is reset.
 	prompt_pure_reset_prompt_symbol
@@ -473,15 +473,26 @@ prompt_pure_async_refresh() {
 	fi
 }
 
+# prompt_pure_check_git_arrows() {
+# 	setopt localoptions noshwordsplit
+# 	local arrows left=${1:-0} right=${2:-0}
+#
+# 	(( right > 0 )) && arrows+=${PURE_GIT_DOWN_ARROW:-⇣}
+# 	(( left > 0 )) && arrows+=${PURE_GIT_UP_ARROW:-⇡}
+#
+# 	[[ -n $arrows ]] || return
+# 	typeset -g REPLY=$arrows
+# }
+
 prompt_pure_check_git_arrows() {
 	setopt localoptions noshwordsplit
-	local arrows left=${1:-0} right=${2:-0}
+	local ret left=${1:-0} right=${2:-0}
+  (( left )) && ret+="${PURE_GIT_DOWN_ARROW:-⇡}%F{${prompt_pure_colors[git:ahead]}}$left"
+  # (( left && right )) ret+=" : "
+  (( right )) && ret+="%F{${prompt_pure_colors[git:behind]}}$right${PURE_GIT_DOWN_ARROW:-⇣}"
 
-	(( right > 0 )) && arrows+=${PURE_GIT_DOWN_ARROW:-⇣}
-	(( left > 0 )) && arrows+=${PURE_GIT_UP_ARROW:-⇡}
-
-	[[ -n $arrows ]] || return
-	typeset -g REPLY=$arrows
+  [[ -n $ret ]] || return
+  typeset -g REPLY=$ret
 }
 
 prompt_pure_async_callback() {
@@ -804,6 +815,8 @@ prompt_pure_setup() {
 	prompt_pure_colors_default=(
 		execution_time       yellow
 		git:arrow            cyan
+    git:ahead            green
+    git:behind           ews
 		git:stash            cyan
 		git:branch           242
 		git:branch:cached    red

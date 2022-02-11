@@ -51,18 +51,25 @@ setopt HIST_VERIFY
 
 # Emacs key binding, use -v for vim mode,
 # then export KEYTIMEOUT=1 for faster switching between modes
-bindkey -e
+# bindkey -e
+bindkey -v
+export KEYTIMEOUT=1
 
 # Override colors
 # eval "$(dircolors -b $ZDOTDIR/dircolors)"
 [ -d "${HOME}/.zsh-themes" ] && fpath=($HOME/.zsh-themes $fpath)
+
 if [ -r "${HOME}/.zsh-themes/pure/pure.zsh" ]; then
   source "${HOME}/.zsh-themes/pure/async.zsh"
   source "${HOME}/.zsh-themes/pure/pure.zsh"
 fi
-#
+
+
+
+
 # fpath=( "$HOME/.zsh-themes" $fpath)
 # source "${HOME}/.zsh-themes/purity.zsh"
+# source "${HOME}/.zsh-themes/git.zsh"
 # autoload -U promptinit && promptinit
 # prompt purity
 
