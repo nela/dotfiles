@@ -55,7 +55,7 @@ bindkey -e
 
 # Override colors
 # eval "$(dircolors -b $ZDOTDIR/dircolors)"
-# [ -d "${HOME}/.zsh-themes" ] && fpath=($HOME/.zsh-themes $fpath)
+[ -d "${HOME}/.zsh-themes" ] && fpath=($HOME/.zsh-themes $fpath)
 if [ -r "${HOME}/.zsh-themes/pure/pure.zsh" ]; then
   source "${HOME}/.zsh-themes/pure/async.zsh"
   source "${HOME}/.zsh-themes/pure/pure.zsh"

@@ -293,7 +293,6 @@ prompt_pure_async_git_dirty() {
 	setopt localoptions noshwordsplit
 	local untracked_dirty=$1
 	local untracked_git_mode=$(command git config --get status.showUntrackedFiles)
-
 	if [[ "$untracked_git_mode" != 'no' ]]; then
 		untracked_git_mode='normal'
 	fi
@@ -464,7 +463,6 @@ prompt_pure_async_refresh() {
 		unset prompt_pure_git_last_dirty_check_timestamp
 		# Check check if there is anything to pull.
 		async_job "prompt_pure" prompt_pure_async_git_dirty ${PURE_GIT_UNTRACKED_DIRTY:-1}
-    echo $PURE_GIT_UNTRACKED_DIRTY
 	fi
 
 	# If stash is enabled, tell async worker to count stashes
