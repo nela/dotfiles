@@ -4,18 +4,28 @@ end
 
 local java_home = os.getenv('JAVA_HOME')
 local xdg_data_home = os.getenv('XDG_DATA_HOME')
+local repos = os.getenv('REPOS')
+
 local jdtls_jar = xdg_data_home .. '/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar'
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local eclipse_jdtls_workspace = xdg_data_home .. '/eclipse_jdtls_workspaces/' .. project_name
 local sys_config = xdg_data_home .. '/nvim/lsp_servers/jdtls'
 
-local java_debug = os.getenv('REPOS') .. '/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar'
+local java_debug = repos .. '/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar'
+local vscode_java_test = repos .. '/vscode-java-test/server/*.jar'
 
 if has('mac') then
   sys_config = sys_config .. '/config_mac'
 else
   sys_config = sys_config .. '/config_linux'
 end
+
+local bundles = {
+    vim.fn.glob(java_debug),
+};
+vim.list_extend(bundles, vim.split(vim.fn.glob(vscode_java_test), "\n"))
+
+local jdtls = require('jdtls')
 
 local config = {
   cmd = {
@@ -35,24 +45,19 @@ local config = {
     '-data', eclipse_jdtls_workspace --'/path/to/unique/per/project/workspace/folder'
   },
 
-  root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
+  root_dir = jdtls.setup.find_root({'.git', 'mvnw', 'gradlew'}),
 
-  -- Here you can configure eclipse.jdt.ls specific settings
-  -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-  -- for a list of options
-  settings = {
-    java = {}
-  },
+  settings = { java = {} },
 
-  init_options = {
-    bundles = {
-      vim.fn.glob(java_debug)
-    }
-  },
+  init_options = { bundles = bundles },
+
   on_attach = function(client, bufnr)
-    require('jdtls').setup_dap({ hotcoderreplace = 'auto' })
-    require('jdtls.setup').add_commands()
+    jdtls.setup_dap({ hotcodereplace = 'auto' })
+    jdtls.setup.add_commands()
+    jdtls.update_project_config()
   end
 }
 
-require('jdtls').start_or_attach(config)
+jdtls.start_or_attach(config)
+
+-- vim.cmd('source ' .. os.getenv('NVIM') .. '/opt/dapbindings.vim')
