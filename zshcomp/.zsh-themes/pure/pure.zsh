@@ -169,6 +169,8 @@ prompt_pure_preprompt_render() {
 
 	# Construct the new prompt with a clean preprompt.
 	local -ah ps1
+    $cleaned_ps1
+  )
 	ps1=(
 		${(j. .)preprompt_parts}  # Join parts, space separated.
 		$prompt_newline           # Separate preprompt and prompt.
@@ -208,8 +210,6 @@ prompt_pure_precmd() {
 	# Perform async Git dirty check and fetch.
 	prompt_pure_async_tasks
 
-	# Check if we should display the virtual env. We use a sufficiently high
-	# index of psvar (12) here to avoid collisions with user defined entries.
 	psvar[12]=
 	# Check if a Conda environment is active and display its name.
 	if [[ -n $CONDA_DEFAULT_ENV ]]; then
@@ -221,6 +221,8 @@ prompt_pure_precmd() {
 		psvar[12]="${VIRTUAL_ENV:t}"
 		export VIRTUAL_ENV_DISABLE_PROMPT=12
 	fi
+	# 	export VIRTUAL_ENV_DISABLE_PROMPT=12
+	# fi
 
 	# Nix package manager integration. If used from within 'nix shell' - shell name is shown like so:
 	# ~/Projects/flake-utils-plus master
