@@ -3,7 +3,7 @@ require('nvim-tree').setup {
 	disable_netrw = true,
 	hijack_netrw = true,
 	view = {
-		width = 39
+		width = 49
 	}
 }
 
