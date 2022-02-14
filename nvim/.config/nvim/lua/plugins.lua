@@ -93,6 +93,20 @@ require("packer").startup(function(use)
     'mfussenegger/nvim-jdtls'
   }
 
+  use {
+    'hoschi/yode-nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function ()
+      require('yode-nvim').setup()
+    end,
+    opt = true,
+    cmd = {
+      'YodeCreateSeditorFloating',
+      'YodeCreateSeditorReplace',
+      'YodeCloneCurrentIntoFloat'
+    }
+  }
+
 	if has('mac') then
 
   	use {

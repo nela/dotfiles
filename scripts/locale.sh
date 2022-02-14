@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export LANG="en_US.UTF-8"
+# export LANG="en_US"
 # export LANGUAGE="en_US:en"
 # export LC_NUMERIC="en_US.UTF-8"
 # export LC_TIME="en_US.UTF-8"
