@@ -9,7 +9,6 @@ dap.adapters.python = {
   args = { '-m', 'debugpy.adapter' };
 }
 
-print('here')
 
 dap.configurations.python = {
   {

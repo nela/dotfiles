@@ -228,8 +228,8 @@ local config = {
     -- these are to remove the defaults
     lualine_a = { mode },
     lualine_b = { filesize, filename },
-    lualine_c = { branch, diff, },
-		lualine_x = { lsp, 'lsp_progress', diagnostic	},
+    lualine_c = { lsp, diagnostic },
+		lualine_x = {	branch, diff },
     lualine_y = { location },
 		lualine_z = { 'progress' },
     -- These will be filled later
