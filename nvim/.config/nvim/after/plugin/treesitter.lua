@@ -65,5 +65,11 @@ require('nvim-treesitter.configs').setup {
       node_incremental = '<Tab>',
       node_decremental = '<S-Tab>'
     }
-  }
+  },
+
+  query_linter = {
+    enable = true,
+    use_virtual_text = true,
+    lint_events = { 'BufWrite', 'CursorHold' },
+  },
 }

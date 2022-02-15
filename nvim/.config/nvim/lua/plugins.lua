@@ -13,8 +13,14 @@ require("packer").startup(function(use)
   use 'wellle/targets.vim'
   use 'ggandor/lightspeed.nvim'
 	use 'sainnhe/gruvbox-material'
-  use 'junegunn/vim-easy-align'
   use 'romainl/vim-qf'
+	use 'onsails/lspkind-nvim'
+
+  use {
+    'junegunn/vim-easy-align',
+    opt = true,
+    cmd = { 'EasyAlign' }
+  }
 
   use {
     'numToStr/Comment.nvim',
@@ -25,7 +31,7 @@ require("packer").startup(function(use)
 		'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
 		cmd = { 'NvimTreeToggle' },
-		-- opt = true,
+		-- opt = true, -- Doesn't give icons
 		setup = function() require('nelavim.nvimtree') end,
 		config = function() require('nelavim.nvimtree-after') end
 	}
@@ -48,16 +54,16 @@ require("packer").startup(function(use)
 	}
 
 	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-	use { 'nvim-treesitter/playground' }
+	use {
+    'nvim-treesitter/playground',
+    opt = true,
+    cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
+  }
 
 	use {
 		'neovim/nvim-lspconfig',
-		'williamboman/nvim-lsp-installer'
-	}
-
-	use {
-		'onsails/lspkind-nvim'
-	}
+    'williamboman/nvim-lsp-installer'
+  }
 
 	use {
   	'nvim-telescope/telescope.nvim',
@@ -86,11 +92,20 @@ require("packer").startup(function(use)
 
 	use {
  		'mfussenegger/nvim-dap',
- 		'Pocco81/DAPInstall.nvim'
+    cmd = { 'LoadDap' }
 	}
 
   use {
-    'mfussenegger/nvim-jdtls'
+    'mfussenegger/nvim-jdtls',
+    opt = true,
+    ft = { 'java' }
+  }
+
+  use {
+ 		'Pocco81/DAPInstall.nvim',
+    opt = true,
+    cmd = { 'DIList', 'DIInstall' },
+    disable = true,
   }
 
   use {
@@ -103,7 +118,6 @@ require("packer").startup(function(use)
     cmd = {
       'YodeCreateSeditorFloating',
       'YodeCreateSeditorReplace',
-      'YodeCloneCurrentIntoFloat'
     }
   }
 
