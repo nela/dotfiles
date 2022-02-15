@@ -62,6 +62,8 @@ set background=dark
 
 lua require('nelspconfig')
 
+command LoadDap echo 'Loading Dap...'
+
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr() "ignore vimtex
 
