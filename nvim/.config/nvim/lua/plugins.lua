@@ -87,12 +87,17 @@ require("packer").startup(function(use)
 	use {
 		'L3MON4D3/LuaSnip',
 		'saadparwaiz1/cmp_luasnip',
-		'rafamadriz/friendly-snippets'
-	}
+  }
+
+  if has('mac') then;
+    use { '~/projects/friendly-snippets' }
+  else
+    use { 'rafamadriz/friendly-snippets' }
+  end
 
 	use {
  		'mfussenegger/nvim-dap',
-    cmd = { 'LoadDap' }
+    ft = { 'java', 'python' }
 	}
 
   use {

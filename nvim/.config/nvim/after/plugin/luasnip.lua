@@ -1,6 +1,6 @@
 local from_vs = require'luasnip/loaders/from_vscode'
-from_vs.load()
-from_vs.load({ paths = {'~/dotfiles/acro-snippets'} })
+-- from_vs.load()
+from_vs.load({ paths = {'~/projects/friendly-snippets'} })
 
 
 local function prequire(...)
