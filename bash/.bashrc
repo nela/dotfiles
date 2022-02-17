@@ -31,6 +31,7 @@ source ~/.asdf/plugins/java/set-java-home.bash
 [[ $- == *i* ]] && source ${HOME}/repos/ble.sh/out/ble.sh --noattach
 
 source $DOTS/asdf/asdf-pyvirtual-envs.sh
+source $DOTS/scripts/aliases.sh
 source $DOTS/scripts/fzf
 source $DOTS/scripts/bash-it
 

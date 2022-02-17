@@ -4,7 +4,7 @@ end
 
 local from_vs = require'luasnip/loaders/from_vscode'
 
-if has('mac') then;
+if has('mac') then
   from_vs.load({ paths = {'~/projects/friendly-snippets'} })
 else
   from_vs.load()
