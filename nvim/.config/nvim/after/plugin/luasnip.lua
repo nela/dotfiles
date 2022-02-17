@@ -1,7 +1,14 @@
-local from_vs = require'luasnip/loaders/from_vscode'
-from_vs.load()
-from_vs.load({ paths = {'~/dotfiles/acro-snippets'} })
+local has = function(x)
+  return vim.fn.has(x) == 1
+end
 
+local from_vs = require'luasnip/loaders/from_vscode'
+
+if has('mac') then;
+  from_vs.load({ paths = {'~/projects/friendly-snippets'} })
+else
+  from_vs.load()
+end
 
 local function prequire(...)
 local status, lib = pcall(require, ...)
