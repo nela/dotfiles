@@ -6,15 +6,7 @@
 #   python -m pip install virtualenv
 #   asdf reshim python
 
-# source $(brew --prefix)/Cellar/asdf/$(ls /usr/local/Cellar/asdf)/asdf.sh
 
-
-# if [[ "$OSTYPE" == "darwin"* ]]; then
-#   source $(brew --prefix asdf)/libexec/asdf.sh
-# else
-#   source $HOME/.asdf/asdf.sh
-#   source $HOME/.asdf/completions/asdf.bash
-# fi
 
 export WORKON_HOME=$XDG_DATA_HOME/nelapys/
 

@@ -30,10 +30,12 @@ source ~/.asdf/plugins/java/set-java-home.bash
 # Add this lines at the top of .bashrc:
 [[ $- == *i* ]] && source ${HOME}/repos/ble.sh/out/ble.sh --noattach
 
+source $HOME/.asdf/asdf.sh
+source $HOME/.asdf/completions/asdf.bash
+
 source $DOTS/asdf/asdf-pyvirtual-envs.sh
 source $DOTS/scripts/aliases.sh
-source $DOTS/scripts/fzf
-source $DOTS/scripts/bash-it
+# source $DOTS/scripts/bash-it
 
 # Add this line at the end of .bashrc:
 # [[ ${BLE_VERSION-} ]] && ble-attach

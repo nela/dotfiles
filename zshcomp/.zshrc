@@ -62,10 +62,10 @@ export KEYTIMEOUT=1
 # PURE_GIT_UP_ARROW=$'\xf0'
 # PURE_GIT_UP_ARROW='↑'
 
-if [ -r "${HOME}/.zsh-themes/pure/pure.zsh" ]; then
-  source "${HOME}/.zsh-themes/pure/async.zsh"
-  source "${HOME}/.zsh-themes/pure/pure.zsh"
-fi
+# if [ -r "${HOME}/.zsh-themes/pure/pure.zsh" ]; then
+source "${HOME}/.zsh-themes/pure/async.zsh"
+source "${HOME}/.zsh-themes/pure/pure.zsh"
+# fi
 
 
 

@@ -56,8 +56,8 @@ require("packer").startup(function(use)
 	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 	use {
     'nvim-treesitter/playground',
-    opt = true,
-    cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
+    -- opt = true,
+    -- cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
   }
 
 	use {
@@ -89,7 +89,7 @@ require("packer").startup(function(use)
 		'saadparwaiz1/cmp_luasnip',
   }
 
-  if has('mac') then;
+  if has('mac') then
     use { '~/projects/friendly-snippets' }
   else
     use { 'rafamadriz/friendly-snippets' }
@@ -97,17 +97,13 @@ require("packer").startup(function(use)
 
 	use {
  		'mfussenegger/nvim-dap',
-<<<<<<< HEAD
-    cmd = { 'LoadDap' }
-=======
-    ft = { 'java', 'python' }
->>>>>>> main
+    -- ft = { 'java', 'python' }
 	}
 
   use {
     'mfussenegger/nvim-jdtls',
-    opt = true,
-    ft = { 'java' }
+    -- opt = true,
+    -- ft = { java'java' }
   }
 
   use {
