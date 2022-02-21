@@ -11,10 +11,10 @@ nnoremap <leader>hs :split<Space>
 nnoremap <leader>vs :vsplit<Space>
 
 " Navigate around splits with a single key combo.
-nnoremap <Tab-l> <C-w><C-l>
-nnoremap <Tab-h> <C-w><C-h>
-nnoremap <Tab-k> <C-w><C-k>
-nnoremap <Tab-j> <C-w><C-j>
+nmap <C-l> <C-w><C-l>
+nmap <C-h> <C-w><C-h>
+nmap <C-k> <C-w><C-k>
+nmap <C-j> <C-w><C-j>
 
 imap <M-e> <End>
 

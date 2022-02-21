@@ -51,13 +51,14 @@ setopt COMPLETE_IN_WORD
 ###############################################################################
 
 # The definition order determines completer (completion alts.) source order
+# (Keep this order! Should not be alphabetical!)
 zstyle ':completion:*' completer \
   _extensions \
   _expand \
   _complete \
   _match \
-  _approximate #\
-  # _correct
+  _approximate
+  _correct
 
 # Other relevant completers:
 # _list _oldlist (usually set first)
@@ -69,12 +70,14 @@ zstyle ':completion:*' completer \
 # General completion options
 ###############################################################################
 
-# Use cache for commands using cache
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path '${HOME}/.zcompcache'
-
 # ??
 zstyle ':completion:*' completions 1
+
+# Use cache for commands using cache
+[ -z "${ZCOMPCACHE}" ] && ZCOMPCACHE=${XDG_DATA_HOME:-$HOME/.cache}/zsh/zcompcache
+mkdir -p "${ZCOMPCACHE}"
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path '${HOME}/.zcompcache'
 
 # Complete elements with spaces
 zstyle ':completion:*' add-space true

@@ -158,6 +158,15 @@ prompt_pure_preprompt_render() {
 	# Execution time.
 	[[ -n $prompt_pure_cmd_exec_time ]] && preprompt_parts+=('%F{$prompt_pure_colors[execution_time]}${prompt_pure_cmd_exec_time}%f')
 
+  local termwidth
+  (( termwidth=${COLUMNS} - 1 ))
+
+  local -a right_preprompt_parts
+  local preprompt_len right_preprompt_len
+  local kc='minikube/default'
+  right_preprompt_parts+=($kc)
+  right_preprompt_parts+=($JAVA_HOME)
+
 	local cleaned_ps1=$PROMPT
 	local -H MATCH MBEGIN MEND
 	if [[ $PROMPT = *$prompt_newline* ]]; then
@@ -167,10 +176,23 @@ prompt_pure_preprompt_render() {
 	fi
 	unset MATCH MBEGIN MEND
 
+  local preprompt_len=${#${${(j. .)preprompt_parts}}}
+  local right_preprompt_len=${#${${(j. .)right_preprompt_parts}}}
+
+  echo 'left' $preprompt_len
+  echo 'right' $right_preprompt_len
+
+  local padding_len
+  (( padding_len=($termwidth - ($preprompt_len + $right_preprompt_len ))))
+  local padstyle=' '
+
+
 	# Construct the new prompt with a clean preprompt.
 	local -ah ps1
 	ps1=(
 		${(j. .)preprompt_parts}  # Join parts, space separated.
+    "\${(l.(${padding_len})..${padstyle}.)}"
+		${(j. .)right_preprompt_parts}  # Join parts, space separated.
 		$prompt_newline           # Separate preprompt and prompt.
 		$cleaned_ps1
 	)
@@ -219,8 +241,6 @@ prompt_pure_precmd() {
 		psvar[12]="${VIRTUAL_ENV:t}"
 		export VIRTUAL_ENV_DISABLE_PROMPT=12
 	fi
-	# 	export VIRTUAL_ENV_DISABLE_PROMPT=12
-	# fi
 
 	# Nix package manager integration. If used from within 'nix shell' - shell name is shown like so:
 	# ~/Projects/flake-utils-plus master
@@ -472,17 +492,6 @@ prompt_pure_async_refresh() {
 		unset prompt_pure_git_stash
 	fi
 }
-
-# prompt_pure_check_git_arrows() {
-# 	setopt localoptions noshwordsplit
-# 	local arrows left=${1:-0} right=${2:-0}
-#
-# 	(( right > 0 )) && arrows+=${PURE_GIT_DOWN_ARROW:-⇣}
-# 	(( left > 0 )) && arrows+=${PURE_GIT_UP_ARROW:-⇡}
-#
-# 	[[ -n $arrows ]] || return
-# 	typeset -g REPLY=$arrows
-# }
 
 prompt_pure_check_git_arrows() {
 	setopt localoptions noshwordsplit
