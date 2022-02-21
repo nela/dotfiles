@@ -56,3 +56,8 @@ augroup CursorLine
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
 augroup END
+
+augroup highlight_yank
+  autocmd!
+  au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
+augroup END
