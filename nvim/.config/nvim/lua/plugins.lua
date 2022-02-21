@@ -97,7 +97,11 @@ require("packer").startup(function(use)
 
 	use {
  		'mfussenegger/nvim-dap',
+<<<<<<< HEAD
+    cmd = { 'LoadDap' }
+=======
     ft = { 'java', 'python' }
+>>>>>>> main
 	}
 
   use {
