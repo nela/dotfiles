@@ -20,9 +20,7 @@ else
   sys_config = sys_config .. '/config_linux'
 end
 
-local bundles = {
-    vim.fn.glob(java_debug),
-};
+local bundles = { vim.fn.glob(java_debug) };
 vim.list_extend(bundles, vim.split(vim.fn.glob(vscode_java_test), "\n"))
 
 local jdtls = require('jdtls')

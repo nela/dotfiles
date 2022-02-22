@@ -38,7 +38,7 @@ let g:vimtex_grammar_vlty = {
       \ 'shell_options':
           \  ' --packages "*"'
           \ . ' --add-modules /Users/nela/skole/master/thesis/main.tex'
-          \ . ' --define /Users/nela/skole/master/thesis/aux/commands.tex'
+          \ . ' --define /Users/nela/skole/master/thesis/extras/commands.tex'
           \ . ' --equation-punctuation display'
           \ }
           " \ . ' --single-letters "I.\,A.\|a.\,B.\|\|"'

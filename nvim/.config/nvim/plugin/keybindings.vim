@@ -11,10 +11,10 @@ nnoremap <leader>hs :split<Space>
 nnoremap <leader>vs :vsplit<Space>
 
 " Navigate around splits with a single key combo.
-nmap <C-l> <C-w><C-l>
-nmap <C-h> <C-w><C-h>
-nmap <C-k> <C-w><C-k>
-nmap <C-j> <C-w><C-j>
+nmap <Tab>l <C-w><C-l>
+nmap <Tab>h <C-w><C-h>
+nmap <Tab>k <C-w><C-k>
+nmap <Tab>j <C-w><C-j>
 
 imap <M-e> <End>
 
@@ -36,10 +36,10 @@ nnoremap <Tab>p :bprevious<CR>
 nnoremap <leader>bl :ls<CR>:b<Space>
 
 "Cycle through quickfix listk
-nnoremap <C-n> :cnext<CR>
-nnoremap <C-p> :cprev<CR>
-nnoremap <leader>lj :lnext<CR>
-nnoremap <leader>lk :lprev<CR>
+" nnoremap <C-n> :cnext<CR>
+" nnoremap <C-p> :cprev<CR>
+" nnoremap <leader>lj :lnext<CR>
+" nnoremap <leader>lk :lprev<CR>
 
 " Tab navigation
 " nnoremap TF :tabfirst<CR>

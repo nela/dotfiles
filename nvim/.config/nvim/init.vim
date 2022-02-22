@@ -43,7 +43,7 @@ set number relativenumber
 set noerrorbells visualbell t_vb=
 set scrolloff=4
 " set wildmenu
-" set wildmode=longest,list,full
+set wildmode=longest:full,full
 " set wildignore+=*.pyc,.git,.idea,*.o
 set whichwrap=b,s,<,>
 set colorcolumn=80
@@ -62,7 +62,7 @@ set background=dark
 
 lua require('nelspconfig')
 
-command LoadPacker lua require'plugins'
+command LoadPacker lua require('plugins')
 
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr() "ignore vimtex
@@ -70,6 +70,8 @@ command LoadPacker lua require'plugins'
 let g:gruvbox_material_palette = 'original'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_transparent_background = 1
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_diagnostic_virtual_text = 'colored'
 
 if has ('mac')
   let g:gruvbox_material_enable_italic = 1

@@ -67,6 +67,9 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
 [[ -r ${DOTS}/scripts/locale.sh ]] && source ${DOTS}/scripts/locale.sh \
   || printf ${error} "Locale not loaded"
 
+type asdf &>/dev/null && source /usr/local/opt/asdf/libexec/asdf.sh \
+  || printf ${error} "ASDF not installed"
+
 [[ -r ${HOME}/.asdf/plugins/java/set-java-home.zsh ]] \
   && command -v asdf >/dev/null 2>&1 && [[ -d ${HOME}/.asdf/installs/java ]] \
   && source ${HOME}/.asdf/plugins/java/set-java-home.zsh \
