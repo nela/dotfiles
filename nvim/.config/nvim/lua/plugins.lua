@@ -1,4 +1,4 @@
- _ = vim.cmd [[packadd packer.nvim]]
+_ = vim.cmd [[ packadd packer.nvim ]]
 
 -- local fn = vim.fn
 local has = function(x)

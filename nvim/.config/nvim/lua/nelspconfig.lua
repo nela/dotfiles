@@ -47,7 +47,6 @@ local ltex_settings = {
     setenceCacheSize = 2000,
     additionalRules = {
      enablePickyRules = true,
-     motherTongue = 'sv',
     },
     trace = { server = 'verbose' },
     dictionary = {},
