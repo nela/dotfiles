@@ -74,6 +74,7 @@ lsp_installer.on_server_ready(function(server)
         vim.g.jdtls_ready = true
     elseif server.name == 'ltex' then
         opts.settings = ltex_settings
+        opts.filetypes = { 'latex', 'tex', 'bib', 'markdown'  }
         server:setup(opts)
     elseif server.name == 'sumneko_lua' then
         opts.settings  = sumneko_lua_settings
