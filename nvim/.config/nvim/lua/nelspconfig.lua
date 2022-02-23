@@ -1,5 +1,10 @@
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+vim.cmd [[
+  sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=RedSign
+  sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=YellowSign
+  sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=BlueSign
+  sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=AquaSign
+]]
+
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
@@ -27,23 +32,13 @@ local on_attach = function(client, bufnr)
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec(
       [[
-      augroup lsp_document_highlight
+        augroup lsp_document_highlight
           autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-      ]],
-      false
-    )
+          autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+          autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        augroup END
+      ]], false)
   end
-
-  vim.cmd [[
-    sign define DiagnosticSignError text= texthl= linehl= numhl=DiagnosticSignError
-    sign define DiagnosticSignWarn text= texthl= linehl= numhl=DiagnosticSignWarn
-    sign define DiagnosticSignInfo text= texthl= linehl= numhl=DiagnosticSignInfo
-    sign define DiagnosticSignHint text= texthl= linehl= numhl=DiagnosticSignHint
-  ]]
-
 end
 
 local lsp_installer = require('nvim-lsp-installer')
