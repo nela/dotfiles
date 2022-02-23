@@ -128,6 +128,14 @@ end
      }
    }
 
+   use {
+    'lewis6991/gitsigns.nvim',
+     requires = { 'nvim-lua/plenary.nvim' },
+     -- opt = true,
+     config = function() require('gitsigns').setup() end,
+     -- cmd = { 'Gitsigns preview_hunk'}
+   }
+
    if has('mac') then
      use {
        'brymer-meneses/grammar-guard.nvim',
