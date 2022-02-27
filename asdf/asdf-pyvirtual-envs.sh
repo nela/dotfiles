@@ -6,8 +6,6 @@
 #   python -m pip install virtualenv
 #   asdf reshim python
 
-
-
 export WORKON_HOME=$XDG_DATA_HOME/nelapys/
 
 mkenv() {
@@ -93,8 +91,6 @@ envdelete() {
     printf '%s\n' "Specify project: workon <project-name>"
     return -1
   fi
-
-  source ${WORKON_HOME}${1}/bin/deactivate
 
   printf '\n%s\n' "Remember to run following command from the commandline in order to unset PROJECT_HOME"
   printf '\n\t%s\n' "unset PROJECT_HOME"
