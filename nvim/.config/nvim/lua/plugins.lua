@@ -28,6 +28,11 @@ end
    }
 
    use {
+     'mvllow/modes.nvim',
+     config = function () require('modes') end
+   }
+
+   use {
      'numToStr/Comment.nvim',
      config = function() require('Comment').setup() end
    }
