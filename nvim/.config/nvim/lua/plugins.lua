@@ -29,8 +29,13 @@ end
 
    use {
      'mvllow/modes.nvim',
-     config = function () require('modes') end
+     config = function () require('modes').setup() end
    }
+
+  use {
+    'zegerdev/nrpattern.nvim',
+    conifg = function () require('nrpattern').setup() end
+  }
 
    use {
      'numToStr/Comment.nvim',
