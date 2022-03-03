@@ -23,14 +23,14 @@ vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
 command JdtTestClass lua require'jdtls'.test_class()
 command JdtTestNearestMethod lua require'jdtls'.test_nearest_method()
 
-command LspFormatting lua vim.lsp.buf.formatting()
-command LspSetLocList lua vim.diagnostic.setloclist()
-command LspSetQfList lua vim.diagnostic.setqflist()
-command LspAddWorkspaceFolder lua vim.lsp.buf.add_workspace_folder()
-command LspRemoveWorkspaceFolder lua vim.lsp.buf.remove_workspace_folder()
-command LspListWorkspaceFolders lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-command LspRename lua vim.lsp.buf.rename()
-command LspCodeAction lua vim.lsp.buf.code_action()
+" command LspFormatting lua vim.lsp.buf.formatting()
+" command LspSetLocList lua vim.diagnostic.setloclist()
+" command LspSetQfList lua vim.diagnostic.setqflist()
+" command LspAddWorkspaceFolder lua vim.lsp.buf.add_workspace_folder()
+" command LspRemoveWorkspaceFolder lua vim.lsp.buf.remove_workspace_folder()
+" command LspListWorkspaceFolders lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+" command LspRename lua vim.lsp.buf.rename()
+" command LspCodeAction lua vim.lsp.buf.code_action()
 
 nnoremap gi <Cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap gr <Cmd>lua vim.lsp.buf.references()<CR>

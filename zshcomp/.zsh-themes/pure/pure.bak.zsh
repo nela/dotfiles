@@ -1,4 +1,3 @@
-
 # Pure
 # by Sindre Sorhus
 # https://github.com/sindresorhus/pure
@@ -132,11 +131,6 @@ prompt_pure_preprompt_render() {
 	# Initialize the preprompt array.
 	local -a preprompt_parts
 
-	# Suspended jobs in background.
-	if ((${(M)#jobstates:#suspended:*} != 0)); then
-		preprompt_parts+='%F{$prompt_pure_colors[suspended_jobs]}✦'
-	fi
-
 	# Username and machine, if applicable.
 	[[ -n $prompt_pure_state[username] ]] && preprompt_parts+=($prompt_pure_state[username])
 
@@ -154,7 +148,7 @@ prompt_pure_preprompt_render() {
 	fi
 	# Git pull/push arrows.
 	if [[ -n $prompt_pure_git_arrows ]]; then
-		preprompt_parts+=('%F{$prompt_pure_colors[git:arrow]}${prompt_pure_git_arrows}%f')
+		preprompt_parts+=('${prompt_pure_git_arrows}')
 	fi
 	# Git stash symbol (if opted in).
 	if [[ -n $prompt_pure_git_stash ]]; then
@@ -163,6 +157,15 @@ prompt_pure_preprompt_render() {
 
 	# Execution time.
 	[[ -n $prompt_pure_cmd_exec_time ]] && preprompt_parts+=('%F{$prompt_pure_colors[execution_time]}${prompt_pure_cmd_exec_time}%f')
+
+  # local termwidth
+  # (( termwidth=${COLUMNS} - 1 ))
+  #
+  # local -a right_preprompt_parts
+  # local preprompt_len right_preprompt_len
+  # local kc='minikube/default'
+  # right_preprompt_parts+=($kc)
+  # right_preprompt_parts+=($JAVA_HOME)
 
 	local cleaned_ps1=$PROMPT
 	local -H MATCH MBEGIN MEND
@@ -173,8 +176,20 @@ prompt_pure_preprompt_render() {
 	fi
 	unset MATCH MBEGIN MEND
 
+  # local preprompt_len=${#${${(j. .)preprompt_parts}}}
+  # local right_preprompt_len=${#${${(j. .)right_preprompt_parts}}}
+
+  # echo 'left' $preprompt_len
+  # echo 'right' $right_preprompt_len
+
+  # local padding_len
+  # (( padding_len=($termwidth - ($preprompt_len + $right_preprompt_len ))))
+  # local padstyle=' '
+
 	# Construct the new prompt with a clean preprompt.
 	local -ah ps1
+  # "\${(l.(${padding_len})..${padstyle}.)}"
+  # ${(j. .)right_preprompt_parts}  # Join parts, space separated.
 	ps1=(
 		${(j. .)preprompt_parts}  # Join parts, space separated.
 		$prompt_newline           # Separate preprompt and prompt.
@@ -214,8 +229,6 @@ prompt_pure_precmd() {
 	# Perform async Git dirty check and fetch.
 	prompt_pure_async_tasks
 
-	# Check if we should display the virtual env. We use a sufficiently high
-	# index of psvar (12) here to avoid collisions with user defined entries.
 	psvar[12]=
 	# Check if a Conda environment is active and display its name.
 	if [[ -n $CONDA_DEFAULT_ENV ]]; then
@@ -231,11 +244,11 @@ prompt_pure_precmd() {
 	# Nix package manager integration. If used from within 'nix shell' - shell name is shown like so:
 	# ~/Projects/flake-utils-plus master
 	# flake-utils-plus ❯
-	if zstyle -T ":prompt:pure:environment:nix-shell" show; then
-		if [[ -n $IN_NIX_SHELL ]]; then
-			psvar[12]="${name:-nix-shell}"
-		fi
-	fi
+	# if zstyle -T ":prompt:pure:environment:nix-shell" show; then
+	# 	if [[ -n $IN_NIX_SHELL ]]; then
+	# 		psvar[12]="${name:-nix-shell}"
+	# 	fi
+	# fi
 
 	# Make sure VIM prompt is reset.
 	prompt_pure_reset_prompt_symbol
@@ -287,7 +300,7 @@ prompt_pure_async_vcs_info() {
 
 	local -A info
 	info[pwd]=$PWD
-	info[branch]=${vcs_info_msg_0_//\%/%%}
+	info[branch]=$vcs_info_msg_0_
 	info[top]=$vcs_info_msg_1_
 	info[action]=$vcs_info_msg_2_
 
@@ -481,13 +494,14 @@ prompt_pure_async_refresh() {
 
 prompt_pure_check_git_arrows() {
 	setopt localoptions noshwordsplit
-	local arrows left=${1:-0} right=${2:-0}
+# %F{$prompt_pure_colors[git:arrow]}
+	local ret left=${1:-0} right=${2:-0}
+  (( left )) && ret+=("%F{$prompt_pure_colors[git:up_arrow]}"${PURE_GIT_UP_ARROW:-⇡}"%f%F{${prompt_pure_colors[git:ahead]}}"$left"%f")
+  (( left && right )) && ret+=("\ :\ ")
+  (( right )) && ret+=("%F{$prompt_pure_colors[git:behind]}"$right"%f%F{$prompt_pure_colors[git:down_arrow]}"${PURE_GIT_DOWN_ARROW:-⇣}"%f")
 
-	(( right > 0 )) && arrows+=${PURE_GIT_DOWN_ARROW:-⇣}
-	(( left > 0 )) && arrows+=${PURE_GIT_UP_ARROW:-⇡}
-
-	[[ -n $arrows ]] || return
-	typeset -g REPLY=$arrows
+  [[ -n $ret ]] || return
+  typeset -g REPLY=$ret
 }
 
 prompt_pure_async_callback() {
@@ -701,13 +715,13 @@ prompt_pure_state_setup() {
 	[[ -n $ssh_connection ]] && username='%F{$prompt_pure_colors[user]}%n%f'"$hostname"
 
 	# Show `username@host` if inside a container and not in GitHub Codespaces.
-	[[ -z "${CODESPACES}" ]] && prompt_pure_is_inside_container && username='%F{$prompt_pure_colors[user]}%n%f'"$hostname"
+	# [[ -z "${CODESPACES}" ]] && prompt_pure_is_inside_container && username='%F{$prompt_pure_colors[user]}%n%f'"$hostname"
 
 	# Show `username@host` if root, with username in default color.
 	[[ $UID -eq 0 ]] && username='%F{$prompt_pure_colors[user:root]}%n%f'"$hostname"
 
 	typeset -gA prompt_pure_state
-	prompt_pure_state[version]="1.20.1"
+	prompt_pure_state[version]="1.19.0"
 	prompt_pure_state+=(
 		username "$username"
 		prompt	 "${PURE_PROMPT_SYMBOL:-❯}"
@@ -809,7 +823,10 @@ prompt_pure_setup() {
 	typeset -gA prompt_pure_colors_default prompt_pure_colors
 	prompt_pure_colors_default=(
 		execution_time       yellow
-		git:arrow            cyan
+    git:up_arrow         cyan
+    git:ahead            green
+    git:behind           red
+    git:down_arrow       cyan
 		git:stash            cyan
 		git:branch           242
 		git:branch:cached    red
@@ -820,7 +837,6 @@ prompt_pure_setup() {
 		prompt:error         red
 		prompt:success       magenta
 		prompt:continuation  242
-		suspended_jobs       red
 		user                 242
 		user:root            default
 		virtualenv           242

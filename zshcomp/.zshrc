@@ -12,7 +12,7 @@ setopt EXTENDED_GLOB
 ###############################################################################
 # History
 ###############################################################################
-[ -z ${HISTFILE} ] && HISTFILE=${XDG_DATA_HOME:-$HOME/.cache}/zsh/histfile
+[ -z ${HISTFILE} ] && HISTFILE=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/histfile
 HISTSIZE=1000
 SAVEHIST=1000
 
@@ -48,9 +48,37 @@ setopt PUSHD_IGNORE_DUPS
 # Do not print the directory stack after pushd or popd.
 # setopt PUSHD_SILENT
 
-# Immediately tells when a backgroundjob exits
+# Immidiately tells when a backgroundjob exits
 # setopt notify
 
 # Emacs key binding, use -v for vim mode,
 # then export KEYTIMEOUT=1 for faster switching between modes
 bindkey -e
+
+# Load Plugins
+source "${HOME}"/.zsh_plugins
+
+# Override colors
+# eval "$(dircolors -b $ZDOTDIR/dircolors)"
+
+# [ -d "${HOME}/.zsh-themes" ] && fpath=($HOME/.zsh-themes $fpath)
+
+if [ -r "${HOME}/.zsh-themes/pure/pure.zsh" ]; then
+  source "${HOME}/.zsh-themes/pure/async.zsh"
+  source "${HOME}/.zsh-themes/pure/pure.zsh"
+fi
+
+# fpath=( "$HOME/.zsh-themes" $fpath)
+fpath=("${HOME}/.zsh-completion-sources" $fpath)
+# source "${HOME}/.zsh-themes/purity.zsh"
+# autoload -U promptinit && promptinit
+# prompt purity
+
+# && autoload -Uz "${HOME}/.zsh-themes/common.zsh-theme" \
+
+# Source completion if it exists
+[[ -r "${HOME}/.zsh_completion" ]] && source "${HOME}/.zsh_completion" || \
+
+# $ sudo apt install command-not-found
+# $ echo "source /etc/zsh_command_not_found" >> ~/.zshrc
+# $ exec zsh

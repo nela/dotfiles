@@ -19,7 +19,6 @@ setopt AUTO_LIST
 # Complete from both ends of a word.
 setopt COMPLETE_IN_WORD
 
-
 ###############################################################################
 # Key Bindings
 ###############################################################################
@@ -57,8 +56,8 @@ zstyle ':completion:*' completer \
   _expand \
   _complete \
   _match \
+  _correct \
   _approximate
-  _correct
 
 # Other relevant completers:
 # _list _oldlist (usually set first)
@@ -74,10 +73,10 @@ zstyle ':completion:*' completer \
 zstyle ':completion:*' completions 1
 
 # Use cache for commands using cache
-[ -z "${ZCOMPCACHE}" ] && ZCOMPCACHE=${XDG_DATA_HOME:-$HOME/.cache}/zsh/zcompcache
-mkdir -p "${ZCOMPCACHE}"
+[ -z ${ZCOMPCACHE} ] && ZCOMPCACHE=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache
+mkdir -p ${ZCOMPCACHE}
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path '${HOME}/.zcompcache'
+zstyle ':completion:*' cache-path ${ZCOMPCACHE}
 
 # Complete elements with spaces
 zstyle ':completion:*' add-space true
@@ -132,7 +131,7 @@ zstyle ':completion:*' matcher-list \
 zstyle ':completion:*' max-errors 5 numeric
 
 # Use navigation keys to go through completion suggestions
-# rather than cycling through them with th Tab key
+# rather than cycling through them with the Tab key
 # Only when the list does not fit the screen. To enable always remove '=long'
 zstyle ':completion:*' menu select #=long
 
@@ -166,7 +165,8 @@ zstyle ':completion:*:*:*:*:default' list-colors ${(s.:.)LS_COLORS}
 ###############################################################################
 
 # This style is used by the _list completer function to decide if insertion
-# of matches should be delayed unconditionally
+# of matches should be delayed un-/conditionally
+
 # Show list if there are more than 1 completion options
 # zstyle ':completion:*' condition 'NUMERIC != 1'
 
@@ -216,7 +216,7 @@ zstyle ':completion:*' insert-unambiguous true
 # Note that the style will be examined with the completer field in the context
 # name set to correct-num or approximate-num, where num is the number of errors
 # that were accepted.
-zstyle ':completion:*' original false
+zstyle ':completion:*' original true
 
 ###############################################################################
 # _match completer (line 7)
