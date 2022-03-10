@@ -7,33 +7,37 @@ end
 
  require("packer").startup({function(use)
    use { 'wbthomason/packer.nvim', opt = true }
-   use 'tpope/vim-surround'
-   use 'tpope/vim-eunuch'
-   use 'tpope/vim-fugitive'
-   use 'wellle/targets.vim'
-   use 'ggandor/lightspeed.nvim'
-   use 'sainnhe/gruvbox-material'
-   use 'onsails/lspkind-nvim'
-   use 'romainl/vim-qf' -- hmmm??
-   use 'kevinhwang91/nvim-bqf'
+   use {
+    'tpope/vim-surround',
+    'tpope/vim-eunuch',
+    'tpope/vim-fugitive',
+    'tpope/vim-sleuth',
+    'wellle/targets.vim',
+    'ggandor/lightspeed.nvim',
+    'sainnhe/gruvbox-material',
+    'onsails/lspkind-nvim',
+    'romainl/vim-qf', -- hmmm??
+    'kevinhwang91/nvim-bqf',
+  }
 
    if has('mac') then
-     use '/usr/local/opt/fzf'
+    use '/usr/local/opt/fzf'
    end
 
    use {
-     'junegunn/vim-easy-align',
-     opt = true,
-     cmd = { 'EasyAlign' }
+      'junegunn/vim-easy-align',
+      opt = true,
+      cmd = { 'EasyAlign' }
    }
 
    use {
-     'mvllow/modes.nvim',
-     config = function () require('modes').setup() end
+      'mvllow/modes.nvim',
+      config = function () require('modes').setup() end,
+      disable = true,
    }
 
   use {
-    'zegerdev/nrpattern.nvim',
+    'zegervdv/nrpattern.nvim',
     conifg = function () require('nrpattern').setup() end
   }
 
@@ -143,6 +147,7 @@ end
      requires = { 'nvim-lua/plenary.nvim' },
      -- opt = true,
      config = function() require('gitsigns').setup() end,
+    ft = { 'java' }
      -- cmd = { 'Gitsigns preview_hunk'}
    }
 

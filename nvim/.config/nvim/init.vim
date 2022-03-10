@@ -12,8 +12,6 @@ set autoread
 set undofile
 set ttimeout
 set ttyfast
-set tabstop=2
-set shiftwidth=2
 set number relativenumber
 
 set hidden
@@ -24,11 +22,11 @@ set smartcase
 set matchpairs+=<:>,":",':' " use % to jump between pairs
 set incsearch
 " set backspace=indent,eol,start
-set tabstop=2 " set the default tabstop
-set softtabstop=2
-set shiftwidth=2 " set the default shift width for indents
+" set tabstop=2 " set the default tabstop
+" set softtabstop=2
+" set shiftwidth=2 " set the default shift width for indents
 set expandtab  " make tabs into spaces (set by tabstop)
-set smarttab " smarter tab levels
+" set smarttab " smarter tab levels
 " set cindent
 " set cinoptions=:s,ps,ts,cs
 " set cinwords=if,else,while,do,for,switch,case,try,class

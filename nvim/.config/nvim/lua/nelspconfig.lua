@@ -26,9 +26,9 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_exec(
       [[
         augroup lsp_document_highlight
-          autocmd! * <buffer>
-          autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-          autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+          autocmd!
+          autocmd CursorHold *\(.tex\|.md\)\@<! lua vim.lsp.buf.document_highlight()
+          autocmd CursorMoved *\(.tex\|.md\)\@<! lua vim.lsp.buf.clear_references()
         augroup END
       ]], false)
   end
@@ -75,7 +75,7 @@ lsp_installer.on_server_ready(function(server)
     elseif server.name == 'ltex' then
         opts.settings = ltex_settings
         opts.filetypes = { 'latex', 'tex', 'bib', 'markdown'  }
-        server:setup(opts)
+        -- server:setup(opts)
     elseif server.name == 'sumneko_lua' then
         opts.settings  = sumneko_lua_settings
         server:setup(opts)
