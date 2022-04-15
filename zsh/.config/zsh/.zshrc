@@ -1,27 +1,66 @@
-export XDG_DATA_HOME="${HOME}/.local/share"
-export XDG_CACHE_HOME="${HOME}/.local/cache"
-export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_BIN_HOME="${HOME}/.local/bin"
-export XDG_LIB_HOME="${HOME}/.local/lib"
+###############################################################################
+# General
+###############################################################################
 
-export DOTS="${HOME}/dotfiles"
-export NVIM="${DOTS}/nvim/.config/nvim"
-export ZSH="${DOTS}/zsh"
-export ZSHRC="${ZSH}/.zshrc"
-export REPOS="${HOME}/.repos"
-# export LANG_SERVERS="${XDG_DATA_HOME}/lang-servers/"
-export NELAPYS="${XDG_DATA_HOME}/nelapys"
-export EDITOR="nvim"
+zmodload zsh/zprof
 
-export PNPM_STORE="${XDG_LIB_HOME}/pnpm-store"
-export PNPM_GLOBAL="${XDG_LIB_HOME}/pnpm-global"
-export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm-global"
-export PNPM_STATE="${XDG_DATA_HOME}/pnpm-state"
+# Spelling correction
+setopt CORRECT
+# Change directory to a path stored in a variable.
+setopt CDABLE_VARS
+# Use extended globbing syntax.
+setopt EXTENDED_GLOB
 
-[[ ":${PATH}:" != *":/usr/local/bin:"* ]] && export PATH="/usr/local/bin:${PATH}"
-[[ ":${PATH}:" != *":/usr/local/sbin:"* ]] && export PATH="/usr/local/sbin:${PATH}"
-[[ ":${PATH}:" != *":${XDG_BIN_HOME}:"* ]] && export PATH="${XDG_BIN_HOME}:${PATH}"
-[[ ":${PATH}:" != *":${PNPM_GLOBAL_BIN}:"* ]] && export PATH="${PNPM_GLOBAL_BIN}:${PATH}"
+###############################################################################
+# History
+###############################################################################
+# [ -z ${HISTFILE} ] && HISTFILE=${XDG_DATA_HOME:-$HOME/.cache}/zsh/histfile
+export HISTFILE="$XDG_CACHE_HOME/zsh/histfile"
+# [ -d "${HISTFILE}" ] || mkdir -p ${HISTFILE}
+HISTSIZE=5000
+SAVEHIST=5000
+
+# Write the history file in the ':start:elapsed;command' format.
+setopt EXTENDED_HISTORY
+## Share history between all sessions.
+setopt SHARE_HISTORY
+# Expire a duplicate event first when trimming history.
+setopt HIST_EXPIRE_DUPS_FIRST
+# Do not record an event that was just recorded again.
+setopt HIST_IGNORE_DUPS
+# Delete an old recorded event if a new event is a duplicate.
+setopt HIST_IGNORE_ALL_DUPS
+# Do not display a previously found event.
+setopt HIST_FIND_NO_DUPS
+# Do not record an event starting with a space.
+setopt HIST_IGNORE_SPACE
+# Do not write a duplicate event to the history file.
+setopt HIST_SAVE_NO_DUPS
+# Do not execute immediately upon history expansion.
+setopt HIST_VERIFY
+
+###############################################################################
+# Navigation
+###############################################################################
+
+# Go to folder path without using cd. F.ex: '~' evaluates to 'cd ~'
+setopt AUTO_CD
+# Push the old directory onto the stack on cd.
+setopt AUTO_PUSHD
+# Do not store duplicates in the stack.
+setopt PUSHD_IGNORE_DUPS
+# Do not print the directory stack after pushd or popd.
+# setopt PUSHD_SILENT
+
+# Immediately tells when a backgroundjob exits
+# setopt notify
+
+# Emacs key binding, use -v for vim mode,
+# then export KEYTIMEOUT=1 for faster switching between modes
+# bindkey -e
+
+source "${ZSH}/zsh_completion.zsh"
+source "${ZSH}/zsh_plugins.zsh"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -41,8 +80,8 @@ fix='\t\e[1;93m\e[0m  %s\n'
 [[ -r ${ZSH}/p10k-custom.zsh ]] && source ${ZSH}/p10k-custom.zsh \
   || printf '\e[1;31m%s\e[0m\n' "Custom p10k theme not loaded"
 
-[[ -r ${ZSH}/zsh-user.conf ]] && source ${ZSH}/zsh-user.conf \
-  || printf '\e[1;31m%s\e[0m\n' "Zsh user config not loaded"
+# [[ -r ${ZSH}/zsh-user.conf ]] && source ${ZSH}/zsh-user.conf \
+#   || printf '\e[1;31m%s\e[0m\n' "Zsh user config not loaded"
 
 # [[ -f ${DOTS}/scripts/compinstall.sh ]] \
 #   && source ${DOTS}/scripts/compinstall.sh \
@@ -57,8 +96,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
 [[ -r ${ZSH}/zsh-autosuggestions.conf ]] && source ${ZSH}/zsh-autosuggestions.conf \
   || printf ${error} "Zsh Autosuggestions config not loaded"
 
-[[ -r ${ZSH}/zsh-completion.sh ]] && source ${ZSH}/zsh-completion.sh \
-  || printf ${error} "Zsh Completions not loaded"
+# [[ -r ${ZSH}/zsh-completion.sh ]] && source ${ZSH}/zsh-completion.sh \
+#   || printf ${error} "Zsh Completions not loaded"
 
 # [[ -r ${DOTS}/scripts/todo-init.sh ]] || source ${DOTS}/scripts/todo-init.sh
 [[ -r ${DOTS}/scripts/aliases.sh ]] && source ${DOTS}/scripts/aliases.sh \

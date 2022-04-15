@@ -23,8 +23,8 @@ set matchpairs+=<:>,":",':' " use % to jump between pairs
 set incsearch
 " set backspace=indent,eol,start
 " set tabstop=2 " set the default tabstop
-" set softtabstop=2
-" set shiftwidth=2 " set the default shift width for indents
+set softtabstop=2
+set shiftwidth=2 " set the default shift width for indents
 set expandtab  " make tabs into spaces (set by tabstop)
 " set smarttab " smarter tab levels
 " set cindent

@@ -213,7 +213,7 @@
 
   ##################################[ dir: current directory ]##################################
   # Default current directory color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#458588' #'#fe8020'  #'#d79922' #'#98971a' #'#d79921' #'#adbf65' #'#b0bf16' #'#b0ba11' #'#a9b665' #'#afb482' #31
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#d79922' #'#458588' #'#fe8020'  #'#98971a' #'#d79921' #'#adbf65' #'#b0bf16' #'#b0ba11' #'#a9b665' #'#afb482' #31
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
@@ -223,7 +223,7 @@
   typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#d79921' #'#a9b665' #103
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#458588' #'#d79921' #'#98971a' # #'#adbf66' #'#afb482' #'#b0bf16' #'#adbf65'  # #b1df46' # #39
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#d79921' #'#458588' #'#98971a' # #'#adbf66' #'#afb482' #'#b0bf16' #'#adbf65'  # #b1df46' # #39
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=false
   # Don't shorten directories that contain any of these files. They are anchors.
@@ -354,7 +354,7 @@
 
   # Untracked files icon. It's really a question mark, your font isn't broken.
   # Change the value of this parameter to show a different icon.
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?' #
 
   # Formatter for Git status.
   #
@@ -483,8 +483,8 @@
 
 
   typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND='#a89984' #'#7daea3' #76
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#a89984' #'#d8a657' #76
-  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='#a89984' #'#c091b1' #178
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#458588' #'#a89984' #'#d8a657' #76
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='#458588' #'#a89984' #'#c091b1' #178
   typeset -g POWERLEVEL9K_VCS_LOADING_FOREGROUND='#928374'
 
   # Icon color.
@@ -520,7 +520,7 @@
 
   typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNTRACKEDFORMAT_FOREGROUND='#fb4934' #$POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND
   typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNSTAGEDFORMAT_FOREGROUND='#fe8019' #'#d65d0e' #'#fabd2f' #$POWERLEVEL9K_VCS_MODIFIED_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STAGEDFORMAT_FOREGROUND='#b8bb26' #$POWERLEVEL10K_VCS_MODIFIED_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED0MODIFIED}_STAGEDFORMAT_FOREGROUND='#b8bb26' #$POWERLEVEL10K_VCS_MODIFIED_FOREGROUND
   typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_INCOMING_CHANGESFORMAT_FOREGROUND='#8ec07c' #$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
   typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_OUTGOING_CHANGESFORMAT_FOREGROUND='#83a598' #$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
   typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STASHFORMAT_FOREGROUND='#ebdbb2' #$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
@@ -536,12 +536,12 @@
   typeset -g POWERLEVEL9K_VCS_GIT_GITHUB_ICON=''
   typeset -g POWERLEVEL9K_VCS_GIT_GITLAB_ICON=''
   typeset -g POWERLEVEL9K_VCS_GIT_BITBUCKET_ICON=''
-  typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='  '
-  typeset -g POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON='  '
-  typeset -g POWERLEVEL9K_VCS_COMMIT_ICON=' '
-  typeset -g POWERLEVEL9K_VCS_STAGED_ICON=' '
-  typeset -g POWERLEVEL9K_VCS_UNSTAGED_ICON=' '
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='✩ '
+  # typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='  '
+  # typeset -g POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON='  '
+  typeset -g POWERLEVEL9K_VCS_COMMIT_ICON='C:' #' '
+  typeset -g POWERLEVEL9K_VCS_STAGED_ICON='S:' #' '
+  typeset -g POWERLEVEL9K_VCS_UNSTAGED_ICON='M:' #' '
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?:' #'✩ '
   typeset -g POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON='⇣'
   typeset -g POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON='⇡'
   typeset -g POWERLEVEL9K_VCS_STASH_ICON='*'

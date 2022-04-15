@@ -166,11 +166,11 @@ end
 
      use {
        'iamcco/markdown-preview.nvim',
-       opt = true,
+       -- opt = true,
        cmd = { 'MarkdownPreview' },
-       ft = { 'md' },
-       config = function() end,
-       run = 'cd app && pnpm install'
+      run = 'cd app && pnpm install && pnpm add msgpack-lite',
+       ft = { 'markdown' },
+        setup = function () vim.g.mkdp_filetypes = { 'markdown' } end,
      }
 
      use {
