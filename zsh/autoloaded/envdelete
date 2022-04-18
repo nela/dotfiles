@@ -1,0 +1,12 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+if [ -z $1 ]; then
+  printf '%s\n' "Specify project: workon <project-name>"
+  return -1
+fi
+
+printf '\n%s\n' "Remember to run following command from the commandline in order to unset PROJECT_HOME"
+printf '\n\t%s\n' "unset PROJECT_HOME"
+
+rm -rf ${VENV_HOME}/${1}

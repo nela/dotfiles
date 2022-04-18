@@ -5,7 +5,7 @@
 # Reference to compinstall to load this specific file.
 # If the user wants to run compinit to customize completion the compinit will
 # find existing configuration and allow to update these
-zstyle :compinstall filename "${ZSH}/zsh_completion.zsh"
+zstyle :compinstall filename "${ZSH}/completion.zsh"
 
 # Load completion
 # Commenting this line does not load completion module, effectively disabling it
@@ -20,32 +20,6 @@ setopt AUTO_LIST
 # Complete from both ends of a word.
 setopt COMPLETE_IN_WORD
 
-
-###############################################################################
-# Key Bindings
-###############################################################################
-
-# Key bindings can be customized in this section. For instance, to use
-# vim hjkl in menu selection (during completion)
-# (Doesn't work well with interactive mode)
-
-# Should be called before compinit
-# zmodload zsh/complist
-# bindkey -M menuselect 'h' vi-backward-char
-# bindkey -M menuselect 'k' vi-up-line-or-history
-# bindkey -M menuselect 'j' vi-down-line-or-history
-# bindkey -M menuselect 'l' vi-forward-char
-#
-# Clear screen
-# bindkey -M menuselect '^xg' clear-screen
-# Insert
-# bindkey -M menuselect '^xi' vi-insert
-# Hold
-# bindkey -M menuselect '^xh' accept-and-hold
-# Next
-# bindkey -M menuselect '^xn' accept-and-infer-next-history
-# Undo
-# bindkey -M menuselect '^xu' undo
 
 ###############################################################################
 # Define completers.

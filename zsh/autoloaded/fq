@@ -1,0 +1,6 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+# fq [content query] - find all files under current directory where **file conent matches** given search criteria
+
+rg --hidden -i -l "$1" | GREP_COLORS='mt=0;34' grep --color=always -E "[^/]*$" | fzf --ansi --preview-window wrap --preview 'rg -p --ignore-case --heading --with-filename -C '${2:-0}' '\"$1\"' {} ' --bind="enter:execute($EDITOR {})+abort,ctrl-v:execute(bat {})+abort,ctrl-c:execute(echo {} && echo {} | xclip)+abort"

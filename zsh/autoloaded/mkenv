@@ -1,0 +1,36 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+# Script made for using the asdf as a virtual env manager for python projects
+# Based on: https://github.com/asdf-vm/asdf/issues/636#issuecomment-674092994
+#
+# Note that a virtualenv (python -m pip install virtualenv) should be installed
+# for each python version! Commands:
+#   python -m pip install virtualenv
+#   asdf reshim python
+
+local error='\e[0;31m \e[1;91m%s\e[0m\n'
+local warn='\e[0;33m \e[1;93m%s\e[0m\n'
+local info='\e[0;32m \e[1;92m%s\e[0m\n'
+local fix1='\e[1;93m\e[0m  %s\n'
+local fix2='\e[1;93m \e[0m  %s\n'
+
+if [ -z $1 ] || [ -z $2 ]; then
+  printf ${error} "Error parsing the command"
+  printf ${fix1} "Usage: $0 <project-name> <python-version>"
+  printf ${fix2} "Example: $0 my-super-awesome-python-code 3.9.7"
+  return -1
+elif [ ! -d "${HOME}/.asdf/installs/python/${2}" ]; then
+  printf ${error} "Python version ${2} not installed"
+  return -1
+elif [ -d "${VENV_HOME}/${1}" ]; then
+  printf ${warn} "Virtual environment already exists at ${VENV_HOME}/${1}"
+  return -1
+fi
+
+# echo $1 $2
+
+virtualenv -p $(asdf where python "$2")/bin/python ${VENV_HOME}/${1}
+[[ $? == 0 ]] && printf ${info} "Virtal environment created at ${VENV_HOME}/${1}" || printf ${error} "Unable to create the virtual environment - Check for changes on virtualenv command"
+
+unset warn info fix1 fix2

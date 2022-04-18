@@ -1,0 +1,6 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+# fcd - cd to selected directory with preview of directory content
+local dir
+dir=$(find ${1:-.} -path '*/\.*' -o -type d -print 2> /dev/null | fzf --preview='ls -al --color {}') && cd "$dir"

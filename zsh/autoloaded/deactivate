@@ -1,0 +1,12 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+if [ -z $1 ]; then
+  printf '%s\n'"Specify environment to delete"
+  return -1
+fi
+
+printf '\n%s\n' "Remember to run following command from the commandline in order to unset PROJECT_HOME"
+printf '\n\t%s\n' "unset PROJECT_HOME"
+
+source ${VENV_HOME}/${1}/bin/deactivate

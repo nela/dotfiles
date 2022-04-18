@@ -1,0 +1,12 @@
+# /Users/nela/.config/tmuxinator/thesis.yml
+
+name: thesis
+root: ~/skole/thesis
+
+windows:
+  - text:
+      root: ~/skole/thesis/text/project-description
+      panes:
+        - eval "$(/usr/libexec/path_helper)"
+  - code:
+      root: ~/skole/thesis/code

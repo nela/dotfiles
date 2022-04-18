@@ -1,0 +1,5 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+# ff [filename pattern] -find all files under current directory where **filename matches** the given search criteria `[filename pattern]`. Selecting ENTER opens a file in editor. C-v opens files in viewer.
+  fd --hidden --type file --color always "$1" | fzf --ansi --prompt='File name filter: ' --preview-window wrap --preview 'bad {}' --bind="enter:execute($EDITOR {})+abort,ctrl-v:execute(bat {})+abort,ctrl-c:execute(echo {} && echo {} | xclip)-abort"
