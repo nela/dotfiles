@@ -9,7 +9,7 @@ alias fzp="fd --type f . | fzf ${preview}"
 unset preview
 
 # export FZF_DEFAULT_COMMAND="fd --type f --hidden -E .git -E node_modules -E __pycache__"
-# export FZF_DEFAULT_OPTS="--no-mouse --layout=reverse --multi --info=inline --bind 'ctrl-y:execute-silent(echo {+} | pbcopy),ctrl-j:half-page-down,ctrl-k:half-page-up'"
+export FZF_DEFAULT_OPTS="--no-mouse --layout=reverse --multi --info=inline --bind 'ctrl-y:execute-silent(echo {+} | pbcopy),ctrl-j:half-page-down,ctrl-k:half-page-up'"
 
 
 # f2() {

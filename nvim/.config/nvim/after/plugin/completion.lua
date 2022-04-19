@@ -3,7 +3,7 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append 'c'
 
 local lspkind = require 'lspkind'
-lspkind.init()
+lspkind.setup()
 
 local cmp = require 'cmp'
 
@@ -11,7 +11,12 @@ cmp.setup {
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<C-e>'] = cmp.mapping {
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close()
+    },
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
     ['<C-y>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
@@ -66,19 +71,25 @@ cmp.setup {
 
   formatting = {
     format = lspkind.cmp_format {
-      with_text = true,
-      menu = {
-        buffer = '[buf]',
-        nvim_lsp = '[LSP]',
-        nvim_lua = '[api]',
-        path = '[path]',
-        luasnip = '[snip]',
-        -- gh_issues = '[issues]',
-      },
+      -- with_text = true,
+      -- mode = 'sy'
+      -- menu = {
+      --   buffer = '[buf]',
+      --   nvim_lsp = '[LSP]',
+      --   nvim_lua = '[api]',
+      --   path = '[path]',
+      --   luasnip = '[snip]',
+      --   -- gh_issues = '[issues]',
+      -- },
     },
   },
   experimental = {
     native_menu = false,
     ghost_text = true,
+  },
+  window = {
+    documentation = {
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    },
   },
 }

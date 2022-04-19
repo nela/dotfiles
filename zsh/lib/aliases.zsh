@@ -15,6 +15,7 @@ alias gca='git commit --amend --no-edit'
 alias gm='git merge'
 alias gr='git rebase'
 alias gri='git rebase -i'
+alias gp='git push'
 
 # diff
 alias diff='colordiff'
