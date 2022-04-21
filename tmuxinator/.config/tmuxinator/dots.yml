@@ -1,8 +1,0 @@
-# /Users/nela/.config/tmuxinator/dots.yml
-
-name: dots
-root: ~/dotfiles
-
-windows:
-  - ~:
-  - nvim: cd 'nvim/.config/nvim'
