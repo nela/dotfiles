@@ -1,26 +1,8 @@
-local gruv_material = {
-	outerbg = '#282828', --instead of color3
-	fg2    = '#282828',
-	midgray = '#504945',
-	fg1    = '#ddc7a1',
-	innerbg = nil,
-	-- color3 = '#32302f',
-	gray = '#a89984',
-	-- fg3       = '#bcc0b6',
-	blue = '#7daea3',
-	green = '#a9b665',
-	orange = '#d8a657',
-	magenta = '#d3869b',
-	red = '#ea6962',
-  -- fg4       = '#bbc27f',
-  -- violet   = '#c091b1', -- I like this color
-}
-
 local gruv_normal = {
-	outerbg = '#282828', --instead of color3
-	fg2    = '#282828',
-	fg1    = '#ddc7a1',
-	innerbg = nil,
+  outerbg = '#282828', --instead of color3
+  fg2    = '#282828',
+  fg1    = '#ddc7a1',
+  innerbg = nil,
   black =   '#282828',
   red =     '#cc241d',
   green =   '#98971a',
@@ -32,27 +14,11 @@ local gruv_normal = {
   orange = '#d65d0e',
 }
 
-local gruv_bright = {
-	outerbg = '#282828', --instead of color3
-	fg2    = '#282828',
-	fg1    = '#ddc7a1',
-	innerbg = nil,
-  black =   '#928374',
-  red =     '#fb4934',
-  green =   '#b8bb26',
-  yellow =  '#fabd2f',
-  blue =    '#83a598',
-  magenta = '#d3869b',
-  cyan =    '#8ec07c',
-  white =   '#ebdbb2',
-  orange =  '#fe8019',
-}
-
 local gruv_dim = {
-	outerbg = '#282828', --instead of color3
-	fg2    = '#282828',
-	fg1    = '#ddc7a1',
-	innerbg = nil,
+  outerbg = '#282828', --instead of color3
+  fg2    = '#282828',
+  fg1    = '#ddc7a1',
+  innerbg = nil,
   black = '#282828',
   red = '#9d0006',
   green = '#b57614',
@@ -112,19 +78,14 @@ local conditions = {
     local gitdir = vim.fn.finddir('.git', filepath .. ';')
     return gitdir and #gitdir > 0 and #gitdir < #filepath
   end,
-	lsp_exists = function ()
-		local clients = vim.lsp.get_active_clients()
-		if next(clients) == nil then
-			return false
-		end
-		return true
-	end
+  lsp_exists = function ()
+    local clients = vim.lsp.get_active_clients()
+    if next(clients) == nil then return false end
+    return true
+  end
 }
 
-local mode = {
-	'mode',
-	fmt = function(str) return str:sub(1,1) end,
-}
+local mode = { 'mode', fmt = function(str) return str:sub(1,1) end, }
 
 local filesize = {
 	'filesize',
@@ -195,25 +156,7 @@ local diagnostic = {
 	},
 }
 
---[[ local progress = {
-	progress_bar,
-} ]]
-
-local location = {
-	'location',
-	separator = ''
-}
-
-local ins_separator = function ()
-	if conditions.check_git_workspace() then
-		return [[|]]
-	end
-end
-
---[[ local lsp_progress = {
-	'lsp_progress',
-	color = { fg = gruv.violet }
-} ]]
+local location = { 'location', separator = '' }
 
 local config = {
   options = {
@@ -222,16 +165,16 @@ local config = {
 		component_separators = '',
     disabled_filetypes = { 'NvimTree' },
     always_divide_middle = true,
-	},
-
-	 sections = {
+    globalstatus = true
+  },
+  sections = {
     -- these are to remove the defaults
     lualine_a = { mode },
     lualine_b = { filesize, filename },
     lualine_c = { lsp, diagnostic },
 		lualine_x = {	branch, diff },
     lualine_y = { location },
-		lualine_z = { 'progress' },
+    lualine_z = { 'progress' },
     -- These will be filled later
   },
   inactive_sections = {
@@ -242,7 +185,7 @@ local config = {
     lualine_z = {},
     lualine_c = {},
     lualine_x = { 'progress' },
-	},
+  },
   extensions = { 'quickfix', 'fugitive', }
 }
 

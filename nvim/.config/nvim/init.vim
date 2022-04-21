@@ -12,7 +12,6 @@ set autoread
 set undofile
 set ttimeout
 set ttyfast
-set number relativenumber
 
 set hidden
 set nospell
@@ -36,8 +35,8 @@ set virtualedit=block
 
 " Visual
 set ruler " show ruler
-" set laststatus=2
-set number relativenumber
+" set laststatus=3
+set number " relativenumber
 set noerrorbells visualbell t_vb=
 set scrolloff=4
 " set wildmenu
@@ -45,7 +44,7 @@ set wildmode=longest:full,full
 " set wildignore+=*.pyc,.git,.idea,*.o
 set whichwrap=b,s,<,>
 set colorcolumn=80
-set cursorline
+" set cursorline - set in autocmd
 
 " Spell check
 set dictionary=/usr/share/dict/words
