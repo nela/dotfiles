@@ -3,5 +3,5 @@
 
 # fe - lists all files in current directoy in a searchable list. Selecting file opens it in a default editor
 # --max-depth 1
-fd . --hidden --type f -E .git -E Library -E Music | sed -e 's#^\./##' > /tmp/edits
-file=$(cat  /tmp/edits | grep ${1:-.} | awk '{ print $1" "$2 }' | fzf --preview-window=right:60% --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up,ctrl-a:select-all+accept' --preview 'bat --number {2}' -q "$1" | xargs ) && [ ! "$file" = "" ] && $EDITOR "$file"
+fd . --hidden --type f -E .git | sed -e 's#^\./##' > /tmp/edits
+file=$(cat  /tmp/edits | grep ${1:-.} | awk '{ print $1" "$2 }' | fzf --preview-window=right:60% --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up,ctrl-a:select-all+accept' --preview='bat --color always --number {1}' -q "$1" | xargs ) && [ ! "$file" = "" ] && $EDITOR "$file"
