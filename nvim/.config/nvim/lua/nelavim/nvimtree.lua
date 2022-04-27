@@ -4,7 +4,7 @@ vim.g.nvim_tree_indent_markers = 1
 --List of filenames that gets highlighted with NvimTreeSpecialFile
 vim.g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE', 'Dockerfile' }
 -- 0 by default, append a trailing slash to folder names
-vim.g.nvim_tree_add_trailing = 1
+-- vim.g.nvim_tree_add_trailing = 1
 
 vim.g.nvim_tree_icons = {
     default = '',

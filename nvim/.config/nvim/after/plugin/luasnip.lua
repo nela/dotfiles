@@ -1,59 +1,117 @@
-local has = function(x)
-  return vim.fn.has(x) == 1
-end
+local ls = require "luasnip"
+-- local t = ls.text_node
+local types = require "luasnip.util.types"
 
-local from_vs = require'luasnip/loaders/from_vscode'
+-- local snips = require("luasnip_snippets").load_snippets()
 
-if has('mac') then
-  from_vs.load({ paths = {'~/projects/friendly-snippets'} })
-else
-  from_vs.load()
-end
+-- for k, v in pairs(snips) do ls.add_snippets(k, v) end
 
-local function prequire(...)
-local status, lib = pcall(require, ...)
-if (status) then return lib end
-    return nil
-end
+ls.config.set_config {
+  -- This tells LuaSnip to remember to keep around the last snippet.
+  -- You can jump back into it even if you move outside of the selection
+  history = true,
 
-local luasnip = prequire('luasnip')
+  -- This one is cool cause if you have dynamic snippets, it updates as you type!
+  updateevents = "TextChanged,TextChangedI",
 
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+  -- Autosnippets:
+  enable_autosnippets = true,
 
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
+  -- Crazy highlights!!
+  -- #vid3
+  -- ext_opts = nil,
+  ext_opts = {
+    [types.choiceNode] = {
+      active = {
+        virt_text = { { " <- Current Choice", "NonTest" } },
+      },
+    },
+  },
+}
 
-_G.tab_complete = function()
-    if luasnip and luasnip.expand_or_jumpable() then
-        return t('<Plug>luasnip-expand-or-jump')
-    else check_back_space()
-        return t('<Tab>')
-    end
-    return ''
-end
+vim.keymap.set({ "i", "s" }, "<c-k>", function()
+  print(vim.inspect(ls.expand_or_jumpable()))
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end, { silent = true })
 
-_G.s_tab_complete = function()
-    if luasnip and luasnip.jumpable(-1) then
-        return t('<Plug>luasnip-jump-prev')
-    else
-        return t('<S-Tab>')
-    end
-    return ''
-end
+vim.keymap.set({"i", "s"}, "<C-j>", function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end, { silent = true })
 
+vim.keymap.set({"i", "s"}, "<C-l>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end, { silent = true })
 
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
-vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
+
+
+local snippet = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+local f = ls.function_node
+local fmt = require("luasnip.extras.fmt").fmt
+local rep = require("luasnip.extras").rep
+
+
+local lua_snippets = {
+  snippet("lf", fmt(
+      [[
+        local {} = function({})
+          {}
+        end
+      ]],
+      {
+        i(1), i(2, "params"), i(0)
+      }
+    )
+  ),
+  snippet("req", fmt('local {} = require("{}")',
+      {
+        i(1), rep(1)
+      }
+    )
+  )
+}
+
+ls.add_snippets("lua", lua_snippets)
+
+--
+--
+-- ls.add_snippets("all", {
+--
+--   snippet("trig", {
+--      i(1),
+--      f(function(args, snip, user_arg_1) return args[1][1] .. user_arg_1 end,
+--          {1},
+--          { user_args = {"Will be appended to text from i(0)"}}),
+--      i(0)
+--   }),
+--   snippet("expand", { t "what" }),
+--
+--         snippet("ternary", {
+--             -- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+--             i(1, "cond"), t(" ? "), i(2, "then"), t(" : "), i(3, "else")
+--         })
+-- })
+--
+--
+-- ls.add_snippets("lua", {
+--
+--   snippet("lf", {
+--     t "local ",
+--     i(1),
+--     t " = function(",
+--     i(2),
+--     t { ")" , "" },
+--     i(0),
+--     t { "\t", "" },
+--     t "end"
+--   }),
+--
+-- })

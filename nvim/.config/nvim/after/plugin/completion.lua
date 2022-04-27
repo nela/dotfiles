@@ -3,7 +3,7 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append 'c'
 
 local lspkind = require 'lspkind'
-lspkind.setup()
+lspkind.init()
 
 local cmp = require 'cmp'
 
@@ -26,6 +26,7 @@ cmp.setup {
       select = true,
     },
     ['<C-space>'] = cmp.mapping.complete(),
+    ["<Tab>"] = cmp.config.disable,
   },
   sources = {
     { name = 'nvim_lua' },
@@ -62,11 +63,11 @@ cmp.setup {
       cmp.config.compare.order,
     }
   },
-  -- -- snippet plugin here
+  -- snippet plugin here
   snippet = {
-    expand = function(args)
-      require 'luasnip'.lsp_expand(args.body)
-    end,
+    -- expand = function(args)
+    --   require 'luasnip'.lsp_expand(args.body)
+    -- end,
   },
 
   formatting = {

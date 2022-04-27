@@ -12,6 +12,8 @@ end
     'tpope/vim-eunuch',
     'tpope/vim-fugitive',
     'tpope/vim-sleuth',
+    'tpope/vim-repeat',
+    'tpope/vim-abolish',
     'wellle/targets.vim',
     'ggandor/lightspeed.nvim',
     'sainnhe/gruvbox-material',
@@ -103,6 +105,8 @@ end
    use {
      'L3MON4D3/LuaSnip',
      'saadparwaiz1/cmp_luasnip',
+    -- "molleweide/luasnip_snippets.nvim"
+     'molleweide/LuaSnip-snippets.nvim'
    }
 
    if has('mac') then

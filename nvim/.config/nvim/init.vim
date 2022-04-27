@@ -58,7 +58,7 @@ set termguicolors
 set background=dark
 
 
-lua require('nelspui')
+" lua require('nelspui')
 lua require('nelspconfig')
 
 command LoadPacker lua require('plugins')
