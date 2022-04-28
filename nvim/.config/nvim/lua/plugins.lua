@@ -151,7 +151,6 @@ end
      requires = { 'nvim-lua/plenary.nvim' },
      -- opt = true,
      config = function() require('gitsigns').setup() end,
-    ft = { 'java' }
      -- cmd = { 'Gitsigns preview_hunk'}
    }
 
