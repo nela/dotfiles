@@ -85,4 +85,6 @@ type asdf &>/dev/null && source /usr/local/opt/asdf/libexec/asdf.sh \
   &&  eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
   || printf ${error} "Dircolors not loaded"
 
+[ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
+
 unset error fix
