@@ -82,42 +82,9 @@ aucmd("TextYankPost", {
         vim.highlight.on_yank({ higroup = "Visual", timeout = 300 })
     end
 })
-
-
---[[ vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "BufLeave", "FocusLost", "FocusGained",
-    "InsertEnter", "InsertLeave"}, {
-    group = "RelativeNumberToggle",
-    -- pattern = "TelescopePrompt",
-    -- command = "let b:RelativeNumberToggle=0"
-    callback = function (params)
-        if vim.api.nvim_buf_get_option(params.buf, "filetype") == "TelescopePrompt" then
-            vim.b.RelativeNumberToggle = 0
-        end
-    end
-}) ]]
-
---[[ vim.api.nvim_create_autocmd({ "BufEnter", "BufLeave", "FocusLost", "FocusGained",
-    "InsertEnter", "InsertLeave"}, {
-    group = "RelativeNumberToggle",
-    pattern = "*",
-    callback = function (params)
-        if vim.api.nvim_buf_get_option(params.buf, "filetype") ~= "TelescopePrompt" then
-                print("changing")
-                vim.opt.relativenumber = not vim.opt.relativenumber:get()
-        else
-                print("Telescope")
-        end
-
-            -- print(vim.opt.relativenumber)
-        -- for _, v in pairs({"TelescopePrompt"}) do
-        --     if v ==  vim.api.nvim_buf_get_option(params.buf, 'filetype') then
-        --         return
-        --     end
-        -- end
-        -- if vim.api.nvim_buf_get_option(params.buf, 'filetype') ~= "TelescopePrompt" then
-        --     vim.opt.relativenumber = not vim.opt.relativenumber:get()
-        -- end
-
-        print(vim.opt.relativenumber:get())
-    end
-}) ]]
+augroup("nvimtree", {})
+aucmd("BufNew", {
+    group = "nvimtree",
+    pattern = "NvimTree",
+    command = "set signcolumn=no"
+})
