@@ -1,5 +1,5 @@
 -- "0 by default, this option shows indent markers when folders are open
-vim.g.nvim_tree_indent_markers = 1
+-- vim.g.nvim_tree_indent_markers = 1
 
 --List of filenames that gets highlighted with NvimTreeSpecialFile
 vim.g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE', 'Dockerfile' }
