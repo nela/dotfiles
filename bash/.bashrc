@@ -16,6 +16,7 @@ export NVIM="${DOTS}/nvim/.config/nvim"
 export NVIM_CONFIG="${NVIM_CONFIG_HOME}/init.vim"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export POETRY_VIRTUALENVS_PATH="${NELAPYS}"
+export EDITOR="nvim"
 
 export MAVEN_OPTS=-Xmx4096m
 
