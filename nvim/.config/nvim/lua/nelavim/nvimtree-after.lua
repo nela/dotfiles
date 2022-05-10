@@ -1,9 +1,14 @@
+-- local winwidt = function()
+--   return vim.api.nvim_win_get_width(0)/2
+-- end
+
 require('nvim-tree').setup {
   -- nvim_tree_disable_netrw = true,
   disable_netrw = true,
   hijack_netrw = true,
   view = {
-    width = 49,
+    width = math.floor(vim.api.nvim_win_get_width(0)/5),
+      --43, --(winwidth(0)/5),
     number = false,
     mappings = {
       custom_only = true,
