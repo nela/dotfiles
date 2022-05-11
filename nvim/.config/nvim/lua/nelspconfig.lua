@@ -34,12 +34,6 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local lsp_installer = require('nvim-lsp-installer')
--- For Lsp snippet completion
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
 local ltex_settings = {
   ltex = {
     enabled = { 'latex', 'tex', 'bib', 'markdown' },
@@ -64,35 +58,69 @@ local sumneko_lua_settings = {
   Lua = { diagnostics = { globals = { 'vim' } } }
 }
 
-lsp_installer.on_server_ready(function(server)
-    local opts = {
+-- For Lsp snippet completion
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local lsp_installer = require('nvim-lsp-installer')
+local lspconfig = require('lspconfig')
+
+local servers = lsp_installer.get_installed_servers()
+
+lsp_installer.setup{}
+for _, s in pairs(servers) do
+  -- print(i)
+  vim.pretty_print(s.name)
+  if s.name == 'jdtls' then
+    vim.g.jdtls_ready = true
+  elseif s.name == 'sumneko_lua' then
+    lspconfig[s.name].setup {
       on_attach = on_attach,
-      flags = { debounce_text_changes = 150 },
+      capabilities = capabilities,
+      settings = sumneko_lua_settings,
+    }
+  elseif s.name == 'ltex' then
+    print('ltex')
+  else
+    lspconfig[s.name].setup {
+      on_attach = on_attach,
       capabilities = capabilities
     }
+  end
 
-    if server.name == 'jdtls' then
-        vim.g.jdtls_ready = true
-    elseif server.name == 'ltex' then
-        opts.settings = ltex_settings
-        opts.filetypes = { 'latex', 'tex', 'bib', 'markdown'  }
-        -- server:setup(opts)
-    elseif server.name == 'sumneko_lua' then
-        opts.settings  = sumneko_lua_settings
-        server:setup(opts)
-    else
-        server:setup(opts)
-    end
+end
 
-    vim.cmd [[ do User LspAttachBuffers ]]
-end)
+
+
+-- lsp_installer.on_server_ready(function(server)
+--     local opts = {
+--       on_attach = on_attach,
+--       flags = { debounce_text_changes = 150 },
+--       capabilities = capabilities
+--     }
+--
+--     if server.name == 'jdtls' then
+--         vim.g.jdtls_ready = true
+--     elseif server.name == 'ltex' then
+--         opts.settings = ltex_settings
+--         opts.filetypes = { 'latex', 'tex', 'bib', 'markdown'  }
+--         -- server:setup(opts)
+--     elseif server.name == 'sumneko_lua' then
+--         opts.settings  = sumneko_lua_settings
+--         server:setup(opts)
+--     else
+--         server:setup(opts)
+--     end
+--
+--     vim.cmd [[ do User LspAttachBuffers ]]
+-- end)
 
 -- local lspconfig = require('lspconfig')
-vim.cmd([[ command LspFormatting lua vim.lsp.buf.formatting() ]])
-vim.cmd([[ command LspSetLocList lua vim.diagnostic.setloclist() ]])
-vim.cmd([[ command LspSetQfList lua vim.diagnostic.setqflist() ]])
-vim.cmd([[ command LspAddWorkspaceFolder lua vim.lsp.buf.add_workspace_folder() ]])
-vim.cmd([[ command LspRemoveWorkspaceFolder lua vim.lsp.buf.remove_workspace_folder() ]])
-vim.cmd([[ command LspListWorkspaceFolders lua print(vim.inspect(vim.lsp.buf.list_workspace_folders())) ]])
-vim.cmd([[ command LspRename lua vim.lsp.buf.rename() ]])
-vim.cmd([[ command LspCodeAction lua vim.lsp.buf.code_action() ]])
+-- vim.cmd([[ command LspFormatting lua vim.lsp.buf.formatting() ]])
+-- vim.cmd([[ command LspSetLocList lua vim.diagnostic.setloclist() ]])
+-- vim.cmd([[ command LspSetQfList lua vim.diagnostic.setqflist() ]])
+-- vim.cmd([[ command LspAddWorkspaceFolder lua vim.lsp.buf.add_workspace_folder() ]])
+-- vim.cmd([[ command LspRemoveWorkspaceFolder lua vim.lsp.buf.remove_workspace_folder() ]])
+-- vim.cmd([[ command LspListWorkspaceFolders lua print(vim.inspect(vim.lsp.buf.list_workspace_folders())) ]])
+-- vim.cmd([[ command LspRename lua vim.lsp.buf.rename() ]])
+-- vim.cmd([[ command LspCodeAction lua vim.lsp.buf.code_action() ]])
