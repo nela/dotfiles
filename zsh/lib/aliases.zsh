@@ -56,4 +56,3 @@ alias firefox="open -a Firefox"
 alias notion="open -a Notion"
 alias chrome="open -a Google\ Chrome"
 alias netflix="open -a Firefox 'https://www.netflix.com'"
-
