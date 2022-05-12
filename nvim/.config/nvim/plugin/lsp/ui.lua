@@ -1,3 +1,4 @@
+print('loading ui')
 vim.cmd [[
   sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=RedSign
   sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=YellowSign
@@ -6,22 +7,22 @@ vim.cmd [[
 ]]
 
 vim.diagnostic.config({
-  virtual_text = {
-    format = function (diagnostic)
-      if diagnostic.severity == vim.diagnostic.severity.HINT then
-        return string.format('H: %s', diagnostic.message)
-      elseif diagnostic.severity == vim.diagnostic.severity.INFO then
-        return string.format('I: %s', diagnostic.message)
-      elseif diagnostic.severity == vim.diagnostic.severity.WARN then
-        return string.format('W: %s', diagnostic.message)
-      elseif diagnostic.severity == vim.diagnostic.severity.ERROR then
-        return string.format('E: %s', diagnostic.message)
-      end
-      return diagnostic.message
-    end,
-    -- spacing = 6,
-    prefix = ''
-  },
+  -- virtual_text = {
+  --   format = function (diagnostic)
+  --     if diagnostic.severity == vim.diagnostic.severity.HINT then
+  --       return string.format('H: %s', diagnostic.message)
+  --     elseif diagnostic.severity == vim.diagnostic.severity.INFO then
+  --       return string.format('I: %s', diagnostic.message)
+  --     elseif diagnostic.severity == vim.diagnostic.severity.WARN then
+  --       return string.format('W: %s', diagnostic.message)
+  --     elseif diagnostic.severity == vim.diagnostic.severity.ERROR then
+  --       return string.format('E: %s', diagnostic.message)
+  --     end
+  --     return diagnostic.message
+  --   end,
+  --   -- spacing = 6,
+  --   prefix = ''
+  -- },
   -- Trying out tj's config
   float = {
     show_header = true,

@@ -108,17 +108,17 @@ end
 
 local buf_set_keymaps = function(bufnr)
   local buf_set_keymap = function(mode, lhs, rhs)
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, noremap = true, silent = true })
+    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
   end
 
   -- Code actions
   buf_set_keymap("n", "<leader>rn", vim.lsp.buf.rename)
-  buf_set_keymap("n", "<leader>ca", vim.lsp.code_action)
+  buf_set_keymap("n", "<leader>ca", vim.lsp.buf.code_action)
 
   buf_set_keymap("n", "<leader>cl", find_and_run_codelens)
 
   -- Movement
-  buf_set_keymap("n", "gD", vim.lsp.buf.declarations)
+  buf_set_keymap("n", "gD", vim.lsp.buf.declaration)
   buf_set_keymap("n", "gd", nelescope_lsp.definitions)
   -- buf_set_keymap("n", "gd", vim.lsp.buf.definitions)
   buf_set_keymap("n", "gr", nelescope_lsp.references)
@@ -159,11 +159,11 @@ local common_on_attach = function(client, bufnr)
     client.config.flags.allow_incremental_sync = true
   end
 
-  if client.supports_method("textDocuments/documentHighligh") then
+  if client.supports_method("textDocument/documentHighligh") then
     buf_autocmd_document_highlight(bufnr)
   end
 
-  if client.supports_method("textDocuments/codeLens") then
+  if client.supports_method("textDocument/codeLens") then
     buf_autocmd_codelens(bufnr)
     vim.schedule(vim.lsp.codelens.refresh)
   end
