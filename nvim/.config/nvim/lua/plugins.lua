@@ -40,12 +40,12 @@ end
 
   use {
     "zegervdv/nrpattern.nvim",
-    conifg = function () require("nrpattern").setup() end
+    config = function () require("nrpattern").setup() end,
   }
 
    use {
      "numToStr/Comment.nvim",
-     config = function() require("Comment").setup() end
+     config = function() require("Comment").setup() end,
    }
 
    use {
@@ -82,7 +82,7 @@ end
      "neovim/nvim-lspconfig",
      "williamboman/nvim-lsp-installer",
      "ray-x/lsp_signature.nvim",
-     "folke/lua-dev"
+     "folke/lua-dev.nvim"
    }
 
   use {
@@ -90,8 +90,9 @@ end
      requires = {
        { "nvim-lua/plenary.nvim" },
        { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-       { "nvim-telescope/telescope-symbols.nvim" }
-     }
+       { "nvim-telescope/telescope-symbols.nvim" },
+     },
+    config = function() require("nelescope").setup() end,
    }
 
    use {

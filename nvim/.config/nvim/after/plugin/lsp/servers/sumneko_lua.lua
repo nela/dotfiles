@@ -7,7 +7,7 @@ end
 --   Lua = { diagnostics = { globals = { 'vim' } } }
 -- }
 
-lspconfig.sumneko_lua.setup {
+lspconfig.sumneko_lua.setup(require("lua-dev").setup {
   settings = {
     Lua = {
       diagnostics = {
@@ -17,4 +17,4 @@ lspconfig.sumneko_lua.setup {
       },
     },
   },
-}
+})

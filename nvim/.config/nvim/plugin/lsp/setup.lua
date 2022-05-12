@@ -2,14 +2,13 @@
 -- https://github.com/williamboman/nvim-config/blob/main/plugin/lsp/setup.lua
 local ok, util = pcall(require, "lspconfig.util")
 if not ok then
-    return
+  return
 end
 
 local ts_utils = require("nvim-treesitter.ts_utils")
 local nelescope_lsp = require("nelescope.lsp")
 local lsp_signature = require "lsp_signature"
 
-vim.api.nvim_create_user_command("LspLog", [[exe 'tabnew ' .. luaeval("vim.lsp.get_log_path()")]], {})
 
 require("nvim-lsp-installer").setup {
   -- ensure_installed = { "sumneko_lua", "jsonls", "yamlls", "bashls" },
@@ -18,7 +17,6 @@ require("nvim-lsp-installer").setup {
 local create_capabilities = function(opts)
   local defaults = { with_snippet_support = true }
   opts = opts or defaults
-  -- For Lsp snippet completion
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = opts.with_snippet_support
   if opts.with_snippet_support then
@@ -30,7 +28,6 @@ local create_capabilities = function(opts)
       },
     }
   end
--- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   return capabilities
 end
 
@@ -38,11 +35,10 @@ local highlight_references = function()
   local node = ts_utils.get_node_at_cursor()
   while node ~= nil do
     local node_type = node:type()
-    if
-      node_type ==  "string"
-      or node_type == "string_fragment"
-      or node_type == "template_string"
-      or node_type == "document" -- for inline gql`` strings
+    if node_type == "string"
+        or node_type == "string_fragment"
+        or node_type == "template_string"
+        or node_type == "document" -- for inline gql`` strings
     then
       return
     end
@@ -52,7 +48,7 @@ local highlight_references = function()
 end
 
 -- @param bufnr number
-local  buf_autocmd_document_highlight = function(bufnr)
+local buf_autocmd_document_highlight = function(bufnr)
   local group = vim.api.nvim_create_augroup("lsp_document_highlight", {})
   vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
     buffer = bufnr,
@@ -93,17 +89,17 @@ local find_and_run_codelens = function()
     return a.range.start.line > b.range.start.line
   end)
 
-  vim.api.nvim_win_set_cursor(0 , { lenses[1].range.start.line + 1, 0 })
+  vim.api.nvim_win_set_cursor(0, { lenses[1].range.start.line + 1, 0 })
   vim.lsp.codelens.run()
   vim.api.nvim_win_set_cursor(0, { row, col })
 end
 
 local goto_prev_error = function()
-      vim.diagnostic.goto_prev { severity = "Error" }
+  vim.diagnostic.goto_prev { severity = "Error" }
 end
 
 local goto_next_error = function()
-      vim.diagnostic.goto_next { severity = "Error" }
+  vim.diagnostic.goto_next { severity = "Error" }
 end
 
 local buf_set_keymaps = function(bufnr)
@@ -132,28 +128,45 @@ local buf_set_keymaps = function(bufnr)
   buf_set_keymap("i", "<C-s>", vim.lsp.buf.signature_help)
 
   -- Diagnostics
-  buf_set_keymap("n", "<leader>d", nelescope_lsp.document_diagnostics)
+  buf_set_keymap("n", "<leader>fd", nelescope_lsp.document_diagnostics)
   buf_set_keymap("n", "],", vim.diagnostic.open_float)
 
   buf_set_keymap("n", "<leader>ws", nelescope_lsp.workspace_symbols)
   buf_set_keymap("n", "<leader>wd", nelescope_lsp.workspace_diagnostics)
 
+  buf_set_keymap({ "n", "v" }, "[e", goto_prev_error)
+  buf_set_keymap({ "n", "v" }, "]e", goto_next_error)
+  buf_set_keymap({ "n", "v" }, "[d", vim.diagnostic.goto_prev)
+  buf_set_keymap({ "n", "v" }, "]d", vim.diagnostic.goto_next)
 
-  for _, mode in pairs { "n", "v" } do
-    buf_set_keymap(mode, "[e", goto_prev_error)
-    buf_set_keymap(mode, "]e", goto_next_error)
-    buf_set_keymap(mode, "[d", vim.diagnostic.goto_prev)
-    buf_set_keymap(mode, "]d", vim.diagnostic.goto_next)
-  end
-
+  -- for _, mode in pairs { "n", "v" } do
+  -- end
 end
 
+
+local set_commands = function()
+
+  local command = function(name, cmd)
+    vim.api.nvim_create_user_command(name, cmd, {})
+  end
+
+  command("LspLog", [[exe 'tabnew ' .. luaeval("vim.lsp.get_log_path()")]])
+  command("LspFormat", function() vim.lsp.buf.formatting() end)
+  command("LspSetLocList", function() vim.diagnostic.setloclist() end)
+  command("LspSetQfList", function() vim.diagnostic.setqflist() end)
+  command("LspAddWorkspaceFolder", function() vim.lsp.buf.add_workspace_folder() end)
+  command("LspRemoveWorkspaceFolder", function() vim.lsp.buf.remove_workspace_folder() end)
+  command("LspListWorkspaceFolders", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+  command("LspRename", function() vim.lsp.buf.rename() end)
+  command("LspCodeAction", function() vim.lsp.buf.code_action() end)
+end
 
 local common_on_attach = function(client, bufnr)
   -- Enable completion triggered by <C-x><C-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   buf_set_keymaps(bufnr)
+  set_commands()
 
   if client.config.flags then
     client.config.flags.allow_incremental_sync = true
@@ -176,13 +189,18 @@ local common_on_attach = function(client, bufnr)
   }, bufnr)
 end
 
+
+
 util.on_setup = util.add_hook_after(util.on_setup, function(config)
   if config.on_attach then
     config.on_attach = util.add_hook_after(config.on_attach, common_on_attach)
   else
     config.on_attach = common_on_attach
   end
-  config.capabilities = create_capabilities()
+  local capabilities = create_capabilities()
+  config.capabilities = capabilities
+  -- For Lsp snippet completion
+  require('cmp_nvim_lsp').update_capabilities(capabilities)
 end)
 
 local ltex_settings = {
@@ -192,7 +210,7 @@ local ltex_settings = {
     diagnosticSeverity = 'information',
     setenceCacheSize = 2000,
     additionalRules = {
-     enablePickyRules = true,
+      enablePickyRules = true,
     },
     trace = { server = 'verbose' },
     dictionary = {},
@@ -231,15 +249,15 @@ ltex_settings.ltex.enabledRules['en-GB'] = { 'TEXT_ANALYSIS' }
 --     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 --     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 
-  -- if client.resolved_capabilities.document_highlight then
-  --   vim.api.nvim_exec(
-  --     [[
-  --       augroup lsp_document_highlight
-  --         autocmd!
-  --         autocmd CursorHold *\(.tex\|.md\)\@<! lua vim.lsp.buf.document_highlight()
-  --         autocmd CursorMoved *\(.tex\|.md\)\@<! lua vim.lsp.buf.clear_references()
-  --       augroup END
-  --     ]], false)
+-- if client.resolved_capabilities.document_highlight then
+--   vim.api.nvim_exec(
+--     [[
+--       augroup lsp_document_highlight
+--         autocmd!
+--         autocmd CursorHold *\(.tex\|.md\)\@<! lua vim.lsp.buf.document_highlight()
+--         autocmd CursorMoved *\(.tex\|.md\)\@<! lua vim.lsp.buf.clear_references()
+--       augroup END
+--     ]], false)
 -- end
 
 -- lsp_installer.setup{}
