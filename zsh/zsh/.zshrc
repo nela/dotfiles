@@ -13,6 +13,9 @@ tabs 4
 error='\e[0;31m \e[1;91m%s\e[0m\n'
 fix='\t\e[1;93m\e[0m  %s\n'
 
+# Zsh-defer
+source "$XDG_REPO_HOME"/zsh-defer/zsh-defer.plugin.zsh
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -23,8 +26,6 @@ fi
 [[ -f /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme ]] \
   && source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 
-# Zsh-defer
-source $XDG_REPO_HOME/zsh-defer/zsh-defer.plugin.zsh
 
 # Setup fzf
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
@@ -32,10 +33,10 @@ if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
 fi
 
 # Auto-completion
-[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && zsh-defer source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
 
 # Key bindings
-source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+zsh-defer source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 
 _autoloaded=${ZSH}/autoloaded
 fpath=($_autoloaded $fpath)
@@ -47,17 +48,18 @@ if [[ -d "$_autoloaded" ]]; then
 fi
 unset _autoloaded
 
-[[ -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] \
-  && source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+[ -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] \
+  && zsh-defer source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
   || printf ${error} "Zsh autosuggestions not loaded"
 
-_lib=${ZSH}/lib
+_lib="$ZSH"/lib
 
 if [[ -d "$_lib" ]]; then
    for file in $_lib/*.zsh; do
       source $file
    done
 fi
+unset _lib
 
 type asdf &>/dev/null && source /usr/local/opt/asdf/libexec/asdf.sh \
   || printf ${error} "ASDF not installed"
@@ -70,7 +72,8 @@ type asdf &>/dev/null && source /usr/local/opt/asdf/libexec/asdf.sh \
 
 # [[ -r ${DOTS}/scripts/miniforge-init.sh ]] &&  command -v conda >/dev/null 2>&1  && source ${DOTS}/scripts/miniforge-init.sh
 
-[ -r ${DOTS}/scripts/fzf.zsh ] && source ${DOTS}/scripts/fzf.zsh \
+# [ -r ${DOTS}/scripts/fzf.zsh ] && source ${DOTS}/scripts/fzf.zsh \
+[ -r "$DOTS"/shell-common/fzf.sh ] && zsh-defer source ${DOTS}/shell-common/fzf.sh \
   || printf ${error} "FZF config not loaded"
 
 [ -r ${XDG_REPO_HOME}/forgit/forgit.plugin.zsh ] \
@@ -82,7 +85,7 @@ type asdf &>/dev/null && source /usr/local/opt/asdf/libexec/asdf.sh \
   || printf ${error} "Fast Syntax Highlighting not loaded"
 
 [ -r ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark ] \
-  &&  eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
+  &&  zsh-defer eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
   || printf ${error} "Dircolors not loaded"
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"

@@ -1,11 +1,10 @@
 alias ls="gls --color=auto"
 alias ll='ls -laFh'     			# long (-l), types classify (-F),human readable (-h)
 alias l='ll'
-alias ls.all='ls -lAFh' 		# long list, show almost all
-alias ls.sort.time='ls -tlFh'
-alias ls.sort.size='ls -SlFh'
-alias ls.dot='ls -ld .*'		# show dot files, list dirs non-recursively (-d)
-alias ls.recursive='ls -R'
+alias lst='ls -tlFh'
+alias lss='ls -SlFh'
+alias lsd='ls -ld .*'		# show dot files, list dirs non-recursively (-d)
+alias lsr='ls -R'
 alias ls.id='ls -nFh'			# show numeric FID and GID (-n)
 
 # GIT

@@ -7,14 +7,10 @@ export FORGIT_FZF_DEFAULT_OPS="${preview}"
 alias fzp="fd --type f . | fzf ${preview}"
 unset preview
 
-# export FZF_DEFAULT_COMMAND="fd --type f --hidden -E .git -E node_modules -E __pycache__"
-
-if [[ $OSTYPE == *"linux"* ]]; then
-  clip="xclip -sel clip"
-else
+if [[ $OSTYPE == *"darwin"* ]]; then
   clip="pbcopy"
+else
+  clip="xclip -sel clip"
 fi
 
-# unset clip
-
-# export FZF_DEFAULT_OPTS="--no-mouse --layout=reverse --multi --info=inline --bind 'ctrl-y:execute-silent(echo {+} | ${clip} ),ctrl-j:half-page-down,ctrl-k:half-page-up'"
+export FZF_DEFAULT_OPTS="--no-mouse --layout=reverse --multi --info=inline --bind 'ctrl-y:execute-silent(echo {+} | ${clip} ),ctrl-j:half-page-down,ctrl-k:half-page-up'"

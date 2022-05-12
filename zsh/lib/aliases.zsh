@@ -46,13 +46,3 @@ alias tat="tmux a -t"
 alias tk="tmux kill-ses -t"
 alias tl="tmux ls"
 alias tn="tmux new -s"
-alias dots='attach_to dots'
-alias thesis='attach_to thesis'
-
-
-
-# Misc
-alias firefox="open -a Firefox"
-alias notion="open -a Notion"
-alias chrome="open -a Google\ Chrome"
-alias netflix="open -a Firefox 'https://www.netflix.com'"
