@@ -6,193 +6,195 @@ local has = function(x)
 end
 
  require("packer").startup({function(use)
-   use { 'wbthomason/packer.nvim', opt = true }
+   use { "wbthomason/packer.nvim", opt = true }
    use {
-    'tpope/vim-surround',
-    'tpope/vim-eunuch',
-    'tpope/vim-fugitive',
-    'tpope/vim-sleuth',
-    'tpope/vim-repeat',
-    'tpope/vim-abolish',
-    'wellle/targets.vim',
-    'ggandor/lightspeed.nvim',
-    'sainnhe/gruvbox-material',
-    'onsails/lspkind-nvim',
-    'romainl/vim-qf', -- hmmm??
-    'kevinhwang91/nvim-bqf',
+    "tpope/vim-surround",
+    "tpope/vim-eunuch",
+    "tpope/vim-fugitive",
+    "tpope/vim-sleuth",
+    "tpope/vim-repeat",
+    "tpope/vim-abolish",
+    "wellle/targets.vim",
+    "ggandor/lightspeed.nvim",
+    "sainnhe/gruvbox-material",
+    "onsails/lspkind-nvim",
+    "romainl/vim-qf", -- hmmm??
+    "kevinhwang91/nvim-bqf",
   }
 
-   if has('mac') then
-    use '/usr/local/opt/fzf'
+   if has("mac") then
+    use "/usr/local/opt/fzf"
    end
 
    use {
-      'junegunn/vim-easy-align',
+      "junegunn/vim-easy-align",
       opt = true,
-      cmd = { 'EasyAlign' }
+      cmd = { "EasyAlign" }
    }
 
    use {
-      'mvllow/modes.nvim',
-      config = function () require('modes').setup() end,
+      "mvllow/modes.nvim",
+      config = function () require("modes").setup() end,
       disable = true,
    }
 
   use {
-    'zegervdv/nrpattern.nvim',
-    conifg = function () require('nrpattern').setup() end
+    "zegervdv/nrpattern.nvim",
+    conifg = function () require("nrpattern").setup() end
   }
 
    use {
-     'numToStr/Comment.nvim',
-     config = function() require('Comment').setup() end
+     "numToStr/Comment.nvim",
+     config = function() require("Comment").setup() end
    }
 
    use {
-     'kyazdani42/nvim-tree.lua',
-     requires = { 'kyazdani42/nvim-web-devicons' },
-     cmd = { 'NvimTreeToggle' },
-     -- opt = true, -- Doesn't give icons
-     setup = function() require('nelavim.nvimtree') end,
-     config = function() require('nelavim.nvimtree-after') end
+     "kyazdani42/nvim-tree.lua",
+     requires = { "kyazdani42/nvim-web-devicons" },
+     cmd = { "NvimTreeToggle" },
+     -- opt = true, -- Doesn"t give icons
+     setup = function() require("nelavim.nvimtree") end,
+     config = function() require("nelavim.nvimtree-after") end
    }
 
    use {
-     'nvim-lualine/lualine.nvim',
-     requires = { 'kyazdani42/nvim-web-devicons' },
+     "nvim-lualine/lualine.nvim",
+     requires = { "kyazdani42/nvim-web-devicons" },
    }
 
    use {
-     'windwp/nvim-autopairs',
+     "windwp/nvim-autopairs",
      config = function()
-       require('nvim-autopairs').setup({
-         fast_wrap = { map = '<M-w>' }
+       require("nvim-autopairs").setup({
+         fast_wrap = { map = "<M-w>" }
        })
      end,
    }
 
-   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+   use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
    use {
-     'nvim-treesitter/playground',
+     "nvim-treesitter/playground",
      -- opt = true,
-     -- cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
+     -- cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
    }
 
    use {
-     'neovim/nvim-lspconfig',
-     'williamboman/nvim-lsp-installer',
+     "neovim/nvim-lspconfig",
+     "williamboman/nvim-lsp-installer",
+     "ray-x/lsp_signature.nvim",
+     "folke/lua-dev"
    }
 
   use {
-     'nvim-telescope/telescope.nvim',
+     "nvim-telescope/telescope.nvim",
      requires = {
-       { 'nvim-lua/plenary.nvim' },
-       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-       { 'nvim-telescope/telescope-symbols.nvim' }
+       { "nvim-lua/plenary.nvim" },
+       { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+       { "nvim-telescope/telescope-symbols.nvim" }
      }
    }
 
    use {
-     'hrsh7th/nvim-cmp',
-     'hrsh7th/cmp-buffer',
-     'hrsh7th/cmp-nvim-lsp',
-     'hrsh7th/cmp-path',
-     'hrsh7th/cmp-nvim-lua',
-     'hrsh7th/cmp-omni',
-     'hrsh7th/cmp-cmdline'
+     "hrsh7th/nvim-cmp",
+     "hrsh7th/cmp-buffer",
+     "hrsh7th/cmp-nvim-lsp",
+     "hrsh7th/cmp-path",
+     "hrsh7th/cmp-nvim-lua",
+     "hrsh7th/cmp-omni",
+     "hrsh7th/cmp-cmdline"
    }
 
    use {
-     'L3MON4D3/LuaSnip',
-     'saadparwaiz1/cmp_luasnip',
+     "L3MON4D3/LuaSnip",
+     "saadparwaiz1/cmp_luasnip",
     -- "molleweide/luasnip_snippets.nvim"
-     'molleweide/LuaSnip-snippets.nvim'
+     "molleweide/LuaSnip-snippets.nvim"
    }
 
-   if has('mac') then
-     use { '~/projects/friendly-snippets' }
+   if has("mac") then
+     use { "~/projects/friendly-snippets" }
    else
-     use { 'rafamadriz/friendly-snippets' }
+     use { "rafamadriz/friendly-snippets" }
    end
 
    use {
-     'mfussenegger/nvim-dap',
-     -- ft = { 'java', 'python' }
+     "mfussenegger/nvim-dap",
+     -- ft = { "java", "python" }
    }
 
    use {
-     'mfussenegger/nvim-jdtls',
+     "mfussenegger/nvim-jdtls",
      -- opt = true,
-     -- ft = { java'java' }
+     -- ft = { java"java" }
    }
 
    use {
-     'Pocco81/DAPInstall.nvim',
+     "Pocco81/DAPInstall.nvim",
      opt = true,
-     cmd = { 'DIList', 'DIInstall' },
+     cmd = { "DIList", "DIInstall" },
      disable = true,
    }
 
    use {
-     'hoschi/yode-nvim',
-     requires = { 'nvim-lua/plenary.nvim' },
+     "hoschi/yode-nvim",
+     requires = { "nvim-lua/plenary.nvim" },
      config = function ()
-       require('yode-nvim').setup()
+       require("yode-nvim").setup()
      end,
      opt = true,
      cmd = {
-       'YodeCreateSeditorFloating',
-       'YodeCreateSeditorReplace',
+       "YodeCreateSeditorFloating",
+       "YodeCreateSeditorReplace",
      }
    }
 
    use {
-    'lewis6991/gitsigns.nvim',
-     requires = { 'nvim-lua/plenary.nvim' },
+    "lewis6991/gitsigns.nvim",
+     requires = { "nvim-lua/plenary.nvim" },
      -- opt = true,
-     config = function() require('gitsigns').setup() end,
-     -- cmd = { 'Gitsigns preview_hunk'}
+     config = function() require("gitsigns").setup() end,
+     -- cmd = { "Gitsigns preview_hunk"}
    }
 
-   if has('mac') then
+   if has("mac") then
      use {
-       'brymer-meneses/grammar-guard.nvim',
-       config = function () require('grammar-guard').init() end
+       "brymer-meneses/grammar-guard.nvim",
+       config = function () require("grammar-guard").init() end
      }
 
      use {
-       'norcalli/nvim-colorizer.lua',
-       config = function() require('colorizer').setup() end,
+       "norcalli/nvim-colorizer.lua",
+       config = function() require("colorizer").setup() end,
        opt = true,
-       cmd = { 'ColorizerAttachToBuffer' }
+       cmd = { "ColorizerAttachToBuffer" }
      }
 
      use {
-       'iamcco/markdown-preview.nvim',
+       "iamcco/markdown-preview.nvim",
        -- opt = true,
-       cmd = { 'MarkdownPreview' },
-      run = 'cd app && pnpm install && pnpm add msgpack-lite',
-       ft = { 'markdown' },
-        setup = function () vim.g.mkdp_filetypes = { 'markdown' } end,
+       cmd = { "MarkdownPreview" },
+      run = "cd app && pnpm install && pnpm add msgpack-lite",
+       ft = { "markdown" },
+        setup = function () vim.g.mkdp_filetypes = { "markdown" } end,
      }
 
      use {
-       'lervag/vimtex',
-       ft = { 'tex' },
-       cmd = { 'VimtexCompile', 'VimtexView' },
+       "lervag/vimtex",
+       ft = { "tex" },
+       cmd = { "VimtexCompile", "VimtexView" },
        opt = true
      }
 
      use {
-       'davidgranstrom/scnvim',
-       ft = { 'supercollider' },
-       run = function() vim.fn['-> scnvim#install']() end,
-       config = function() require('scnvim') end
+       "davidgranstrom/scnvim",
+       ft = { "supercollider" },
+       run = function() vim.fn["-> scnvim#install"]() end,
+       config = function() require("scnvim") end
      }
 
      use {
-       'tomlion/vim-solidity',
-       ft = { 'sol' },
+       "tomlion/vim-solidity",
+       ft = { "sol" },
        opt = true
      }
    end
@@ -200,7 +202,7 @@ end
    config = {
      display = {
        open_fn = function()
-        return require('packer.util').float({ border = 'single' })
+        return require("packer.util").float({ border = "single" })
       end
      }
    }

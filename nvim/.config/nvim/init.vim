@@ -59,7 +59,7 @@ set background=dark
 
 
 " lua require('nelspui')
-lua require('nelspconfig')
+" lua require('nelspconfig')
 
 command LoadPacker lua require('plugins')
 
