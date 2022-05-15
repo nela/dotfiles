@@ -2,12 +2,24 @@
   return vim.fn.has(x) == 1
 end
 
+local envs = {
+    java_home = os.getenv('JAVA_HOME'),
+    data = os.getenv('XDG_DATA_HOME'),
+    repos = os.getenv('XDG_REPO_HOME'),
+    project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+}
+
+local paths = {
+  jdtls_jar = envs.data .. '/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+  eclipse_jdtls_workspace = envs.data .. '/eclipse_jdtls_workspaces/' .. envs.project_name
+}
+
 local java_home = os.getenv('JAVA_HOME')
 local xdg_data_home = os.getenv('XDG_DATA_HOME')
-local repos = os.getenv('REPOS')
+local repos = os.getenv('XDG_REPO_HOME')
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
 local jdtls_jar = xdg_data_home .. '/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar'
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local eclipse_jdtls_workspace = xdg_data_home .. '/eclipse_jdtls_workspaces/' .. project_name
 local sys_config = xdg_data_home .. '/nvim/lsp_servers/jdtls'
 

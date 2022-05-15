@@ -6,9 +6,8 @@ if not ok then
 end
 
 local ts_utils = require("nvim-treesitter.ts_utils")
-local nelescope_lsp = require("nelescope.lsp")
 local lsp_signature = require "lsp_signature"
-
+local bindings = require("nelsp.bindings")
 
 require("nvim-lsp-installer").setup {
   -- ensure_installed = { "sumneko_lua", "jsonls", "yamlls", "bashls" },
@@ -72,101 +71,12 @@ local buf_autocmd_codelens = function(bufnr)
   })
 end
 
-local find_and_run_codelens = function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local lenses = vim.lsp.codelens.get(bufnr)
-
-  lenses = vim.tbl_filter(function(lense)
-    return lense.range.start.line < row
-  end, lenses)
-
-  if #lenses == 0 then
-    return vim.notify "Could not fine codelens to run."
-  end
-
-  table.sort(lenses, function(a, b)
-    return a.range.start.line > b.range.start.line
-  end)
-
-  vim.api.nvim_win_set_cursor(0, { lenses[1].range.start.line + 1, 0 })
-  vim.lsp.codelens.run()
-  vim.api.nvim_win_set_cursor(0, { row, col })
-end
-
-local goto_prev_error = function()
-  vim.diagnostic.goto_prev { severity = "Error" }
-end
-
-local goto_next_error = function()
-  vim.diagnostic.goto_next { severity = "Error" }
-end
-
-local buf_set_keymaps = function(bufnr)
-  local buf_set_keymap = function(mode, lhs, rhs)
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
-  end
-
-  -- Code actions
-  buf_set_keymap("n", "<leader>rn", vim.lsp.buf.rename)
-  buf_set_keymap("n", "<leader>ca", vim.lsp.buf.code_action)
-
-  buf_set_keymap("n", "<leader>cl", find_and_run_codelens)
-
-  -- Movement
-  buf_set_keymap("n", "gD", vim.lsp.buf.declaration)
-  buf_set_keymap("n", "gd", nelescope_lsp.definitions)
-  -- buf_set_keymap("n", "gd", vim.lsp.buf.definitions)
-  buf_set_keymap("n", "gr", nelescope_lsp.references)
-  buf_set_keymap("n", "gbr", nelescope_lsp.buffer_references)
-  buf_set_keymap("n", "gI", nelescope_lsp.implementations)
-  buf_set_keymap("n", "<leader>s", nelescope_lsp.document_symbols)
-
-  -- Docs
-  buf_set_keymap("n", "K", vim.lsp.buf.hover)
-  buf_set_keymap("n", "<leader>t", vim.lsp.buf.signature_help)
-  buf_set_keymap("i", "<C-s>", vim.lsp.buf.signature_help)
-
-  -- Diagnostics
-  buf_set_keymap("n", "<leader>fd", nelescope_lsp.document_diagnostics)
-  buf_set_keymap("n", "],", vim.diagnostic.open_float)
-
-  buf_set_keymap("n", "<leader>ws", nelescope_lsp.workspace_symbols)
-  buf_set_keymap("n", "<leader>wd", nelescope_lsp.workspace_diagnostics)
-
-  buf_set_keymap({ "n", "v" }, "[e", goto_prev_error)
-  buf_set_keymap({ "n", "v" }, "]e", goto_next_error)
-  buf_set_keymap({ "n", "v" }, "[d", vim.diagnostic.goto_prev)
-  buf_set_keymap({ "n", "v" }, "]d", vim.diagnostic.goto_next)
-
-  -- for _, mode in pairs { "n", "v" } do
-  -- end
-end
-
-
-local set_commands = function()
-
-  local command = function(name, cmd)
-    vim.api.nvim_create_user_command(name, cmd, {})
-  end
-
-  command("LspLog", [[exe 'tabnew ' .. luaeval("vim.lsp.get_log_path()")]])
-  command("LspFormat", function() vim.lsp.buf.formatting() end)
-  command("LspSetLocList", function() vim.diagnostic.setloclist() end)
-  command("LspSetQfList", function() vim.diagnostic.setqflist() end)
-  command("LspAddWorkspaceFolder", function() vim.lsp.buf.add_workspace_folder() end)
-  command("LspRemoveWorkspaceFolder", function() vim.lsp.buf.remove_workspace_folder() end)
-  command("LspListWorkspaceFolders", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-  command("LspRename", function() vim.lsp.buf.rename() end)
-  command("LspCodeAction", function() vim.lsp.buf.code_action() end)
-end
-
 local common_on_attach = function(client, bufnr)
   -- Enable completion triggered by <C-x><C-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  buf_set_keymaps(bufnr)
-  set_commands()
+  bindings.buf_set_keymaps(bufnr)
+  bindings.set_commands()
 
   if client.config.flags then
     client.config.flags.allow_incremental_sync = true
@@ -189,8 +99,6 @@ local common_on_attach = function(client, bufnr)
   }, bufnr)
 end
 
-
-
 util.on_setup = util.add_hook_after(util.on_setup, function(config)
   if config.on_attach then
     config.on_attach = util.add_hook_after(config.on_attach, common_on_attach)
@@ -202,27 +110,6 @@ util.on_setup = util.add_hook_after(util.on_setup, function(config)
   -- For Lsp snippet completion
   require('cmp_nvim_lsp').update_capabilities(capabilities)
 end)
-
-local ltex_settings = {
-  ltex = {
-    enabled = { 'latex', 'tex', 'bib', 'markdown' },
-    language = 'en-GB',
-    diagnosticSeverity = 'information',
-    setenceCacheSize = 2000,
-    additionalRules = {
-      enablePickyRules = true,
-    },
-    trace = { server = 'verbose' },
-    dictionary = {},
-    enabledRules = {},
-    disabledRules = {},
-    hiddenFalsePositives = {},
-  }
-}
-
-ltex_settings.ltex.disabledRules['en-GB'] = { 'PASSIVE_VOICE' }
-ltex_settings.ltex.enabledRules['en-GB'] = { 'TEXT_ANALYSIS' }
-
 
 -- local lsp_installer = require('nvim-lsp-installer')
 -- local lspconfig = require('lspconfig')
