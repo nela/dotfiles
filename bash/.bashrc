@@ -27,17 +27,40 @@ export PNPM_STATE="${XDG_STATE_HOME}/pnpm-state"
 
 [[ ":${PATH}:" != *":${XDG_BIN_HOME}:"* ]] && export PATH="${XDG_BIN_HOME}:${PATH}"
 
-source ~/.asdf/plugins/java/set-java-home.bash
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Setup fzf
+# ---------
+# if [[ ! "$PATH" == */home/nemanjl/.local/repositories/fzf/bin* ]]; then
+#   export PATH="${PATH:+${PATH}:}/home/nemanjl/.local/repositories/fzf/bin"
+# fi
+
+if [ -d "$XDG_REPO_HOME"/fzf/bin* ] && [ ! -L "$XDG_BIN_HOME"/fzf ]; then
+  ln -sf "$XDG_REPO_HOME"/fzf/bin/fzf "$XDG_BIN_HOME"/fzf
+fi
+
+if [ -d "$XDG_REPO_HOME"/fzf/bin* ] && [ ! -L "$XDG_BIN_HOME"/fzf-tmux ]; then
+  ln -sf "$XDG_REPO_HOME"/fzf/bin/fzf-tmux "$XDG_BIN_HOME"/fzf-tmux
+fi
+
+# Auto-completion
+# ---------------
+[[ $- == *i* ]] && source "/home/nemanjl/.local/repositories/fzf/shell/completion.bash" 2> /dev/null
+
+# Key bindings
+# ------------
+source "/home/nemanjl/.local/repositories/fzf/shell/key-bindings.bash"
 
 # Add this lines at the top of .bashrc:
 [[ $- == *i* ]] && source ${XDG_REPO_HOME}/ble.sh/out/ble.sh --noattach
 
-source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
+source "$HOME"/.asdf/asdf.sh
+source "$HOME"/.asdf/completions/asdf.bash
+source "$HOME"/.asdf/plugins/java/set-java-home.bash
 
 source $DOTS/asdf/asdf-pyvirtual-envs.sh
-source $DOTS/scripts/aliases.sh
 source $DOTS/scripts/bash-it
+source $DOTS/shell-common/aliases.sh
+source $DOTS/shell-common/fzf.sh
 
 # Add this line at the end of .bashrc:
-# [[ ${BLE_VERSION-} ]] && ble-attach
+[[ ${BLE_VERSION-} ]] && ble-attach

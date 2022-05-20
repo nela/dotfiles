@@ -5,6 +5,7 @@
 # Module to check zsh loading times
 # zmodload zsh/zprof
 
+alias ls="gls --color=auto"
 export HISTFILE="$XDG_CACHE_HOME/zsh/histfile"
 HISTSIZE=5000
 SAVEHIST=5000

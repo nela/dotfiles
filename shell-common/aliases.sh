@@ -1,4 +1,3 @@
-alias ls="gls --color=auto"
 alias ll='ls -laFh'     			# long (-l), types classify (-F),human readable (-h)
 alias l='ll'
 alias lst='ls -tlFh'
