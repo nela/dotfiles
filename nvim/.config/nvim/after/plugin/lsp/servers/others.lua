@@ -31,6 +31,7 @@ end
 
 for _, server in ipairs(installed_servers()) do
   if not contains(exclude_servers, server) then
+    print(server)
     lspconfig[server].setup {}
   end
 end
