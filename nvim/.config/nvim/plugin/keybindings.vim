@@ -94,6 +94,7 @@ nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 nnoremap <Tab>q <Plug>QuickfixToggle
 nnoremap <leader>cq :ClearQuickfixList<CR>
 
+nnoremap <BS> <C-^>
 
 " nnoremap <leader>sw <Plug>StripTrailingWhitespace
 " Shift + J/K moves selected lines down/up in visual mode
