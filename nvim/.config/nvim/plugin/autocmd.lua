@@ -51,7 +51,7 @@ aucmd("BufWritePre", {
 aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
-    command = "%s#\\($\\n\\s*\\)*\\%$##"
+    command = ":keepjumps %s#\\($\\n\\s*\\)*\\%$##"
 })
 
 aucmd("BufWritePre", {
