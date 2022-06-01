@@ -55,9 +55,16 @@ local function goto_definition(split_cmd)
       return nil
     end
 
-    if split_cmd then
-      vim.cmd(split_cmd)
+    local scmd
+    print(vim.o.winwidth)
+    print(type(vim.o.winwidth))
+    if vim.o.winwidth > 100 then
+      scmd = "vsplit"
+    else
+      scmd = "split"
     end
+
+    vim.cmd(scmd)
 
     if vim.tbl_islist(result) then
       util.jump_to_location(result[1])
