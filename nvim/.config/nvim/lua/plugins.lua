@@ -14,6 +14,7 @@ end
     "tpope/vim-sleuth",
     "tpope/vim-repeat",
     "tpope/vim-abolish",
+    "tpope/vim-unimpaired",
     "wellle/targets.vim",
     "ggandor/lightspeed.nvim",
     "sainnhe/gruvbox-material",

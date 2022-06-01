@@ -82,7 +82,7 @@ local common_on_attach = function(client, bufnr)
     client.config.flags.allow_incremental_sync = true
   end
 
-  if client.supports_method("textDocument/documentHighligh") then
+  if client.supports_method("textDocument/documentHighlight") then
     buf_autocmd_document_highlight(bufnr)
   end
 
