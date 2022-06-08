@@ -54,8 +54,8 @@ end
      requires = { "kyazdani42/nvim-web-devicons" },
      cmd = { "NvimTreeToggle" },
      -- opt = true, -- Doesn"t give icons
-     setup = function() require("nelavim.nvimtree") end,
-     config = function() require("nelavim.nvimtree-after") end
+     -- setup = function() require("nelavim.nvimtree") end,
+     config = function() require("tree.nvimtree") end
    }
 
    use {

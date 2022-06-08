@@ -2,11 +2,11 @@
 -- vim.g.nvim_tree_indent_markers = 1
 
 --List of filenames that gets highlighted with NvimTreeSpecialFile
-vim.g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE', 'Dockerfile' }
+-- vim.g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE', 'Dockerfile' }
 -- 0 by default, append a trailing slash to folder names
 -- vim.g.nvim_tree_add_trailing = 1
 
-vim.g.nvim_tree_icons = {
+--[[ vim.g.nvim_tree_icons = {
     default = '',
     symlink = '',
     git = {
@@ -32,11 +32,11 @@ vim.g.nvim_tree_icons = {
       warning = '',
       error = ''
     }
-}
+} ]]
 
-vim.api.nvim_set_keymap('n', '<leader>nt', ':NvimTreeToggle <CR>', { noremap = true })
+--[[ vim.api.nvim_set_keymap('n', '<leader>nt', ':NvimTreeToggle <CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>rf', ':NvimTreeRefresh <CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>nf', ':NvimTreeFindFile <CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>nf', ':NvimTreeFindFile <CR>', { noremap = true }) ]]
 
 
 
