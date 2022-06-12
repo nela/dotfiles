@@ -4,8 +4,6 @@
 " " noremap <Down> gj
 " " inoremap <Down> <C-o>gj
 " " inoremap <Up> <C-o>gk
-"
-"
 
 nnoremap <leader>hs :split<Space>
 nnoremap <leader>vs :vsplit<Space>
@@ -42,11 +40,11 @@ nnoremap <leader>bl :ls<CR>:b<Space>
 " nnoremap <leader>lk :lprev<CR>
 
 " Tab navigation
-" nnoremap TF :tabfirst<CR>
-" nnoremap TJ :tabnext<CR>
-" nnoremap TK :tabprev<CR>
-" nnoremap TL :tablast<CR>
-" nnoremap TN :tabnew<Space>
+nnoremap ]r :tabnext<CR>
+nnoremap [r :tabprev<CR>
+nnoremap ]R :tablast<CR>
+nnoremap [R :tabfirst<CR>
+nnoremap <leader>R :tabnew<Space>%<CR>
 " nnoremap TM :tabm<Space>
 " nnoremap TD :tabclose<CR>
 " nnoremap TE :tabedit<Space>

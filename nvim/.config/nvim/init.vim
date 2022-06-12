@@ -62,6 +62,8 @@ set background=dark
 " lua require('nelspconfig')
 
 command LoadPacker lua require('plugins')
+" close all buffers except current one
+command! BufOnly execute '%bdelete|edit#|bdelete#'
 
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr() "ignore vimtex

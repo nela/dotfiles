@@ -25,6 +25,8 @@ end
 
    if has("mac") then
     use "/usr/local/opt/fzf"
+   else
+    use "~/.local/repositories/fzf"
    end
 
    use {
@@ -90,11 +92,14 @@ end
      "nvim-telescope/telescope.nvim",
      requires = {
        { "nvim-lua/plenary.nvim" },
-       { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-       { "nvim-telescope/telescope-symbols.nvim" },
      },
     config = function() require("nelescope").setup() end,
    }
+
+  use {
+    { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+    { "nvim-telescope/telescope-symbols.nvim" },
+  }
 
    use {
      "hrsh7th/nvim-cmp",

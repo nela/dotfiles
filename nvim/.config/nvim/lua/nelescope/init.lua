@@ -24,14 +24,13 @@ local keymaps = function()
   keymap_set("<leader>.gf", function() require('telescope.builtin').git_files({ use_buffer_cwd = true }) end)
   keymap_set("<leader>fc", function() require('telescope.builtin').commands() end)
   keymap_set("<leader>fr", function() require('telescope.builtin').registers() end)
+  keymap_set("<leader>jl", function() require('telescope.builtin').jumplist() end)
   keymap_set("<leader>dot", function() require('nelescope.find_files').search_directory('Dotfiles', dots) end)
   keymap_set("<leader>zsh", function() require('nelescope.find_files').search_directory('Zsh', dots..'/zsh') end)
   keymap_set("<leader>vim", function() require('nelescope.find_files').search_directory('Nvim', dots..'/nvim/.config/nvim') end)
 end
 
 M.setup = function()
-
-  require("telescope").load_extension("fzf")
 
   require("telescope").setup {
     defaults = {
@@ -93,6 +92,8 @@ M.setup = function()
   }
 
   keymaps()
+
+  require("telescope").load_extension("fzf")
 
 end
 
