@@ -158,6 +158,9 @@ local diagnostic = {
 
 local location = { 'location', separator = '' }
 
+local navic = require("nvim-navic")
+local navic_sec = { navic.get_location, cond = navic.is_available }
+
 local config = {
   options = {
     theme = theme(gruv_normal),
@@ -172,7 +175,7 @@ local config = {
     lualine_a = { mode },
     lualine_b = { filesize, filename },
     lualine_c = { lsp, diagnostic },
-		lualine_x = {	branch, diff },
+    lualine_x = { navic_sec, branch, diff },
     lualine_y = { location },
     lualine_z = { 'progress' },
     -- These will be filled later

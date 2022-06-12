@@ -85,7 +85,8 @@ end
      "neovim/nvim-lspconfig",
      "williamboman/nvim-lsp-installer",
      "ray-x/lsp_signature.nvim",
-     "folke/lua-dev.nvim"
+     "folke/lua-dev.nvim",
+     "SmiteshP/nvim-navic",
    }
 
   use {

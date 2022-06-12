@@ -97,6 +97,8 @@ local common_on_attach = function(client, bufnr)
     hint_prefix = "",
     hint_scheme = "Comment",
   }, bufnr)
+
+  require("nvim-navic").attach(client, bufnr)
 end
 
 util.on_setup = util.add_hook_after(util.on_setup, function(config)
