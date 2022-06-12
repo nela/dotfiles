@@ -71,6 +71,12 @@ M.setup = function()
         i = {
           ["<C-h>"] = "which_key",
           ["<C-l>"] = layout_actions.toggle_preview,
+          ["<C-b>"] = "delete_buffer",
+        },
+        n = {
+          ["<C-h>"] = "which_key",
+          ["<C-l>"] = layout_actions.toggle_preview,
+          ["<C-b>"] = "delete_buffer",
         }
       },
       dynamic_preview_title = true,
