@@ -1,6 +1,3 @@
-
-print("here")
-
 local add_keymaps = function(bufnr)
   local buf_set_keymap = function(mode, lhs, rhs)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })

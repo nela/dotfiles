@@ -43,5 +43,3 @@ setopt PUSHD_IGNORE_DUPS
 
 # Emacs key binding, use -v for vim mode,
 # then export KEYTIMEOUT=1 for faster switching between modes
-# bindkey -e
-

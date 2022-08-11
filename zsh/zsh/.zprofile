@@ -29,6 +29,8 @@ export ZSHRC="${ZSH}/.zshrc"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export EDITOR="nvim"
 export VENV_HOME="${XDG_DATA_HOME}/nelapys"
+export ASDF_DIR="${XDG_REPO_HOME}/asdf"
+export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
 
 ##### Locale #####
 export LANG=en_US.UTF-8
@@ -54,6 +56,7 @@ export ZCOMPCACHE="$XDG_CACHE_HOME/zsh/zcompcache"
 path=(
   /usr/local/{bin,sbin}
   $XDG_BIN_HOME
+  $ASDF_DIR
   $path
 )
 

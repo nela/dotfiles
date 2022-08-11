@@ -20,7 +20,7 @@ if [ -z $1 ] || [ -z $2 ]; then
   printf ${fix1} "Usage: $0 <project-name> <python-version>"
   printf ${fix2} "Example: $0 my-super-awesome-python-code 3.9.7"
   return -1
-elif [ ! -d "${HOME}/.asdf/installs/python/${2}" ]; then
+elif [ ! -d "$ASDF_DATA_DIR"/installs/python/"$2" ]; then
   printf ${error} "Python version ${2} not installed"
   return -1
 elif [ -d "${VENV_HOME}/${1}" ]; then

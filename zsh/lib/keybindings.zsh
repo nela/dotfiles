@@ -26,3 +26,21 @@ bindkey -M menuselect '^[[Z' reverse-menu-complete
 # bindkey -M menuselect '^xn' accept-and-infer-next-history
 # Undo
 # bindkey -M menuselect '^xu' undo
+
+
+bindkey -v
+# down-line-or-history #
+# autoload -U history-search-end
+
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+
+bindkey -M viins '^P' history-beginning-search-backward #-end
+bindkey -M viins '^N' history-beginning-search-forward #-end
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
+
+bindkey '^A' autosuggest-accept
+bindkey '^K' autosuggest-clear
+bindkey '^X' autosuggest-execute
+bindkey '^F' autosuggest-fetch

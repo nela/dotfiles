@@ -1,4 +1,6 @@
+# alias v='nvim'
 alias ll='ls -laFh'     			# long (-l), types classify (-F),human readable (-h)
+alias ls='ls --color=auto'
 alias l='ll'
 alias lst='ls -tlFh'
 alias lss='ls -SlFh'
