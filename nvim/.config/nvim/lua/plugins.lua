@@ -164,18 +164,19 @@ end
      -- cmd = { "Gitsigns preview_hunk"}
    }
 
+   use {
+     "norcalli/nvim-colorizer.lua",
+     config = function() require("colorizer").setup() end,
+     opt = true,
+     cmd = { "ColorizerAttachToBuffer" }
+   }
+
    if has("mac") then
      use {
        "brymer-meneses/grammar-guard.nvim",
        config = function () require("grammar-guard").init() end
      }
 
-     use {
-       "norcalli/nvim-colorizer.lua",
-       config = function() require("colorizer").setup() end,
-       opt = true,
-       cmd = { "ColorizerAttachToBuffer" }
-     }
 
      use {
        "iamcco/markdown-preview.nvim",

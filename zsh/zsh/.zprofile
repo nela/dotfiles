@@ -44,7 +44,6 @@ export LC_TIME=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LESSCHARSET=utf-8
 
-
 ##### Zsh #####
 # Keep this at the very end
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"

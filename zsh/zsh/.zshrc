@@ -24,11 +24,21 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-[[ -f /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme ]] \
-  && source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+local _p10k_dir
 
-[[ -f "$XDG_REPO_HOME"/powerlevel10k/powerlevel10k.zsh-theme ]] \
-  && source "$XDG_REPO_HOME"/powerlevel10k/powerlevel10k.zsh-theme
+if [ -d /usr/local/opt/powerlevel10k ]; then
+  _p10k_dir=/usr/local/opt/powerlevel10k
+elif [ -d "$XDG_REPO_HOME"/powerlevel10k ]; then
+  _p10k_dir="$XDG_REPO_HOME"/powerlevel10k
+fi
+
+[[ -f "$_p10k_dir"/powerlevel10k.zsh-theme ]] \
+  && source "$_p10k_dir"/powerlevel10k.zsh-theme
+
+unset _p10k_dir
+
+# [[ -f "$XDG_REPO_HOME"/powerlevel10k/powerlevel10k.zsh-theme ]] \
+  # && source "$XDG_REPO_HOME"/powerlevel10k/powerlevel10k.zsh-theme
 
 local _fzf_dir
 
@@ -38,7 +48,7 @@ elif [ -d "$XDG_REPO_HOME"/fzf ]; then
     _fzf_dir="$XDG_REPO_HOME"/fzf
 fi
 
-[ -L $HOME/.local/bin/fzf ] \
+[ -L "$XDG_BIN_HOME"/fzf ] \
     || ln -s "$_fzf_dir"/bin/fzf "$HOME"/.local/bin/fzf
 
 [[ $- == *i* ]] && [ -r "$_fzf_dir"/shell/completion.zsh ] \
@@ -48,20 +58,6 @@ fi
     && zsh-defer source "$_fzf_dir"/shell/key-bindings.zsh
 
 unset _fzf_dir
-
-# Setup fzf
-# if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
-#   export PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
-# fi
-# 
-# # Auto-completion
-# [[ $- == *i* ]] && zsh-defer source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
-# 
-# # Key bindings
-# zsh-defer source "/usr/local/opt/fzf/shell/key-bindings.zsh"
-
-
-# [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 
 _autoloaded=${ZSH}/autoloaded
 fpath=($_autoloaded $fpath)
@@ -73,17 +69,18 @@ if [[ -d "$_autoloaded" ]]; then
 fi
 unset _autoloaded
 
-local _autosuggestion
+local _autosuggestion_dir
 
 [[ "$OSTYPE" == *"linux"* ]] \
-    && _autosuggestion="$XDG_REPO_HOME"/zsh-autosuggestions \
-    || _autosuggestion=/usr/local/share/zsh-autosuggestions
+    && _autosuggestion_dir="$XDG_REPO_HOME"/zsh-autosuggestions \
+    || _autosuggestion_dir=/usr/local/share/zsh-autosuggestions
 
-[ -r "$_autosuggestion"/zsh-autosuggestions.zsh ] \
-  && zsh-defer source "${_autosuggestion}"/zsh-autosuggestions.zsh \
+[ -r "$_autosuggestion_dir"/zsh-autosuggestions.zsh ] \
+  && zsh-defer source "${_autosuggestion_dir}"/zsh-autosuggestions.zsh \
   || printf ${error} "Zsh autosuggestions not loaded"
 
-unset _autosuggestion
+
+unset _autosuggestion_dir
 
 # [ -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] \
 #   && zsh-defer source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
@@ -98,12 +95,12 @@ if [[ -d "$_lib" ]]; then
 fi
 unset _lib
 
-type asdf &>/dev/null || zsh-defer source "$ASDF_DIR"/asdf.sh \
+type asdf &>/dev/null || source "$ASDF_DIR"/asdf.sh \
   || printf ${error} "ASDF not installed"
 
 [ -r "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh ] \
   && command -v asdf >/dev/null 2>&1 && [ -d "$ASDF_DATA_DIR"/installs/java ] \
-  && zsh-defer source "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh \
+  && source "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh \
   || { printf ${error} "ASDF plugin set-java-home not loaded";
   printf ${fix} "Check if asdf and asdf-managed java executables are installed" }
 
@@ -113,21 +110,23 @@ type asdf &>/dev/null || zsh-defer source "$ASDF_DIR"/asdf.sh \
 [ -r "$DOTS"/shell-common/fzf.sh ] && zsh-defer source ${DOTS}/shell-common/fzf.sh \
   || printf ${error} "FZF config not loaded"
 
-[ -r ${XDG_REPO_HOME}/forgit/forgit.plugin.zsh ] \
-  && zsh-defer source ${XDG_REPO_HOME}/forgit/forgit.plugin.zsh \
+[ -r "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh ] \
+  && zsh-defer source "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh \
   || printf ${error} "Forgit not loaded"
 
-[ -r ${XDG_REPO_HOME}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] \
-  && zsh-defer source ${XDG_REPO_HOME}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
+[ -r "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] \
+  && zsh-defer source "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
   || printf ${error} "Fast Syntax Highlighting not loaded"
 
 [ -r "$DOTS"/shell-common/aliases.sh ] \
   && zsh-defer source "$DOTS"/shell-common/aliases.sh
 
-# [ -r ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark ] \
-#   &&  zsh-defer eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
-#   || printf ${error} "Dircolors not loaded"
+[ -r "$XDG_REPO_HOME"/dircolors/dircolors.ansi-dark ] \
+  &&  zsh-defer eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
+  || [ -d "$XDG_REPO_HOME"/dircolors ] && printf ${error} "Dircolors not loaded"
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
+
+[ -x "$XDG_BIN_HOME"/zoxide ] && zsh-defer eval "$(zoxide init zsh)"
 
 unset error fix

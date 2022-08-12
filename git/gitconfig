@@ -1,4 +1,4 @@
-# vim:syntax=gitconfig
+# vmim:syntax=gitconfig
 # vim:filetype=gitconfig
 
 [core]
@@ -6,7 +6,7 @@
   pager = delta
 
 [interactive]
-  diffFilter = delta --color-only
+  diffFilter = delta --color-only --features=interactive
 
 [delta]
   syntax-theme = gruvbox-dark
@@ -24,7 +24,7 @@
   file-style = omit
   hunk-header-decoration-style = "#b57614" box ul
   hunk-header-file-style = "#83a598"
-  hunk-header-line-number-style = bold "#003300"
+  hunk-header-line-number-style = bold "#23a123"
   hunk-header-style = file line-number syntax
   line-numbers = true
   minus-emph-style = normal "#80002a"

@@ -3,6 +3,7 @@
 # nvim:filetype=zsh
 
 # From: https://github.com/htr3n/zsh-config/blob/master/zlogin
+# Blogpost: https://htr3n.github.io/2018/07/faster-zsh/#avoiding-creating-subprocesses
 # Execute code in the background to not affect the current session
 (
     # <https://github.com/zimfw/zimfw/blob/master/login_init.zsh>
