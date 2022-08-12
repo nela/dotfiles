@@ -29,7 +29,9 @@ export ZSHRC="${ZSH}/.zshrc"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export EDITOR="nvim"
 export VENV_HOME="${XDG_DATA_HOME}/nelapys"
-export ASDF_DIR="${XDG_REPO_HOME}/asdf"
+[ -d /usr/local/Cellar/asdf ] \
+  && export ASDF_DIR="/usr/local/Cellar/asdf" \
+  || export ASDF_DIR="${XDG_REPO_HOME}/asdf"
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
 
 ##### Locale #####
