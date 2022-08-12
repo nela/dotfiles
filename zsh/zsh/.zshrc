@@ -77,6 +77,8 @@ type asdf &>/dev/null && source /usr/local/opt/asdf/libexec/asdf.sh \
 [ -r "$DOTS"/shell-common/fzf.sh ] && zsh-defer source ${DOTS}/shell-common/fzf.sh \
   || printf ${error} "FZF config not loaded"
 
+zsh-defer eval "$(zoxide init zsh --cmd z)"
+
 [ -r ${XDG_REPO_HOME}/forgit/forgit.plugin.zsh ] \
   && zsh-defer source ${XDG_REPO_HOME}/forgit/forgit.plugin.zsh \
   || printf ${error} "Forgit not loaded"

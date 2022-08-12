@@ -42,6 +42,9 @@ export LC_TIME=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LESSCHARSET=utf-8
 
+##### Zoxide #####
+export _ZO_DATA_DIR="$XDG_DATA_HOME/zoxide"
+
 
 ##### Zsh #####
 # Keep this at the very end
