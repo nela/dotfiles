@@ -127,6 +127,6 @@ type asdf &>/dev/null || source "$ASDF_DIR"/asdf.sh \
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
-[ -x "$XDG_BIN_HOME"/zoxide ] && zsh-defer eval "$(zoxide init zsh)"
+[ -x "$XDG_BIN_HOME"/zoxide ] && zsh-defer eval "$(zoxide init zsh --cmd z)"
 
 unset error fix

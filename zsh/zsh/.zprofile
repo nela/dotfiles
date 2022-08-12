@@ -48,6 +48,8 @@ export LESSCHARSET=utf-8
 
 export LESSHISTFILE="${XDG_CACHE_HOME}/less/lesshst"
 
+export _ZO_DATA_DIR="$XDG_DATA_HOME/zoxide"
+
 ##### Zsh #####
 # Keep this at the very end
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
@@ -59,7 +61,6 @@ export ZCOMPCACHE="$XDG_CACHE_HOME/zsh/zcompcache"
 path=(
   /usr/local/{bin,sbin}
   $XDG_BIN_HOME
-  $ASDF_DIR
   $path
 )
 
