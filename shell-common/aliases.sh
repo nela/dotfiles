@@ -48,3 +48,6 @@ alias tl="tmux ls"
 alias tn="tmux new -s"
 alias dots='attach_to dots'
 alias thesis='attach_to thesis'
+
+# wget
+alias wget="wget --hsts-file ${XDG_CACHE_HOME}/wget/wget-hsts"
