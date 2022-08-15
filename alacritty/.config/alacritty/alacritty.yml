@@ -28,7 +28,7 @@ font:
   use_thin_strokes: true
   glyph_offset:
     x: 0
-    y: 2
+    y: 4
 
 draw_bold_text_with_bright_colors: true
 

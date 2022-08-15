@@ -17,36 +17,23 @@ fix='\t\e[1;93m\e[0m  %s\n'
 # Zsh-defer
 source "$XDG_REPO_HOME"/zsh-defer/zsh-defer.plugin.zsh
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ] \
+  && source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
 local _p10k_dir
+[[ $SYSTEM == *Darwin* ]] \
+  && _p10k_dir="$BREW_PREFIX"/powerlevel10k \
+  || _p10k_dir="$XDG_REPO_HOME"/powerlevel10k
 
-if [ -d /usr/local/opt/powerlevel10k ]; then
-  _p10k_dir=/usr/local/opt/powerlevel10k
-elif [ -d "$XDG_REPO_HOME"/powerlevel10k ]; then
-  _p10k_dir="$XDG_REPO_HOME"/powerlevel10k
-fi
-
-[[ -f "$_p10k_dir"/powerlevel10k.zsh-theme ]] \
+[ -f "$_p10k_dir"/powerlevel10k.zsh-theme ] \
   && source "$_p10k_dir"/powerlevel10k.zsh-theme
-
 unset _p10k_dir
-
-# [[ -f "$XDG_REPO_HOME"/powerlevel10k/powerlevel10k.zsh-theme ]] \
-  # && source "$XDG_REPO_HOME"/powerlevel10k/powerlevel10k.zsh-theme
 
 local _fzf_dir
 
-if [ -d /usr/local/opt/fzf ]; then
-    _fzf_dir=/usr/local/opt/fzf
-elif [ -d "$XDG_REPO_HOME"/fzf ]; then
-    _fzf_dir="$XDG_REPO_HOME"/fzf
-fi
+[[ $SYSTEM == *Darwin* ]] \
+  && _fzf_dir="$BREW_PREFIX"/fzf \
+  || _fzf_dir="$XDG_REPO_HOME"/fzf
 
 [ -L "$XDG_BIN_HOME"/fzf ] \
     || ln -s "$_fzf_dir"/bin/fzf "$HOME"/.local/bin/fzf
@@ -59,9 +46,8 @@ fi
 
 unset _fzf_dir
 
-_autoloaded=${ZSH}/autoloaded
+_autoloaded="$ZSH"/autoloaded
 fpath=($_autoloaded $fpath)
-
 if [[ -d "$_autoloaded" ]]; then
     for func in $_autoloaded/*; do
         autoload -Uz ${func:t}
@@ -70,24 +56,16 @@ fi
 unset _autoloaded
 
 local _autosuggestion_dir
-
-[[ "$OSTYPE" == *"linux"* ]] \
-    && _autosuggestion_dir="$XDG_REPO_HOME"/zsh-autosuggestions \
-    || _autosuggestion_dir=/usr/local/share/zsh-autosuggestions
+[[ "$SYSTEM" == *Darwin* ]] \
+   &&  _autosuggestion_dir=/usr/local/share/zsh-autosuggestions \
+   ||  _autosuggestion_dir="$XDG_REPO_HOME"/zsh-autosuggestions
 
 [ -r "$_autosuggestion_dir"/zsh-autosuggestions.zsh ] \
   && zsh-defer source "${_autosuggestion_dir}"/zsh-autosuggestions.zsh \
   || printf ${error} "Zsh autosuggestions not loaded"
-
-
 unset _autosuggestion_dir
 
-# [ -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] \
-#   && zsh-defer source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
-#   || printf ${error} "Zsh autosuggestions not loaded"
-
-_lib="$ZSH"/lib
-
+local _lib="$ZSH"/lib
 if [[ -d "$_lib" ]]; then
    for file in $_lib/*.zsh; do
       source $file
@@ -95,19 +73,23 @@ if [[ -d "$_lib" ]]; then
 fi
 unset _lib
 
-type asdf &>/dev/null || source "$ASDF_DIR"/asdf.sh \
+local _asdf_dir
+
+(( $+commands[asdf] )) && [ -d $ASDF_DIR ] \
   || printf ${error} "ASDF not installed"
 
+[[ "$SYSTEM" == *Linux* ]] && [ -d $ASDF_DIR ] \
+  && { zsh-defer source $ASDF_DIR/asdf.sh \
+        && fpath=($ASDF_DIR/completion $fpath) \
+        || printf ${error} "Sourcing ASDF init script failed";
+        printf ${fix} "Check \$ASDF_DIR paths" }
+
 [ -r "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh ] \
-  && command -v asdf >/dev/null 2>&1 && [ -d "$ASDF_DATA_DIR"/installs/java ] \
-  && source "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh \
-  || { printf ${error} "ASDF plugin set-java-home not loaded";
-  printf ${fix} "Check if asdf and asdf-managed java executables are installed" }
+  && { zsh-defer source "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh \
+        || printf ${error} "ASDF plugin set-java-home not loaded";
+        printf ${fix} "Check if asdf and asdf-managed java executables are installed" }
 
-# [[ -r ${DOTS}/scripts/miniforge-init.sh ]] &&  command -v conda >/dev/null 2>&1  && source ${DOTS}/scripts/miniforge-init.sh
-
-# [ -r ${DOTS}/scripts/fzf.zsh ] && source ${DOTS}/scripts/fzf.zsh \
-[ -r "$DOTS"/shell-common/fzf.sh ] && zsh-defer source ${DOTS}/shell-common/fzf.sh \
+[ -r "$DOTS"/shells/fzf.sh ] && zsh-defer source ${DOTS}/shells/fzf.sh \
   || printf ${error} "FZF config not loaded"
 
 [ -r "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh ] \
@@ -118,15 +100,15 @@ type asdf &>/dev/null || source "$ASDF_DIR"/asdf.sh \
   && zsh-defer source "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
   || printf ${error} "Fast Syntax Highlighting not loaded"
 
-[ -r "$DOTS"/shell-common/aliases.sh ] \
-  && zsh-defer source "$DOTS"/shell-common/aliases.sh
+[ -r "$DOTS"/shells/aliases.sh ] \
+  && zsh-defer source "$DOTS"/shells/aliases.sh
 
 [ -r "$XDG_REPO_HOME"/dircolors/dircolors.ansi-dark ] \
   &&  zsh-defer eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
-  || [ -d "$XDG_REPO_HOME"/dircolors ] && printf ${error} "Dircolors not loaded"
+  || printf ${error} "Dircolors not loaded"
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
-[ -x "$XDG_BIN_HOME"/zoxide ] && zsh-defer eval "$(zoxide init zsh --cmd z)"
+(( $+commands[zoxide] )) && zsh-defer eval "$(zoxide init zsh)"
 
 unset error fix

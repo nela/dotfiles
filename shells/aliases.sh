@@ -27,6 +27,8 @@ alias ....='cd ../../../..'
 
 alias df='df -h'
 
+echo in aliases
+
 # Pipe Aliases
 alias grep='egrep --color=auto '
 alias egrep='egrep --color=auto '
