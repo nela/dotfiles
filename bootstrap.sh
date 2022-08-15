@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 create_xdg_dirs() {
   mkdir -p "$XDG_DATA_HOME" \
@@ -25,11 +25,6 @@ create_misc_dirs() {
 }
 
 _get_name_from_url() {
-
-  if [ command -v awk &> /dev/null ]; then
-    echo "Install awk in order to proceed"
-  fi
-
   echo "$1" | awk -F'[/.]' '{print $3}'
 }
 
@@ -40,34 +35,44 @@ clone_repos() {
   elif [ ! -f $HOME/.ssh/id_rsa.pub ]; then
     echo "Generate SSH keys and add them to github before cloning repos"
     exit -1
-  elif [ command -v git &> /dev/null ]; then
+  elif [ ! command -v git &> /dev/null ]; then
     echo "Git is not installed - unable to continue"
     exit -1
   fi
 
-  repostories=$1[@]
+  git clone --depth 1 git@github.com:romkatv/zsh-defer.git "$XDG_DATA_HOME"/zsh-defer
+  git clone --depth 1 git@github.com:wfxr/forgit.git "$XDG_DATA_HOME"/forgit
+  git clone --depth 1 git@github.com:zdharma-continuum/fast-syntax-highlighting.git "$XDG_DATA_HOME"/fast-syntax-highlight
+  git clone --depth 1 git@github.com:tmux-plugins/tpm.git "$XDG_DATA_HOME"/tmux/tpm
+  git clone --depth 1 git@github.com:wbthomason/packer.nvim.git "$XDG_DATA_HOME"/nvim/site/pack/packer/opt/packer.nvim
 
-  for r in "${repositories[@]}"
-  do
-    if [[ "$r" == *tmux* ]]; then
-      git clone --depth 1 "$r" "$XDG_DATA_HOME"/tmux/"$(_get_name_from_url $r)"
-    elif [[ "$r" == **packer** ]]; then
-      git clone --depth 1 "$r" "$XDG_DATA_HOME"/nvim/site/pack/packer/opt/packer.nvim
-    elif [[ "$r" == *fzf*  ]] && [[ $OSTYPE != *darwin* ]]; then
-      git clone --depth 1 "$r" "$XDG_DATA_HOME"/"$(_get_name_from_url $r)"
-    elif [[ "$r" == *asdf*  ]] && [[ $OSTYPE != *darwin* ]]; then
-      git clone --depth 1 "$r" "$XDG_DATA_HOME"/"$(_get_name_from_url $r)" --branch v0.10.2
-    else
-      git clone --depth 1 "$r" "$(_get_name_from_url $r)"
-    fi
-  done
+  if [[ `uname` == 'Darwin' ]]; then
+    git clone --depth 1 git@github.com:junegunn/fzf.git "$XDG_DATA_HOME"/fzf
+    git clone --depth 1 git@github.com:asdf-vm/asdf.git "$XDG_DATA_HOME"/asdf
+  fi
+
+  # repositories=("$@")
+
+  # for r in "${repositories[@]}"
+  # do
+  #   if [[ "$r" == *tmux* ]]; then
+  #     git clone --depth 1 "$r" "$XDG_DATA_HOME"/tmux/"$(_get_name_from_url $r)"
+  #   elif [[ "$r" == **packer** ]]; then
+  #     git clone --depth 1 "$r" "$XDG_DATA_HOME"/nvim/site/pack/packer/opt/packer.nvim
+  #   elif [[ "$r" == *fzf*  ]] && [[ $OSTYPE != *darwin* ]]; then
+  #     git clone --depth 1 "$r" "$XDG_DATA_HOME"/"$(_get_name_from_url $r)"
+  #   elif [[ "$r" == *asdf*  ]] && [[ $OSTYPE != *darwin* ]]; then
+  #     git clone --depth 1 "$r" "$XDG_DATA_HOME"/"$(_get_name_from_url $r)" --branch v0.10.2
+  #   else
+  #     git clone --depth 1 "$r" "$(_get_name_from_url $r)"
+  #   fi
+  # done
 }
 
 create_symlinks() {
   command -v stow &> /dev/null \
     || echo "Ensure stow is installed"
 
-  ln -sf $HOME/dotfiles/zsh/zsh/.zshenv $HOME/.zshenv
   ln -sf $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 
   cd $HOME/dotfiles
@@ -86,11 +91,8 @@ repos=(
   git@github.com:wbthomason/packer.nvim.git
 )
 
-git clone git@github.com:nela/dotfiles.git $HOME/dotfiles
-ln -sf $HOME/dotfiles/zsh/zsh/.zprofile
-
 create_xdg_dirs
 create_pnpm_dirs
 create_misc_dirs
-clone_repos repos
-create_symlinks
+clone_repos 
+# create_symlinks
