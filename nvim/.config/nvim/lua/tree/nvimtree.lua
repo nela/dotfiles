@@ -6,6 +6,17 @@ require('nvim-tree').setup {
   -- nvim_tree_disable_netrw = true,
   disable_netrw = true,
   hijack_netrw = true,
+  renderer = {
+    indent_markers = {
+      enable = true,
+      },
+    icons = {
+      show = {
+        folder_arrow = false,
+      }
+    },
+  },
+  filters = { custom = { "^.git$" } },
   view = {
     width = math.floor(vim.api.nvim_win_get_width(0)/5),
       --43, --(winwidth(0)/5),
@@ -47,11 +58,6 @@ require('nvim-tree').setup {
           { key = "q",                            action = "close" },
           { key = "g?",                           action = "toggle_help" },
       }
-    }
-  },
-  renderer = {
-    indent_markers = {
-      enable = true
     }
   },
   hijack_directories = {
