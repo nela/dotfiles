@@ -20,7 +20,7 @@ export XDG_REPO_HOME="${HOME}/.local/repositories"
 export PNPM_STORE="${XDG_LIB_HOME}/pnpm-store"
 export PNPM_GLOBAL="${XDG_LIB_HOME}/pnpm-global"
 export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm-global"
-export PNPM_STATE="${XDG_DATA_HOME}/pnpm-state"
+export PNPM_STATE="${XDG_STATE_HOME}/pnpm-state"
 
 ##### Custom #####
 export DOTS="${HOME}/dotfiles"
@@ -33,9 +33,9 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
   && export BREW_PREFIX="/usr/local/opt"
 
 [[ $OSTYPE == *darwin* ]] \
-  && export ASDF_DIR="/usr/local/opt/asdf" \
   || export ASDF_DIR="${XDG_REPO_HOME}/asdf"
-export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
+  # && export ASDF_DIR="/usr/local/opt/asdf" \
+export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf-data"
 
 ##### Locale #####
 export LANG=en_US.UTF-8
