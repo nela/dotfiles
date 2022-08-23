@@ -35,7 +35,7 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
 [[ $OSTYPE == *darwin* ]] \
   || export ASDF_DIR="${XDG_REPO_HOME}/asdf"
   # && export ASDF_DIR="/usr/local/opt/asdf" \
-export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf-data"
+export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
 
 ##### Locale #####
 export LANG=en_US.UTF-8

@@ -1,1 +1,0 @@
-/Users/nela/dotfiles/zsh/zsh/.zprofile

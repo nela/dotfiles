@@ -78,6 +78,9 @@ local _asdf_dir
 (( $+commands[asdf] )) && [ -d $ASDF_DIR ] \
   || printf ${error} "ASDF not installed"
 
+[[ "$SYSTEM" == *Darwin* ]] && (( $+commands[asdf] )) &&
+  source /usr/local/opt/asdf/libexec/asdf.sh
+
 [[ "$SYSTEM" == *Linux* ]] && [ -d $ASDF_DIR ] \
   && { zsh-defer source $ASDF_DIR/asdf.sh \
         && fpath=($ASDF_DIR/completion $fpath) \
