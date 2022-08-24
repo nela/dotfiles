@@ -30,14 +30,12 @@ alias df='df -h'
 echo in aliases
 
 # Pipe Aliases
-alias grep='egrep --color=auto '
-alias egrep='egrep --color=auto '
-alias L=' | less '
-alias G=' | egrep --color=auto '
-alias T=' | tail '
-alias H=' | head '
-alias W=' | wc -l '
-alias S=' | sort '
+alias L='| less '
+alias G='| rg'
+alias T='| tail '
+alias H='| head '
+alias W='| wc -l '
+alias S='| sort '
 
 alias vimconf="cd ${NVIM} && nvim init.vim"
 alias zshconf="cd ${ZSH} && nvim zsh/.zshrc"
