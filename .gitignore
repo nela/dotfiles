@@ -4,3 +4,4 @@ nvim/.config/nvim/spell/
 *.zwc
 *.zwc.old
 *unsafe*
+*private*
