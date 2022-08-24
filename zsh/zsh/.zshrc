@@ -5,7 +5,6 @@
 # Module to check zsh loading times
 # zmodload zsh/zprof
 
-# alias ls="gls --color=auto"
 export HISTFILE="$XDG_CACHE_HOME/zsh/histfile"
 HISTSIZE=5000
 SAVEHIST=5000
@@ -54,6 +53,9 @@ unset _p10k_dir
   || printf ${_warning_fix} "Zsh-defer is not downloaded!" \
       "Download to \$XDG_REPO_HOME to improve zsh startup time"
 
+[ -r "$DOTS"/shells/aliases.sh ] \
+  && zsh-defer source "$DOTS"/shells/aliases.sh
+
 
 local _fzf_dir
 
@@ -93,7 +95,6 @@ local _asdf_dir
 #   printf ${fix} "Check \$ASDF_DIR paths"
 # fi
 
-
 if [[ "$SYSTEM" == *Linux* ]] && [ -d $ASDF_DIR ]; then
   fpath=($ASDF_DIR/completions $fpath) \
   zsh-defer source $ASDF_DIR/asdf.sh
@@ -108,22 +109,16 @@ if [ -d "$ASDF_DATA_DIR"/plugins/java ]; then
         "Check \$ASDF_DATA_DIR path, plugins and other installations paths."
 fi
 
-# [ -r "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh ] \
-#   && zsh-defer source "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh \
-
 [ -r "$DOTS"/shells/fzf.sh ] && zsh-defer source ${DOTS}/shells/fzf.sh \
   || printf ${error} "FZF config not loaded"
 
 [ -r "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh ] \
-  && zsh-defer source "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh \
+  &&  source "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh \
   || printf ${error} "Forgit not loaded"
 
 [ -r "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] \
   && zsh-defer source "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
-  # || printf ${error} "Fast Syntax Highlighting not loaded"
-
-[ -r "$DOTS"/shells/aliases.sh ] \
-  && zsh-defer source "$DOTS"/shells/aliases.sh
+  || printf ${error} "Fast Syntax Highlighting not loaded"
 
 # [ -r "$XDG_REPO_HOME"/dircolors/dircolors.ansi-dark ] \
 #   &&  zsh-defer eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
@@ -133,5 +128,8 @@ fi
 
 (( $+commands[zoxide] )) && zsh-defer eval "$(zoxide init zsh)"
 
-
-unset error fix
+unset error     \
+  fix           \
+  _warning      \
+  _warning_fix  \
+  _error_fix
