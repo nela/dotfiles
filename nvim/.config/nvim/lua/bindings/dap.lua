@@ -5,6 +5,8 @@ M.buf_set_keymaps = function(bufnr)
     vim.keymap.set("n", lhs, rhs, { buffer = bufnr, silent = true })
   end
 
+  -- print("dap buf set keymaps")
+
   buf_set_keymap("<F5>", require("dap").continue)
   buf_set_keymap("<F10>", require("dap").step_over)
   buf_set_keymap("<F11>", require("dap").step_into)

@@ -7,7 +7,7 @@ end
 
 local ts_utils = require("nvim-treesitter.ts_utils")
 local lsp_signature = require "lsp_signature"
-local bindings = require("nelsp.bindings")
+local bindings = require("bindings.lsp")
 
 require("nvim-lsp-installer").setup {
   -- ensure_installed = { "sumneko_lua", "jsonls", "yamlls", "bashls" },
@@ -75,7 +75,7 @@ local common_on_attach = function(client, bufnr)
   -- Enable completion triggered by <C-x><C-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  bindings.buf_set_keymaps(bufnr)
+  bindings.set_buf_keymap(bufnr)
   bindings.set_commands()
 
   if client.config.flags then
@@ -112,95 +112,3 @@ util.on_setup = util.add_hook_after(util.on_setup, function(config)
   -- For Lsp snippet completion
   require('cmp_nvim_lsp').update_capabilities(capabilities)
 end)
-
--- local lsp_installer = require('nvim-lsp-installer')
--- local lspconfig = require('lspconfig')
-
--- local servers = lsp_installer.get_installed_servers()
-
--- local on_attach = function(client, bufnr)
---     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
---
---
---     local opts = { noremap = true, silent = true }
---
---     -- See `:help vim.lsp.*` for documentation on any of the below functions
---     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
---     buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
---     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
---     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
---     buf_set_keymap('n', '<leader>sh', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
---     buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
---     buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
---     buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
---     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
---     buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
---     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
---     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-
--- if client.resolved_capabilities.document_highlight then
---   vim.api.nvim_exec(
---     [[
---       augroup lsp_document_highlight
---         autocmd!
---         autocmd CursorHold *\(.tex\|.md\)\@<! lua vim.lsp.buf.document_highlight()
---         autocmd CursorMoved *\(.tex\|.md\)\@<! lua vim.lsp.buf.clear_references()
---       augroup END
---     ]], false)
--- end
-
--- lsp_installer.setup{}
--- for _, s in pairs(servers) do
---   -- print(i)
---   vim.pretty_print(s.name)
---   if s.name == 'jdtls' then
---     vim.g.jdtls_ready = true
---   elseif s.name == 'sumneko_lua' then
---     lspconfig[s.name].setup {
---       on_attach = on_attach,
---       capabilities = capabilities,
---       settings = sumneko_lua_settings,
---     }
---   elseif s.name == 'ltex' then
---     print('ltex')
---   else
---     lspconfig[s.name].setup {
---       on_attach = on_attach,
---       capabilities = capabilities
---     }
---   end
---
--- end
-
--- lsp_installer.on_server_ready(function(server)
---     local opts = {
---       on_attach = on_attach,
---       flags = { debounce_text_changes = 150 },
---       capabilities = capabilities
---     }
---
---     if server.name == 'jdtls' then
---         vim.g.jdtls_ready = true
---     elseif server.name == 'ltex' then
---         opts.settings = ltex_settings
---         opts.filetypes = { 'latex', 'tex', 'bib', 'markdown'  }
---         -- server:setup(opts)
---     elseif server.name == 'sumneko_lua' then
---         opts.settings  = sumneko_lua_settings
---         server:setup(opts)
---     else
---         server:setup(opts)
---     end
---
---     vim.cmd [[ do User LspAttachBuffers ]]
--- end)
-
--- local lspconfig = require('lspconfig')
--- vim.cmd([[ command LspFormatting lua vim.lsp.buf.formatting() ]])
--- vim.cmd([[ command LspSetLocList lua vim.diagnostic.setloclist() ]])
--- vim.cmd([[ command LspSetQfList lua vim.diagnostic.setqflist() ]])
--- vim.cmd([[ command LspAddWorkspaceFolder lua vim.lsp.buf.add_workspace_folder() ]])
--- vim.cmd([[ command LspRemoveWorkspaceFolder lua vim.lsp.buf.remove_workspace_folder() ]])
--- vim.cmd([[ command LspListWorkspaceFolders lua print(vim.inspect(vim.lsp.buf.list_workspace_folders())) ]])
--- vim.cmd([[ command LspRename lua vim.lsp.buf.rename() ]])
--- vim.cmd([[ command LspCodeAction lua vim.lsp.buf.code_action() ]])

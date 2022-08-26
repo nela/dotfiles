@@ -19,7 +19,7 @@ end
     "ggandor/lightspeed.nvim",
     "sainnhe/gruvbox-material",
     "onsails/lspkind-nvim",
-    "romainl/vim-qf", -- hmmm??
+    "romainl/vim-qf",
     "kevinhwang91/nvim-bqf",
   }
 
@@ -57,7 +57,7 @@ end
      cmd = { "NvimTreeToggle" },
      -- opt = true, -- Doesn"t give icons
      -- setup = function() require("nelavim.nvimtree") end,
-     config = function() require("tree.nvimtree") end
+     config = function() require("nvimtree") end
    }
 
    use {

@@ -3,12 +3,6 @@ if not ok then
     return
 end
 
-print("luaaaaa")
-
--- local sumneko_lua_settings = {
---   Lua = { diagnostics = { globals = { 'vim' } } }
--- }
-
 lspconfig.sumneko_lua.setup(require("lua-dev").setup {
   settings = {
     Lua = {

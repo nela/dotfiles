@@ -1,18 +1,25 @@
+local jdtls = require('jdtls')
+-- local lsp_bindings = require("nelsp.bindings")
+-- local dap_bindings = require("neldap.bindings")
+-- local bindings = require("bindings")
+local lsp_bindings = require("bindings.lsp")
+local dap_bindings = require("bindings.dap")
+
 local add_keymaps = function(bufnr)
   local buf_set_keymap = function(mode, lhs, rhs)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
   end
-  buf_set_keymap("n", "<A-o>", require("jdtls").organize_imports)
-  buf_set_keymap("n", "crv", require("jdtls").extract_variable())
-  buf_set_keymap("v", "crv", require("jdtls").extract_variable(true))
-  buf_set_keymap("n", "crc", require("jdtls").extract_constant())
-  buf_set_keymap("v", "crc", require("jdtls").extract_constant(true))
-  buf_set_keymap("v", "crm", require("jdtls").extract_method(true))
+  buf_set_keymap("n", "<A-o>", function() jdtls.organize_imports() end)
+  buf_set_keymap("n", "crv", function() jdtls.extract_variable() end)
+  buf_set_keymap("v", "crv", function() jdtls.extract_variable(true) end)
+  buf_set_keymap("n", "crc", function() jdtls.extract_constant() end)
+  buf_set_keymap("v", "crc", function() jdtls.extract_constant(true) end)
+  buf_set_keymap("v", "crm", function() jdtls.extract_method(true) end)
 end
 
 local add_commands = function()
-  vim.api.nvim_create_user_command("JdtTestClass", require("jdtls").test_class, {})
-  vim.api.nvim_create_user_command("JdtTestNearestMethod", require("jdtls").test_nearest_method, {})
+  vim.api.nvim_create_user_command("JdtTestClass", jdtls.test_class, {})
+  vim.api.nvim_create_user_command("JdtTestNearestMethod", jdtls.test_nearest_method, {})
 end
 
 local sys_apendix = nil
@@ -39,10 +46,6 @@ local paths = {
 
 local bundles = { vim.fn.glob(paths.java_debug) };
 vim.list_extend(bundles, vim.split(vim.fn.glob(paths.vscode_java_test), "\n"))
-
-local jdtls = require('jdtls')
-local lsp_bindings = require("nelsp.bindings")
-local dap_bindings = require("neldap.bindings")
 
 local config = {
   cmd = {
@@ -73,14 +76,14 @@ local config = {
     jdtls.setup_dap({ hotcodereplace = 'auto' })
     jdtls.setup.add_commands()
     jdtls.update_project_config()
-
-    lsp_bindings.buf_set_keymaps(bufnr)
-    lsp_bindings.set_commands()
-    add_keymaps(bufnr)
     add_commands()
-    dap_bindings.buf_set_keymaps(bufnr)
+    add_keymaps(bufnr)
+    lsp_bindings.set_commands()
+    lsp_bindings.set_buf_keymap(bufnr)
+    dap_bindings.set_buf_keymap(bufnr)
+
+    require("nvim-navic").attach(client, bufnr)
   end
 }
 
 jdtls.start_or_attach(config)
-vim.cmd('source ' .. os.getenv('NVIM') .. '/opt/dapbindings.vim')

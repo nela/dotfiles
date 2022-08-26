@@ -51,6 +51,8 @@ export LESSCHARSET=utf-8
 
 export LESSHISTFILE="${XDG_CACHE_HOME}/less/lesshst"
 
+export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
+
 export _ZO_DATA_DIR="$XDG_DATA_HOME/zoxide"
 
 ##### Zsh #####

@@ -32,7 +32,8 @@ local goto_next_error = function()
   vim.diagnostic.goto_next { severity = "Error" }
 end
 
-M.buf_set_keymaps = function(bufnr)
+M.set_buf_keymap = function(bufnr)
+  -- print("buf set keymaps")
   local buf_set_keymap = function(mode, lhs, rhs)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
   end
@@ -72,6 +73,7 @@ M.buf_set_keymaps = function(bufnr)
 end
 
 M.set_commands = function()
+  -- print("set commands")
 
   local command = function(name, cmd)
     vim.api.nvim_create_user_command(name, cmd, {})
