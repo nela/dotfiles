@@ -62,8 +62,9 @@ local _fzf_dir
 [[ $SYSTEM == *Darwin* ]] \
   && _fzf_dir="$BREW_PREFIX"/fzf || _fzf_dir="$XDG_REPO_HOME"/fzf
 
-[[ $_fzf_dir == *"$XDG_REPO_HOME"* ]] && [ -L "$XDG_BIN_HOME"/fzf ] \
-    || ln -s "$_fzf_dir"/bin/fzf "$HOME"/.local/bin/fzf
+if [[ $_fzf_dir == *"$XDG_REPO_HOME"* ]] && [ ! -L "$XDG_BIN_HOME"/fzf ]; then
+    ln -s "$_fzf_dir"/bin/fzf "$HOME"/.local/bin/fzf
+fi
 
 [[ $- == *i* ]] && [ -r "$_fzf_dir"/shell/completion.zsh ] \
     && zsh-defer source "$_fzf_dir"/shell/completion.zsh 2> /dev/null
