@@ -15,17 +15,17 @@ window:
     x: 6
     y: 4
   dynamic_padding: true
-  decorations: buttonless
+  decorations: None
   opacity: 0.9
 
 font:
-  size: 12.5
+  size: 10
   normal:
     family: "MesloLGS NF"
   offset:
     x: 1
     y: 4
-  use_thin_strokes: true
+  # use_thin_strokes: true
   glyph_offset:
     x: 0
     y: 4
