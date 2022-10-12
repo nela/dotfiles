@@ -29,6 +29,9 @@ local keymaps = function()
   keymap_set("<leader>zsh", function() require('nelescope.helpers').search_directory('Zsh', dots..'/zsh') end)
   keymap_set("<leader>vim", function() require('nelescope.helpers').search_directory('Nvim', dots..'/nvim/.config/nvim') end)
   keymap_set("<leader>fs", function() require('nelescope.autosession').search_sessions() end)
+  keymap_set("<leader>.gc", function() require("telescope.builtin").git_commits() end)
+  keymap_set("<leader>bc", function() require("telescope.builtin").git_bcommits() end)
+  keymap_set("<leader>gs", function() require("telescope.builtin").git_stash() end)
 end
 
 M.setup = function()
