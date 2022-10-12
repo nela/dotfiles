@@ -57,6 +57,8 @@ hi SpellCap cterm=underline "ctermfg=203 guifg=#ff5f5f
 set termguicolors
 set background=dark
 
+set sessionoptions+=winpos,terminal,folds
+
 
 " lua require('nelspui')
 " lua require('nelspconfig')

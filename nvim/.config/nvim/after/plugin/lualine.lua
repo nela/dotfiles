@@ -94,7 +94,7 @@ local filesize = {
 	color = { fg = gruv_normal.gray }
 }
 
-local filename =	{
+local filename = {
 	'filename',
 	cond = conditions.buffer_not_empty,
 	padding = 1,
@@ -161,6 +161,8 @@ local location = { 'location', separator = '' }
 local navic = require("nvim-navic")
 local navic_sec = { navic.get_location, cond = navic.is_available }
 
+local autosession = { require("auto-session-library").current_session_name }
+
 local config = {
   options = {
     theme = theme(gruv_normal),
@@ -175,8 +177,8 @@ local config = {
     lualine_a = { mode },
     lualine_b = { filesize, filename },
     lualine_c = { lsp, diagnostic },
-    lualine_x = { navic_sec, branch, diff },
-    lualine_y = { location },
+    lualine_x = { navic_sec, diff, branch },
+    lualine_y = { autosession, location },
     lualine_z = { 'progress' },
     -- These will be filled later
   },

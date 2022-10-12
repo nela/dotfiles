@@ -45,9 +45,10 @@ export LC_CTYPE=en_US.UTF-8
 export LC_MESSAGES=en_US.UTF-8
 export LC_MONETARY=en_US.UTF-8
 export LC_NUMERIC=en_US.UTF-8
-export LC_TIME=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+export LC_TIME=nb_NO.UTF-8
+#export LC_ALL=en_US.UTF-8
 export LESSCHARSET=utf-8
+export TZ=Europe/Oslo
 
 export LESSHISTFILE="${XDG_CACHE_HOME}/less/lesshst"
 
