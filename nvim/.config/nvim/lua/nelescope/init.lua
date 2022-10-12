@@ -28,6 +28,7 @@ local keymaps = function()
   keymap_set("<leader>dot", function() require('nelescope.find_files').search_directory('Dotfiles', dots) end)
   keymap_set("<leader>zsh", function() require('nelescope.find_files').search_directory('Zsh', dots..'/zsh') end)
   keymap_set("<leader>vim", function() require('nelescope.find_files').search_directory('Nvim', dots..'/nvim/.config/nvim') end)
+  keymap_set("<leader>fs", function() require('nelescope.autosession').search_sessions() end)
 end
 
 M.setup = function()

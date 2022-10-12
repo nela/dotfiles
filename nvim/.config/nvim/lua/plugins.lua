@@ -23,6 +23,10 @@ end
     "kevinhwang91/nvim-bqf",
   }
 
+  use {
+    'rmagatti/auto-session',
+  }
+
    if has("mac") then
     use "/usr/local/opt/fzf"
    else
