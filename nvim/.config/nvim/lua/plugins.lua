@@ -104,9 +104,10 @@ require('packer').startup({
         'nvim-telescope/telescope.nvim',
         requires = {
           'nvim-lua/plenary.nvim',
+          'nvim-telescope/telescope-file-browser.nvim',
+          'nvim-telescope/telescope-symbols.nvim',
+          -- also fzf installtion for fzf-native
           { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-          { 'nvim-telescope/telescope-symbols.nvim' },
-          -- also fzf
         },
         config = function() require('nelescope').setup() end,
         ensure_installed = true,
