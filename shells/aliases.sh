@@ -51,3 +51,5 @@ alias thesis='attach_to thesis'
 
 # wget
 alias wget="wget --hsts-file ${XDG_CACHE_HOME}/wget/wget-hsts"
+
+alias bt="sudo -E bpftrace"
