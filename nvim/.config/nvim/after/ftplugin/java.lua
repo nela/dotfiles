@@ -1,9 +1,6 @@
 local jdtls = require('jdtls')
--- local lsp_bindings = require("nelsp.bindings")
--- local dap_bindings = require("neldap.bindings")
--- local bindings = require("bindings")
-local lsp_bindings = require("bindings.lsp")
-local dap_bindings = require("bindings.dap")
+local lsp_bindings = require("nelsp.bindings")
+local dap_bindings = require("neldap.bindings")
 
 local add_keymaps = function(bufnr)
   local buf_set_keymap = function(mode, lhs, rhs)
@@ -83,6 +80,7 @@ local config = {
     dap_bindings.set_buf_keymap(bufnr)
 
     require("nvim-navic").attach(client, bufnr)
+    require("aerial").on_attach(client, bufnr)
   end
 }
 
