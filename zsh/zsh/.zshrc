@@ -18,6 +18,7 @@ _error_fix="\e[0;31m \e[1;91m%s\e[0m\n\t\e[1;96m\e[0m  %s\n"
 
 _autoloaded="$ZSH"/autoloaded
 fpath=($_autoloaded $fpath)
+
 if [[ -d "$_autoloaded" ]]; then
     for func in $_autoloaded/*; do
         autoload -Uz ${func:t}
@@ -26,11 +27,13 @@ fi
 unset _autoloaded
 
 local _lib="$ZSH"/lib
+
 if [[ -d "$_lib" ]]; then
    for file in $_lib/*.zsh; do
       source $file
    done
 fi
+
 unset _lib
 
 [ -f "$DOTS"/private ] && source "$DOTS"/private
@@ -56,7 +59,6 @@ unset _p10k_dir
 [ -r "$DOTS"/shells/aliases.sh ] \
   && zsh-defer source "$DOTS"/shells/aliases.sh
 
-
 local _fzf_dir
 
 [[ $SYSTEM == *Darwin* ]] \
@@ -75,6 +77,7 @@ fi
 unset _fzf_dir
 
 local _autosuggestion_dir
+
 [[ "$SYSTEM" == *Darwin* ]] \
    &&  _autosuggestion_dir=/usr/local/share/zsh-autosuggestions \
    ||  _autosuggestion_dir="$XDG_REPO_HOME"/zsh-autosuggestions
@@ -82,26 +85,22 @@ local _autosuggestion_dir
 [ -r "$_autosuggestion_dir"/zsh-autosuggestions.zsh ] \
   && zsh-defer source "${_autosuggestion_dir}"/zsh-autosuggestions.zsh \
   || printf ${error} "Zsh autosuggestions not loaded"
+
 unset _autosuggestion_dir
 
 local _asdf_dir
 
-# (( $+commands[asdf] )) && [ -d $ASDF_DIR ] \
-#   || printf ${error} "ASDF not installed"
-
-# if [[ `uname` == *Linux* ]] && [ -d $ASDF_DIR ]; then
-#   fpath=($ASDF_DIR/completions $fpath)
-#   zsh-defer source $ASDF_DIR/asdf.sh
-#   printf ${error} "Sourcing ASDF init script failed";
-#   printf ${fix} "Check \$ASDF_DIR paths"
-# fi
-
 if [[ "$SYSTEM" == *Linux* ]] && [ -d $ASDF_DIR ]; then
-  fpath=($ASDF_DIR/completions $fpath) \
-  zsh-defer source $ASDF_DIR/asdf.sh
-  [ $? -eq 0 ] ||
-    printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
+  _asdf_dir="$ASDF_DIR"
+  fpath=("$_asdf_dir"/completions $fpath) \
+elif [[ "$SYSTEM" == *Darwin* ]]; then
+  _asdf_dir="/usr/local/opt/asdf/libexec"
 fi
+
+zsh-defer source "$_asdf_dir"/asdf.sh \
+  || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
+
+unset _asdf_dir
 
 if [ -d "$ASDF_DATA_DIR"/plugins/java ]; then
   [ -r "$ASDF_DATA_DIR"/plugins/java/set-java-home.zsh ] \
