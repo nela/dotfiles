@@ -53,16 +53,40 @@ require('packer').startup({
       'rmagatti/auto-session',
 
        -- LSP & DAP --
-      'neovim/nvim-lspconfig',
-      'williamboman/nvim-lsp-installer',
+      {
+        'neovim/nvim-lspconfig',
+        requires = {
+          {
+            'williamboman/mason.nvim',
+            config = function() require("mason").setup() end,
+          },
+          'williamboman/mason-lspconfig.nvim'
+        },
+        ensure_installed = true
+      },
+      -- 'williamboman/nvim-lsp-installer',
+      -- {
+      --   'williamboman/mason.nvim',
+      --   requires = 'williamboman/mason-lspconfig.nvim',
+      --   config = function() require("mason").setup() end,
+      --   ensure_installed = true,
+      -- },
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
-      'folke/lua-dev.nvim',
+      {
+        'folke/neodev.nvim',
+        config = function() require('neodev').setup({}) end,
+      },
       'SmiteshP/nvim-navic',
+      {
+        'stevearc/aerial.nvim',
+        config = function() require('aerial').setup({}) end,
+      },
       'mfussenegger/nvim-jdtls',
       {
         'brymer-meneses/grammar-guard.nvim',
-        config = function () require('grammar-guard').init() end
+        config = function () require('grammar-guard').init() end,
+        disable = true
       },
       'mfussenegger/nvim-dap',
       {
@@ -187,8 +211,10 @@ require('packer').startup({
 
     -- Specific mac plugins
     if not has('mac') then
+      print('linux')
       use '~/.local/repositories/fzf'
     else
+      print('mack')
       use {
         '/usr/local/opt/fzf',
         {
