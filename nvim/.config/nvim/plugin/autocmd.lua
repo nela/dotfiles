@@ -1,3 +1,7 @@
+asdfasdf
+
+asdf asdf
+asdf a
 local augroup = vim.api.nvim_create_augroup
 local aucmd = vim.api.nvim_create_autocmd
 
@@ -36,7 +40,7 @@ aucmd("BufWritePre", {
     pattern = "*",
     callback = function ()
         local cursor = vim.api.nvim_win_get_cursor(0)
-        vim.api.nvim_buf_set_mark(0, "B", cursor[1], cursor[2], {})
+        vim.api.nvim_buf_set_mark(0, "C", cursor[1], cursor[2], {})
     end
 })
 
@@ -51,18 +55,22 @@ aucmd("BufWritePre", {
 aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
-    command = ":keepjumps %s#\\($\\n\\s*\\)*\\%$##"
+    callback = function()
+        vim.cmd.keepjumps({ args = { "%s#\\($\\n\\s*\\)*\\%$##" } })
+        vim.cmd.undojoin()
+    end
+    -- command = ":keepjumps %s#\\($\\n\\s*\\)*\\%$##"
 })
 
 aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
     callback = function ()
-      local cursor = vim.api.nvim_get_mark("B", {})
+      local cursor = vim.api.nvim_get_mark("C", {})
       if cursor[1] < vim.api.nvim_buf_line_count(0) then
         vim.api.nvim_win_set_cursor(0, { cursor[1], cursor[2] })
       end
-      vim.api.nvim_del_mark("B")
+      vim.api.nvim_del_mark("C")
     end
 })
 
