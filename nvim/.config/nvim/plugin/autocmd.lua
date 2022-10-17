@@ -1,7 +1,3 @@
-asdfasdf
-
-asdf asdf
-asdf a
 local augroup = vim.api.nvim_create_augroup
 local aucmd = vim.api.nvim_create_autocmd
 
@@ -23,7 +19,8 @@ aucmd({ "BufLeave", "FocusLost", "InsertEnter" }, {
 -- Resize window splits when vim is resized
 augroup("split_resize", {})
 aucmd("VimResized", {
-    group = "split_resize", pattern = "*", command = "wincmd ="
+    group = "split_resize", pattern = "*", command = "wincmd =",
+    -- describe = "Resize window splits when vim is resized"
 })
 
 augroup("buffer_update", {})
@@ -32,7 +29,8 @@ augroup("buffer_update", {})
 aucmd({ "FocusGained", "BufEnter" }, {
     group = "buffer_update",
     pattern = "*",
-    command = ":checktime"
+    command = ":checktime",
+    -- describe = "Update buffer contents if changed outside of vim"
 })
 
 aucmd("BufWritePre", {
@@ -41,25 +39,27 @@ aucmd("BufWritePre", {
     callback = function ()
         local cursor = vim.api.nvim_win_get_cursor(0)
         vim.api.nvim_buf_set_mark(0, "C", cursor[1], cursor[2], {})
-    end
+    end,
+    -- describe = "Save cursor position in order to retrieve it afterwards"
 })
 
 -- remove trailing whitespace on save
 aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
-    command = "%s/\\s\\+$//e"
+    command = "%s/\\s\\+$//e",
+    -- describe = "Remove trailing whitespaces on save"
 })
 
--- remove trailing blanklines on save
 aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
     callback = function()
-        vim.cmd.keepjumps({ args = { "%s#\\($\\n\\s*\\)*\\%$##" } })
+        -- vim.cmd.keepjumps({ args = { "%s/\\($\\n\\s*\\)*\\%$//e" } })
+        vim.cmd("keepjumps %s/\\($\\n\\s*\\)*\\%$//e")
         vim.cmd.undojoin()
-    end
-    -- command = ":keepjumps %s#\\($\\n\\s*\\)*\\%$##"
+    end,
+    -- describe = "Remove trailing blank lines on save"
 })
 
 aucmd("BufWritePre", {
@@ -67,12 +67,13 @@ aucmd("BufWritePre", {
     pattern = "*",
     callback = function ()
       local cursor = vim.api.nvim_get_mark("C", {})
-      if cursor[1] < vim.api.nvim_buf_line_count(0) then
+      if cursor ~= nil and cursor[1] < vim.api.nvim_buf_line_count(0) then
         vim.api.nvim_win_set_cursor(0, { cursor[1], cursor[2] })
+        vim.api.nvim_del_mark("C")
       end
-      vim.api.nvim_del_mark("C")
     end
 })
+
 
 -- ensure tabs don't get converted to spaces in Makefiles
 augroup("makefile_tab", {})
@@ -90,6 +91,7 @@ aucmd("TextYankPost", {
         vim.highlight.on_yank({ higroup = "Visual", timeout = 300 })
     end
 })
+
 augroup("nvimtree", {})
 aucmd("BufNew", {
     group = "nvimtree",
