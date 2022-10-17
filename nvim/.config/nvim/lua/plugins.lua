@@ -64,15 +64,6 @@ require('packer').startup({
         },
         ensure_installed = true
       },
-      -- 'williamboman/nvim-lsp-installer',
-      -- {
-      --   'williamboman/mason.nvim',
-      --   requires = 'williamboman/mason-lspconfig.nvim',
-      --   config = function() require("mason").setup() end,
-      --   ensure_installed = true,
-      -- },
-      'ray-x/lsp_signature.nvim',
-      'onsails/lspkind-nvim',
       {
         'folke/neodev.nvim',
         config = function() require('neodev').setup({}) end,
@@ -82,7 +73,6 @@ require('packer').startup({
         'stevearc/aerial.nvim',
         config = function() require('aerial').setup({}) end,
       },
-      'mfussenegger/nvim-jdtls',
       {
         'brymer-meneses/grammar-guard.nvim',
         config = function () require('grammar-guard').init() end,
@@ -95,6 +85,10 @@ require('packer').startup({
         cmd = { 'DIList', 'DIInstall' },
         disable = true,
       },
+      'ray-x/lsp_signature.nvim',
+      'onsails/lspkind-nvim',
+      'mfussenegger/nvim-jdtls',
+      'jose-elias-alvarez/null-ls.nvim',
 
        -- CMP --
       'hrsh7th/nvim-cmp',
