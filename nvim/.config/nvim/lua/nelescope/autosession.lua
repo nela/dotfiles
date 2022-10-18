@@ -93,8 +93,9 @@ local displayer_creator = function(widths)
   }
 end
 
-local make_entry_test = function()
-  -- local status = get_fb_prompt()
+local make_entry = function()
+  local bufnr = get_fb_prompt()
+  print(bufnr)
   local root = autosession.get_root_dir()
 
 
@@ -163,44 +164,6 @@ local make_entry_test = function()
   end
 end
 
-local make_entry = function()
-  local root = autosession.get_root_dir()
-  local icon, icon_hl = get_vim_icon()
-  local items = determine_display_items(icon)
-  local displayer = require("telescope.pickers.entry_display").create {
-      separator = " ",
-      items = items,
-    }
-
-  local make_display = function(entry)
-    if icon and icon_hl then
-      return displayer {
-        { icon, icon_hl },
-        { entry.value },
-        { entry.date, "Yellow"}
-      }
-    else
-      return displayer {
-        { entry.value },
-        { entry.date }
-      }
-    end
-  end
-
-  return function (entry)
-    if entry == "" then return nil end
-    local out = require("auto-session-library").unescape_dir(entry):match("(.+)%.vim")
-    return {
-      ordinal = entry,
-      value = out,
-      filename = out,
-      date = os.date("%c", io.popen("stat -c %Y " .. path:new(root, entry):absolute()):read()),
-      display = make_display,
-      path = path:new(root, entry):absolute()
-  }
-  end
-end
-
 local source_session = function(bufnr)
   local selection = action_state.get_selected_entry()
   actions.close(bufnr)
@@ -223,7 +186,7 @@ M.search_sessions = function()
     prompt_title = "Sessions",
     -- previewer = false,
     cwd = autosession.conf.auto_session_root_dir,
-    entry_maker = make_entry_test(),
+    entry_maker = make_entry(),
     attach_mappings = function(_, map)
       actions.select_default:replace(source_session)
       map("i", "<C-d>", delete_session)
