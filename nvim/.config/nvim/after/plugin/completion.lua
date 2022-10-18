@@ -34,6 +34,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'luasnip' },
+    { name = 'tmux' },
     { name = 'omni' },
     { name = 'buffer', keyword_length = 5 },
   },
@@ -66,7 +67,7 @@ cmp.setup {
   -- snippet plugin here
   snippet = {
     expand = function(args)
-      require 'luasnip'.lsp_expand(args.body)
+      require('luasnip').lsp_expand(args.body)
     end,
   },
 

@@ -6,7 +6,7 @@ local ensure_packer = function()
     fn.system({'git', 'clone', '--depth', '1', 'git@github.com:wbthomason/packer.nvim.git', install_path})
     retval = true
   end
-  _ = vim.cmd [[ packadd packer.nvim ]]
+  vim.cmd [[ packadd packer.nvim ]]
   return retval
 end
 
@@ -91,13 +91,19 @@ require('packer').startup({
       'jose-elias-alvarez/null-ls.nvim',
 
        -- CMP --
-      'hrsh7th/nvim-cmp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-nvim-lua',
-      'hrsh7th/cmp-omni',
-      'hrsh7th/cmp-cmdline',
+      {
+        'hrsh7th/nvim-cmp',
+        requires = {
+          'hrsh7th/cmp-buffer',
+          'hrsh7th/cmp-nvim-lsp',
+          'hrsh7th/cmp-path',
+          'hrsh7th/cmp-nvim-lua',
+          'hrsh7th/cmp-omni',
+          'hrsh7th/cmp-cmdline',
+          'andersevenrud/cmp-tmux',
+        },
+        ensure_installed = true,
+      },
 
        -- Snippets --
       'L3MON4D3/LuaSnip',
@@ -109,12 +115,16 @@ require('packer').startup({
         run = function() require('nvim-treesitter.install').update({
           with_sync = true,
         }) end,
-      },
-      {
-        'nvim-treesitter/playground',
-        opt = true,
-        cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
-        -- disable = true,
+        requires = {
+          {
+            'nvim-treesitter/playground',
+            opt = true,
+            cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
+            -- disable = true,
+          },
+          'p00f/nvim-ts-rainbow',
+        },
+        ensure_instaled = true,
       },
 
       -- Telescope --
@@ -166,6 +176,7 @@ require('packer').startup({
         ft = { 'markdown' },
         setup = function () vim.g.mkdp_filetypes = { 'markdown' } end,
       },
+      'stevearc/dressing.nvim',
 
       -- Tex --
       {
@@ -205,10 +216,8 @@ require('packer').startup({
 
     -- Specific mac plugins
     if not has('mac') then
-      print('linux')
       use '~/.local/repositories/fzf'
     else
-      print('mack')
       use {
         '/usr/local/opt/fzf',
         {
