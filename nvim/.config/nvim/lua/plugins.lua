@@ -142,6 +142,11 @@ require('packer').startup({
       },
 
       -- Visuals --
+      'lukas-reineke/indent-blankline.nvim',
+      {
+        "luukvbaal/stabilize.nvim",
+        config = function() require("stabilize").setup() end,
+      },
       {
         'hoschi/yode-nvim',
         requires = { 'nvim-lua/plenary.nvim' },
