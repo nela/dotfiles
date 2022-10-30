@@ -43,7 +43,7 @@ require('packer').startup({
 
       -- Movement --
       'wellle/targets.vim',
-      'ggandor/lightspeed.nvim',
+      'ggandor/leap.nvim',
 
       -- Quickfix --
       'romainl/vim-qf',
@@ -78,19 +78,17 @@ require('packer').startup({
         config = function () require('grammar-guard').init() end,
         disable = true
       },
-      'mfussenegger/nvim-dap',
-      {
-        'Pocco81/DAPInstall.nvim',
-        opt = true,
-        cmd = { 'DIList', 'DIInstall' },
-        disable = true,
-      },
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind-nvim',
       'mfussenegger/nvim-jdtls',
       'jose-elias-alvarez/null-ls.nvim',
 
-       -- CMP --
+      -- DAP--
+      'mfussenegger/nvim-dap',
+      'rcarriga/nvim-dap-ui',
+      'theHamsta/nvim-dap-virtual-text',
+
+      -- CMP --
       {
         'hrsh7th/nvim-cmp',
         requires = {
@@ -142,6 +140,11 @@ require('packer').startup({
       },
 
       -- Visuals --
+      {
+        'alvarosevilla95/luatab.nvim',
+        config = function() require('luatab').setup() end,
+        disable = true,
+      },
       'lukas-reineke/indent-blankline.nvim',
       {
         "luukvbaal/stabilize.nvim",
