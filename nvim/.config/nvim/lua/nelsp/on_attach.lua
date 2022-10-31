@@ -1,7 +1,7 @@
 local ts_utils = require("nvim-treesitter.ts_utils")
 local lsp_signature = require("lsp_signature")
 local navic = require("nvim-navic")
-local aerial = require("aerial")
+-- local aerial = require("aerial")
 local lsp_bindings = require("nelsp.bindings")
 
 local highlight_references = function()
@@ -83,5 +83,5 @@ return function(client, bufnr)
     navic.attach(client, bufnr)
   end
 
-  aerial.on_attach(client, bufnr)
+  -- aerial.on_attach(client, bufnr)
 end
