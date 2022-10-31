@@ -80,7 +80,7 @@ local config = {
     dap_bindings.set_buf_keymap(bufnr)
 
     require("nvim-navic").attach(client, bufnr)
-    require("aerial").on_attach(client, bufnr)
+    -- require("aerial").on_attach(client, bufnr)
   end
 }
 

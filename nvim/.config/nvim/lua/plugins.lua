@@ -71,7 +71,7 @@ require('packer').startup({
       'SmiteshP/nvim-navic',
       {
         'stevearc/aerial.nvim',
-        config = function() require('aerial').setup({}) end,
+        -- config = function() require('aerial').setup({}) end,
       },
       {
         'brymer-meneses/grammar-guard.nvim',
