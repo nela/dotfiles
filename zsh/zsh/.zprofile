@@ -54,6 +54,8 @@ export LESSHISTFILE="${XDG_CACHE_HOME}/less/lesshst"
 
 export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
 
+export GRADLE_USER_HOME="${XDG_DATA_HOME}/gradle"
+
 export _ZO_DATA_DIR="$XDG_DATA_HOME/zoxide"
 
 ##### Zsh #####
