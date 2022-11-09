@@ -5,3 +5,4 @@ nvim/.config/nvim/spell/
 *.zwc.old
 *unsafe*
 *private*
+.tool-versions
