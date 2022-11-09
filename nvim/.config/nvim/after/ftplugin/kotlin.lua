@@ -36,7 +36,6 @@ local function resolve_classname()
   local files = {}
   local mainfile, pkgname
   for f in string.gmatch(grep_res, "([%w+%p]+[%w+.]kt)") do
-    print(f)
     if not contains(files, f) then
       table.insert(files, f)
     end
@@ -71,8 +70,8 @@ dap.adapters.kotlin = {
   command = os.getenv("XDG_REPO_HOME")
     .. "/kotlin-debug-adapter/adapter/build/install/adapter/bin/kotlin-debug-adapter",
   options = {
-    initialize_timeout_sec = 15,
-    disconnect_timeout_sec = 15,
+    initialize_timeout_sec = 60,
+    disconnect_timeout_sec = 60,
   },
 }
 
