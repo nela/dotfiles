@@ -37,6 +37,7 @@ map("n", "<leader>dk", c(dap.step_out))
 map("n", "<leader>dl", c(dap.step_over))
 map("n", "<leader>dr", c(dap.run_last))
 map("n", "<leader>dx", c(dap.clear_breakpoints))
+map("n", "<leader>dR", c(dap.toggle_repl))
 
 -- map("v", "<M-e>", c(dapui.eval))
 -- map("n", "<leader>d?", c(dapui_widgets.hover))

@@ -52,7 +52,7 @@ require('packer').startup({
       -- Sessions --
       'rmagatti/auto-session',
 
-       -- LSP & DAP --
+       -- LSP --
       {
         'neovim/nvim-lspconfig',
         requires = {
@@ -85,6 +85,7 @@ require('packer').startup({
 
       -- DAP--
       'mfussenegger/nvim-dap',
+      'mfussenegger/nvim-dap-python',
       'rcarriga/nvim-dap-ui',
       'theHamsta/nvim-dap-virtual-text',
 
@@ -193,6 +194,10 @@ require('packer').startup({
         cmd = { 'VimtexCompile', 'VimtexView' },
         opt = true
       },
+
+      -- DB --
+      'tpope/vim-dadbod',
+      'kristijanhusak/vim-dadbod-ui',
 
       -- Utils --
       {
