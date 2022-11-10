@@ -24,12 +24,12 @@ M.set_buf_keymap = function(bufnr)
   buf_set_keymap("n", "<leader>cl", nelsp_utils.find_and_run_codelens)
 
   -- Movement
-  buf_set_keymap("n", "gD", vim.lsp.buf.declaration)
-  buf_set_keymap("n", "gd", nelescope_lsp.definitions)
+  buf_set_keymap("n", "<leader>gD", vim.lsp.buf.declaration)
+  buf_set_keymap("n", "<leader>gd", nelescope_lsp.definitions)
   -- buf_set_keymap("n", "gd", vim.lsp.buf.definitions)
-  buf_set_keymap("n", "gr", nelescope_lsp.references)
-  buf_set_keymap("n", "gbr", nelescope_lsp.buffer_references)
-  buf_set_keymap("n", "gI", nelescope_lsp.implementations)
+  buf_set_keymap("n", "<leader>gr", nelescope_lsp.references)
+  buf_set_keymap("n", "<leader>gbr", nelescope_lsp.buffer_references)
+  buf_set_keymap("n", "<leader>gi", nelescope_lsp.implementations)
   buf_set_keymap("n", "<leader>ds", nelescope_lsp.document_symbols)
 
   -- Docs
@@ -67,6 +67,7 @@ M.set_commands = function()
   command("LspListWorkspaceFolders", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
   command("LspRename", function() vim.lsp.buf.rename() end)
   command("LspCodeAction", function() vim.lsp.buf.code_action() end)
+  command("RmLspLog", [[ exe 'silent ! rm $XDG_STATE_HOME/nvim/lsp.log' ]])
 end
 
 return M

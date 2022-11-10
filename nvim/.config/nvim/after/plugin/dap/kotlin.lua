@@ -31,26 +31,23 @@ end
 
 local function resolve_classname()
   local root_dir = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"))
-  local cmd = '! grep "fun main" -r ' .. root_dir
+  local cmd = '! grep "fun main(args: Array<String>)" -r ' .. root_dir
   local grep_res = vim.api.nvim_exec(cmd, true)
   local files = {}
   local mainfile, pkgname
   for f in string.gmatch(grep_res, "([%w+%p]+[%w+.]kt)") do
+    print(f)
     if not contains(files, f) then
       table.insert(files, f)
     end
   end
 
   if #files > 1 then
-    -- vim.ui.select(files, { prompt = "Select main class file" }, function(choice)
-    --     mainfile = choice
-    -- end)
     vim.notify("Multiple files contain 'fun main'", vim.log.levels.ERROR)
   else
     mainfile = files[1]
   end
   assert(mainfile, "Could not find a file matching 'fun main'")
-  -- print(mainfile)
 
   for line in io.lines(mainfile) do
     local match = line:match("package ([a-z\\.]+)")
