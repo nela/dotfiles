@@ -17,6 +17,7 @@ require('nvim-tree').setup {
     },
   },
   filters = { custom = { "^.git$" } },
+  git = { ignore = false },
   view = {
     width = math.floor(vim.api.nvim_win_get_width(0)/5),
       --43, --(winwidth(0)/5),
