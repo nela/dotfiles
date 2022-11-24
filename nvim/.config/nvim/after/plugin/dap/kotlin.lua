@@ -31,12 +31,16 @@ end
 
 local function resolve_classname()
   local root_dir = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"))
+  if root_dir == nil then
+    return
+  end
+
   local cmd = '! grep "fun main(args: Array<String>)" -r ' .. root_dir
   local grep_res = vim.api.nvim_exec(cmd, true)
   local files = {}
   local mainfile, pkgname
+
   for f in string.gmatch(grep_res, "([%w+%p]+[%w+.]kt)") do
-    print(f)
     if not contains(files, f) then
       table.insert(files, f)
     end
@@ -47,7 +51,7 @@ local function resolve_classname()
   else
     mainfile = files[1]
   end
-  assert(mainfile, "Could not find a file matching 'fun main'")
+  assert(mainfile, "Could not find a file matching \'fun main(args: Array<String>)\'")
 
   for line in io.lines(mainfile) do
     local match = line:match("package ([a-z\\.]+)")
@@ -60,7 +64,7 @@ local function resolve_classname()
   return pkgname .. "." .. vim.fn.fnamemodify(mainfile, ":t:r") .. "Kt"
 end
 
-dap.defaults.kotlin.auto_continue_if_many_stopped = false
+-- dap.defaults.kotlin.auto_continue_if_many_stopped = false
 
 dap.adapters.kotlin = {
   type = "executable",
