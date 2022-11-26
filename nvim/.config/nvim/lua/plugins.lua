@@ -148,7 +148,7 @@ require('packer').startup({
       -- Visuals --
       {
         'nvim-zh/colorful-winsep.nvim',
-        config = function() require('colorful-winsep').setup({}) end,
+        -- config = function() require('colorful-winsep').setup({}) end,
 	-- disable = true,
       },
       {
