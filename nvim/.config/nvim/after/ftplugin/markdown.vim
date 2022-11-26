@@ -1,5 +1,5 @@
-set colorcolumn=80
-set textwidth=79
+set colorcolumn=100
+set textwidth=99
 setlocal spell spelllang=en_gb
 
 " Format paragraph (selected or not) to 80 character lines.
