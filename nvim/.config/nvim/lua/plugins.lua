@@ -43,7 +43,12 @@ require('packer').startup({
 
       -- Movement --
       'wellle/targets.vim',
-      'ggandor/leap.nvim',
+      {
+        'ggandor/leap-spooky.nvim',
+        config = function() require('leap-spooky').setup({}) end,
+        require = { 'ggandor/leap.nvim' },
+        ensure_installed = true
+      },
 
       -- Quickfix --
       'romainl/vim-qf',
@@ -141,6 +146,11 @@ require('packer').startup({
       },
 
       -- Visuals --
+      {
+        'nvim-zh/colorful-winsep.nvim',
+        config = function() require('colorful-winsep').setup({}) end,
+	-- disable = true,
+      },
       {
         'alvarosevilla95/luatab.nvim',
         config = function() require('luatab').setup() end,
