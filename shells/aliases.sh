@@ -53,3 +53,5 @@ alias thesis='attach_to thesis'
 alias wget="wget --hsts-file ${XDG_CACHE_HOME}/wget/wget-hsts"
 
 alias bt="sudo -E bpftrace"
+
+[[ `uname -r` == *"WSL"* ]] && alias docker="sudo docker"
