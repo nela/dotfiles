@@ -5,9 +5,33 @@ if not deps_ok then
     return
 end
 
+local dapui_opts = {
+  layouts = {
+    {
+      elements = {
+      -- Elements can be strings or table with id and size keys.
+        { id = "stacks", size = 0.4 },
+        { id = "watches", size = 0.3 },
+        { id = "breakpoints", size = 0.3 },
+        -- "breakpoints",
+      },
+      size = 40, -- 40 columns
+      position = "left",
+    },
+    {
+      elements = {
+        -- "console",
+        { id = "repl", size = 0.5 },
+        { id = "scopes", size = 0.5 },
+      },
+      size = 0.4, -- 25% of total lines
+      position = "bottom",
+    },
+  },
+}
 
 dap_virtual_text.setup()
-dapui.setup()
+dapui.setup(dapui_opts)
 
 local map = vim.keymap.set
 
@@ -26,7 +50,7 @@ map("n", "<leader>dL", function()
 end)
 map("n", "<leader>dX", function()
     dap.terminate()
-    dapui.close()
+    -- dapui.close()
 end)
 
 map("n", "<leader>da", c(dap.toggle_breakpoint))
@@ -43,6 +67,8 @@ map("v", "<M-e>", c(dapui.eval))
 map("n", "<leader>d?", c(dapui_widgets.hover))
 
 dap.listeners.after.event_initialized["dapui_config"] = c(dapui.open)
+dap.listeners.before.event_terminated["dapui_config"] = c(dapui.close)
+dap.listeners.before.event_exited["dapui_config"] = c(dapui.close)
 dap.listeners.after.event_loadedSource["dapui_config"] = c(dapui.open)
 
 

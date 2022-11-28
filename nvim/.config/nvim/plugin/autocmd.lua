@@ -4,6 +4,7 @@ local aucmd = vim.api.nvim_create_autocmd
 augroup("relativenumber_toggle", {})
 aucmd({ "BufEnter", "FocusGained", "InsertLeave" }, {
     group = "relativenumber_toggle",
+    -- TODO find some patterns!
     pattern = "*",
     command = "set relativenumber"
     -- callback = function() vim.opt.relativenumber = true end,
@@ -33,7 +34,7 @@ aucmd({ "FocusGained", "BufEnter" }, {
     -- describe = "Update buffer contents if changed outside of vim"
 })
 
-aucmd("BufWritePre", {
+--[[ aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
     callback = function ()
@@ -41,7 +42,7 @@ aucmd("BufWritePre", {
         vim.api.nvim_buf_set_mark(0, "C", cursor[1], cursor[2], {})
     end,
     -- describe = "Save cursor position in order to retrieve it afterwards"
-})
+}) ]]
 
 -- remove trailing whitespace on save
 aucmd("BufWritePre", {
@@ -51,7 +52,7 @@ aucmd("BufWritePre", {
     -- describe = "Remove trailing whitespaces on save"
 })
 
-aucmd("BufWritePre", {
+--[[ aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
     callback = function()
@@ -60,9 +61,9 @@ aucmd("BufWritePre", {
         vim.cmd.undojoin()
     end,
     -- describe = "Remove trailing blank lines on save"
-})
+}) ]]
 
-aucmd("BufWritePre", {
+--[[ aucmd("BufWritePre", {
     group = "buffer_update",
     pattern = "*",
     callback = function ()
@@ -72,7 +73,7 @@ aucmd("BufWritePre", {
         vim.api.nvim_del_mark("C")
       end
     end
-})
+}) ]]
 
 
 -- ensure tabs don't get converted to spaces in Makefiles
@@ -92,6 +93,7 @@ aucmd("TextYankPost", {
     end
 })
 
+-- or filetype config?
 augroup("nvimtree", {})
 aucmd("BufNew", {
     group = "nvimtree",

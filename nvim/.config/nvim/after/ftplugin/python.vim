@@ -11,5 +11,3 @@ imap <buffer> <F2> <esc>:w<CR>:exec '!black' shellescape(@%, 1)<CR>
 
 map <buffer> <F3> :w<CR>:exec '!isort' shellescape(@%, 1)<CR>
 imap <buffer> <F3> <esc>:w<CR>:exec '!isort' shellescape(@%, 1)<CR>
-
-lua require('dap-python').setup(os.getenv("NELAPYS") .. "/debugpy/bin/python")
