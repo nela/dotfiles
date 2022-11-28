@@ -46,7 +46,7 @@ require('packer').startup({
       {
         'ggandor/leap-spooky.nvim',
         config = function() require('leap-spooky').setup({}) end,
-        require = { 'ggandor/leap.nvim' },
+        requires = { 'ggandor/leap.nvim' },
         ensure_installed = true
       },
 
@@ -94,6 +94,16 @@ require('packer').startup({
       'rcarriga/nvim-dap-ui',
       'theHamsta/nvim-dap-virtual-text',
 
+      -- TEST --
+      {
+        "nvim-neotest/neotest",
+        requires = {
+          "antoinemadec/FixCursorHold.nvim"
+        },
+        ensure_installed = true,
+      },
+      "haydenmeade/neotest-jest",
+
       -- CMP --
       {
         'hrsh7th/nvim-cmp',
@@ -137,6 +147,7 @@ require('packer').startup({
         requires = {
           'nvim-lua/plenary.nvim',
           'nvim-telescope/telescope-file-browser.nvim',
+          'nvim-telescope/telescope-dap.nvim',
           'nvim-telescope/telescope-symbols.nvim',
           -- also fzf installtion for fzf-native
           { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
