@@ -30,6 +30,7 @@ local contains = function(t, e)
 end
 
 local function resolve_classname()
+  if (vim.bo.filetype ~= "kotlin") then return end
   local root_dir = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"))
   if root_dir == nil then
     return
@@ -64,7 +65,7 @@ local function resolve_classname()
   return pkgname .. "." .. vim.fn.fnamemodify(mainfile, ":t:r") .. "Kt"
 end
 
--- dap.defaults.kotlin.auto_continue_if_many_stopped = false
+dap.defaults.kotlin.auto_continue_if_many_stopped = false
 
 dap.adapters.kotlin = {
   type = "executable",
@@ -76,7 +77,7 @@ dap.adapters.kotlin = {
   },
 }
 
-dap.configurations.kotlin = {
+--[[ dap.configurations.kotlin = {
   {
     type = "kotlin",
     request = "launch",
@@ -84,4 +85,18 @@ dap.configurations.kotlin = {
     projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
     mainClass = resolve_classname(),
   },
+} ]]
+
+-- debug
+dap.configurations.kotlin = {
+  {
+    type = "kotlin",
+    request = "attach",
+    hostName = "127.0.0.1",
+    port = 5005,
+    timeout = 20,
+    name = "Kotlin",
+    projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
+    mainClass = resolve_classname(),
+  }
 }
