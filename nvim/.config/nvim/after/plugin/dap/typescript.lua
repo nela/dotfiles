@@ -26,7 +26,7 @@ for _, lang in ipairs { "typescript", "javascript" } do
       type = "pwa-node",
       request = "attach",
       name = "[pwa-node] Attach",
-      processId = require("dap.utils").pick_process(),
+      processId = require("dap.utils").pick_process,
       cwd = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"))
     },
     {
