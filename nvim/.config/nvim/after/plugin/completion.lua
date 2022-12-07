@@ -35,7 +35,7 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'tmux' },
-    { name = 'omni' },
+    -- { name = 'omni' },
     { name = 'buffer', keyword_length = 5 },
   },
   sorting = {
