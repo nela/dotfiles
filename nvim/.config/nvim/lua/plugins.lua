@@ -87,12 +87,19 @@ require('packer').startup({
       'onsails/lspkind-nvim',
       'mfussenegger/nvim-jdtls',
       'jose-elias-alvarez/null-ls.nvim',
+      'jose-elias-alvarez/typescript.nvim',
 
       -- DAP--
       'mfussenegger/nvim-dap',
       'mfussenegger/nvim-dap-python',
       'rcarriga/nvim-dap-ui',
       'theHamsta/nvim-dap-virtual-text',
+      {
+        "mxsdev/nvim-dap-vscode-js",
+        requires = {
+          "mfussenegger/nvim-dap"
+        }
+      },
 
       -- TEST --
       {
