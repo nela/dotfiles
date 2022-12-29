@@ -28,7 +28,7 @@ require('packer').startup({
        'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
         -- opt = true,
-        config = function() require('gitsigns').setup() end,
+        -- config = function() require('gitsigns').setup() end,
         -- cmd = { 'Gitsigns preview_hunk'}
         ensure_installed = true,
       },
