@@ -38,41 +38,47 @@ util.on_setup = util.add_hook_after(util.on_setup, function(config)
     config.capabilities or {})
 end)
 
+lspconfig.kotlin_language_server.setup({
+  cmd = { "/home/nela/kotlin-language-server/server/build/install/server/bin/kotlin-language-server" },
+  filetypes = { "kotlin" },
+  root_dir = util.root_pattern("pom.xml", "settings.gradle", ".git")
+})
+
 require("mason-lspconfig").setup({})
 
 require("mason-lspconfig").setup_handlers({
   function(server_name)
     lspconfig[server_name].setup({})
   end,
-  ["tsserver"] = function()
-    require("typescript").setup {
-      server = {
-        settings = {
-          typescript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
+    ["tsserver"] = function()
+      require("typescript").setup {
+        server = {
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
             },
-          },
-          javascript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
             },
           },
         },
-      },
-    }
+      }
   end,
   ["sumneko_lua"] = function()
     lspconfig.sumneko_lua.setup({

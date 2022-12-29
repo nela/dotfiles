@@ -31,7 +31,7 @@ local dapui_opts = {
 }
 
 dap_virtual_text.setup()
-dapui.setup(dapui_opts)
+-- dapui.setup(dapui_opts)
 
 local map = vim.keymap.set
 
@@ -54,6 +54,7 @@ map("n", "<leader>dX", function()
 end)
 
 map("n", "<leader>da", c(dap.toggle_breakpoint))
+map("n", "<leader>dA", function() dap.set_breakpoint(vim.fn.input("Breakpoint Condition: ")) end)
 map("n", "<leader>dc", c(dap.continue))
 map("n", "<leader>dh", c(dap.step_back))
 map("n", "<leader>dj", c(dap.step_into))
@@ -66,10 +67,10 @@ map("n", "<leader>dR", c(dap.toggle_repl))
 map("v", "<M-e>", c(dapui.eval))
 map("n", "<leader>d?", c(dapui_widgets.hover))
 
-dap.listeners.after.event_initialized["dapui_config"] = c(dapui.open)
+--[[ dap.listeners.after.event_initialized["dapui_config"] = c(dapui.open)
 dap.listeners.before.event_terminated["dapui_config"] = c(dapui.close)
 dap.listeners.before.event_exited["dapui_config"] = c(dapui.close)
-dap.listeners.after.event_loadedSource["dapui_config"] = c(dapui.open)
+dap.listeners.after.event_loadedSource["dapui_config"] = c(dapui.open) ]]
 
 
 vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "WarningMsg" })

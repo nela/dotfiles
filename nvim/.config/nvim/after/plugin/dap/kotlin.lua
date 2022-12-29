@@ -83,24 +83,24 @@ dap.adapters.kotlin = {
 
 dap.configurations.kotlin = {
   {
+    name = "kotlin: Launch",
     type = "kotlin",
     request = "launch",
-    name = "Kotlin",
     projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
     mainClass = resolve_classname(),
   },
+  {
+    name = "kotlin: Attach",
+    type = "kotlin",
+    request = "attach",
+    hostName = "127.0.0.1",
+    port = 5005,
+    timeout = 20,
+    projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
+    mainClass = resolve_classname(),
+  }
 }
 
 -- debug
 -- dap.configurations.kotlin = {
---   {
---     type = "kotlin",
---     request = "attach",
---     hostName = "127.0.0.1",
---     port = 5005,
---     timeout = 20,
---     name = "Kotlin",
---     projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
---     mainClass = resolve_classname(),
---   }
 -- }
