@@ -40,8 +40,12 @@ local function resolve_classname()
     return
   end
 
-  local cmd = '! grep "fun main(args: Array<String>)" -r ' .. root_dir
-  local grep_res = vim.api.nvim_exec(cmd, true)
+  local grep_res = vim.api.nvim_exec('! grep "fun main(args: Array<String>)" -r ' .. root_dir, true)
+  if not grep_res or string.match(grep_res, "shell returned 1") then
+    vim.notify("Unable to find main func", vim.log.levels.WARN)
+    return
+  end
+
   local files = {}
   local mainfile, pkgname
 
