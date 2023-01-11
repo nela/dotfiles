@@ -26,16 +26,18 @@ else
   sys_apendix = "/config_linux"
 end
 
+local jdtls_version = "1.18.0"
 local helpers = {
   java_home = os.getenv('JAVA_HOME'),
   data = os.getenv('XDG_DATA_HOME'),
   project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t'),
   repos = os.getenv('XDG_REPO_HOME'),
+  jdtls_path = os.getenv('XDG_DATA_HOME') .. "/lsp_servers/jdtls-" .. jdtls_version,
 }
 
 local paths = {
-  sys_config = helpers.data .. '/nvim/lsp_servers/jdtls' .. sys_apendix,
-  jdtls_jar = helpers.data .. '/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+  sys_config = helpers.jdtls_path .. sys_apendix,
+  jdtls_jar = helpers.jdtls_path .. "/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar",
   eclipse_jdtls_workspace = helpers.data .. '/eclipse_jdtls_workspaces/' .. helpers.project_name,
   java_debug = helpers.repos .. '/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar',
   vscode_java_test = helpers.repos .. '/vscode-java-test/server/*.jar',
