@@ -84,6 +84,9 @@ require("mason-lspconfig").setup_handlers({
     lspconfig.sumneko_lua.setup({
       settings = {
         Lua = {
+          workspace = {
+            checkThirdParty = false
+          },
           -- format = {
           --   enable = false
           -- },
