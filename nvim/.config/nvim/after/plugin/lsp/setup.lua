@@ -50,7 +50,28 @@ require("mason-lspconfig").setup_handlers({
   function(server_name)
     lspconfig[server_name].setup({})
   end,
+    ["pylsp"] = function()
+      lspconfig.pylsp.setup({
+        settings = {
+          configurationSources = { "flake8" },
+          formatCommand = { "black" },
+          pylsp = {
+            plugins = {
+              pycodestyle = { enabled = false },
+              black = { enabled = true },
+              isort = { enabled = true, profile = "black"},
+              flake8 = { enabled = true },
+              pylint = {
+                enabled = true,
+                -- args = { "--rcfile", "~/volt/data-quality-bid-aggregator/pyproject.toml"}
+              },
+            }
+          }
+      }
+      })
+    end,
     ["tsserver"] = function()
+
       require("typescript").setup {
         server = {
           settings = {

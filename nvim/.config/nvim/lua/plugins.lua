@@ -36,7 +36,10 @@ require('packer').startup({
       -- Tpope --
       'tpope/vim-surround',
       'tpope/vim-eunuch',
-      'tpope/vim-sleuth',
+      {
+        'tpope/vim-sleuth',
+        disable = true
+      },
       'tpope/vim-repeat',
       'tpope/vim-abolish',
       'tpope/vim-unimpaired',
@@ -195,9 +198,6 @@ require('packer').startup({
       {
         'kyazdani42/nvim-tree.lua',
           requires = { 'kyazdani42/nvim-web-devicons' },
-          cmd = { 'NvimTreeToggle' },
-          -- opt = true, -- Doesn't give icons
-          -- setup = function() require('nelavim.nvimtree') end,
           config = function() require('nvimtree') end
       },
       {
@@ -226,6 +226,7 @@ require('packer').startup({
       -- DB --
       'tpope/vim-dadbod',
       'kristijanhusak/vim-dadbod-ui',
+      'kristijanhusak/vim-dadbod-completion',
 
       -- Utils --
       {

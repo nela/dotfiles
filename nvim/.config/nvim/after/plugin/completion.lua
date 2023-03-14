@@ -37,6 +37,7 @@ cmp.setup {
     { name = 'tmux' },
     -- { name = 'omni' },
     { name = 'buffer', keyword_length = 5 },
+    { name = 'vim-dadbod-completion' }
   },
   sorting = {
     comparators = {
@@ -74,15 +75,16 @@ cmp.setup {
   formatting = {
     format = lspkind.cmp_format {
       -- with_text = true,
-      -- mode = 'sy'
-      -- menu = {
-      --   buffer = '[buf]',
-      --   nvim_lsp = '[LSP]',
-      --   nvim_lua = '[api]',
-      --   path = '[path]',
-      --   luasnip = '[snip]',
-      --   -- gh_issues = '[issues]',
-      -- },
+      mode = 'symbol_text',
+      menu = {
+        buffer = '[buf]',
+        nvim_lsp = '[LSP]',
+        nvim_lua = '[api]',
+        path = '[path]',
+        luasnip = '[snip]',
+        ['vim-dadbod-completion'] = '[db]'
+        -- gh_issues = '[issues]',
+      },
     },
   },
   experimental = {

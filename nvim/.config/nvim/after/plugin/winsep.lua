@@ -6,7 +6,7 @@ end
 local opts = {
   highlight = {
     -- guifg = "#d65d0e"
-    guifg = "#6e3109"
+    fg = "#6e3109"
   },
 
   create_event = function()

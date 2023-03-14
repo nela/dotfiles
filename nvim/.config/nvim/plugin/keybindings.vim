@@ -44,7 +44,7 @@ nnoremap ]r :tabnext<CR>
 nnoremap [r :tabprev<CR>
 nnoremap ]R :tablast<CR>
 nnoremap [R :tabfirst<CR>
-nnoremap <leader>R :tabnew<Space>%<CR>
+nnoremap <leader>T :tabnew<Space>%<CR>
 " nnoremap TM :tabm<Space>
 " nnoremap TD :tabclose<CR>
 " nnoremap TE :tabedit<Space>
