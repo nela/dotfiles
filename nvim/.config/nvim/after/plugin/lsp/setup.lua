@@ -61,10 +61,10 @@ require("mason-lspconfig").setup_handlers({
               black = { enabled = true },
               isort = { enabled = true, profile = "black"},
               flake8 = { enabled = true },
-              pylint = {
-                enabled = true,
-                -- args = { "--rcfile", "~/volt/data-quality-bid-aggregator/pyproject.toml"}
-              },
+              -- pylint = {
+              --   enabled = true,
+              --   -- args = { "--rcfile", "~/volt/data-quality-bid-aggregator/pyproject.toml"}
+              -- },
             }
           }
       }

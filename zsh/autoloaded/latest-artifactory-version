@@ -1,0 +1,15 @@
+# vim:syntax=sh
+# vim:filetype=sh
+
+set -o pipefail
+
+GITHUB_NAME="${1}"
+if test -z "${GITHUB_NAME}"
+then
+  echo "Usage: latest-artifactory-version github-name"
+  exit 1
+fi
+curl -sSf \
+  "https://artifactory.statnett.no/artifactory/github-api/repos/${GITHUB_NAME}/releases/latest" \
+  | jq '.tag_name' \
+  | sed -e 's/"//g; s/^v//'

@@ -4,3 +4,8 @@ if not ok then
 end
 
 dap_python.setup(os.getenv('NELAPYS') .. '/debugpy/bin/python')
+
+local configurations = require('dap').configurations.python
+for _, configuration in pairs(configurations) do
+  configuration.justMyCode = false
+end

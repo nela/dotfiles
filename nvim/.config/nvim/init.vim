@@ -59,7 +59,9 @@ set background=dark
 
 set sessionoptions+=winpos,terminal,folds
 
+com! FormatXML :%!python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
 
+nnoremap = :FormatXML<Cr>
 " lua require('nelspui')
 " lua require('nelspconfig')
 

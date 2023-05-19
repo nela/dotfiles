@@ -91,7 +91,7 @@ dap.configurations.kotlin = {
     type = "kotlin",
     request = "launch",
     projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
-    mainClass = resolve_classname(),
+    mainClass = function() resolve_classname() end,
   },
   {
     name = "kotlin: Attach",
@@ -101,7 +101,7 @@ dap.configurations.kotlin = {
     port = 5005,
     timeout = 20,
     projectRoot = util.root_pattern(root_files)(vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")),
-    mainClass = resolve_classname(),
+    mainClass = function() resolve_classname() end,
   }
 }
 
