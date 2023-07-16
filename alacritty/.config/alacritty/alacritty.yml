@@ -1,8 +1,6 @@
 env:
   TERM: xterm-256color
 
-alt_send_esc: false
-
 import:
   - ~/dotfiles/alacritty/.config/alacritty/gruvbox-dark.yaml
 
@@ -17,6 +15,7 @@ window:
   dynamic_padding: true
   decorations: None
   opacity: 0.9
+  option_as_alt: OnlyLeft
 
 font:
   size: 10
