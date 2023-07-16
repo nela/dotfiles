@@ -254,6 +254,9 @@ require('packer').startup({
         }) end,
       },
 
+      -- Http Api
+      'BlackLight/nvim-http'
+
     }
 
     -- Specific mac plugins

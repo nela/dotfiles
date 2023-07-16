@@ -44,17 +44,17 @@ unset _lib
 local _p10k_dir
 
 [[ $SYSTEM == *Darwin* ]] \
-  && _p10k_dir="$BREW_PREFIX"/powerlevel10k || _p10k_dir="$XDG_REPO_HOME"/powerlevel10k
+  && _p10k_dir="$BREW_PREFIX"/powerlevel10k || _p10k_dir="$XDG_DATA_HOME"/zsh/powerlevel10k
 
 [ -f "$_p10k_dir"/powerlevel10k.zsh-theme ] \
   && source "$_p10k_dir"/powerlevel10k.zsh-theme
 unset _p10k_dir
 
 # Zsh-defer
-[ -d "$XDG_REPO_HOME"/zsh-defer ] \
-  && source "$XDG_REPO_HOME"/zsh-defer/zsh-defer.plugin.zsh \
+[ -d "$XDG_DATA_HOME"/zsh/zsh-defer ] \
+  && source "$XDG_DATA_HOME"/zsh/zsh-defer/zsh-defer.plugin.zsh \
   || printf ${_warning_fix} "Zsh-defer is not downloaded!" \
-      "Download to \$XDG_REPO_HOME to improve zsh startup time"
+      "Download to \$XDG_DATA_HOME to improve zsh startup time"
 
 [ -r "$DOTS"/shells/aliases.sh ] \
   && zsh-defer source "$DOTS"/shells/aliases.sh
@@ -62,9 +62,9 @@ unset _p10k_dir
 local _fzf_dir
 
 [[ $SYSTEM == *Darwin* ]] \
-  && _fzf_dir="$BREW_PREFIX"/fzf || _fzf_dir="$XDG_REPO_HOME"/fzf
+  && _fzf_dir="$BREW_PREFIX"/fzf || _fzf_dir="$XDG_DATA_HOME"/fzf
 
-if [[ $_fzf_dir == *"$XDG_REPO_HOME"* ]] && [ ! -L "$XDG_BIN_HOME"/fzf ]; then
+if [[ $_fzf_dir == *"$XDG_DATA_HOME"* ]] && [ ! -L "$XDG_BIN_HOME"/fzf ]; then
     ln -s "$_fzf_dir"/bin/fzf "$HOME"/.local/bin/fzf
 fi
 
@@ -80,7 +80,7 @@ local _autosuggestion_dir
 
 [[ "$SYSTEM" == *Darwin* ]] \
    &&  _autosuggestion_dir=/usr/local/share/zsh-autosuggestions \
-   ||  _autosuggestion_dir="$XDG_REPO_HOME"/zsh-autosuggestions
+   ||  _autosuggestion_dir="$XDG_DATA_HOME"/zsh/zsh-autosuggestions
 
 [ -r "$_autosuggestion_dir"/zsh-autosuggestions.zsh ] \
   && zsh-defer source "${_autosuggestion_dir}"/zsh-autosuggestions.zsh \
@@ -112,12 +112,12 @@ fi
 [ -r "$DOTS"/shells/fzf.sh ] && zsh-defer source ${DOTS}/shells/fzf.sh \
   || printf ${error} "FZF config not loaded"
 
-[ -r "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh ] \
-  &&  source "$XDG_REPO_HOME"/forgit/forgit.plugin.zsh \
+[ -r "$XDG_DATA_HOME"/zsh/forgit/forgit.plugin.zsh ] \
+  &&  source "$XDG_DATA_HOME"/zsh/forgit/forgit.plugin.zsh \
   || printf ${error} "Forgit not loaded"
 
-[ -r "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] \
-  && zsh-defer source "$XDG_REPO_HOME"/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
+[ -r "$XDG_DATA_HOME"/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] \
+  && zsh-defer source "$XDG_DATA_HOME"/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
   || printf ${error} "Fast Syntax Highlighting not loaded"
 
 # [ -r "$XDG_REPO_HOME"/dircolors/dircolors.ansi-dark ] \

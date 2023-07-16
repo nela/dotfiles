@@ -14,7 +14,6 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_LIB_HOME="${HOME}/.local/lib"
 export XDG_STATE_HOME="${HOME}/.local/state"
-export XDG_REPO_HOME="${HOME}/.local/repositories"
 
 ##### PNPM #####
 export PNPM_STORE="${XDG_LIB_HOME}/pnpm-store"
@@ -33,9 +32,9 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
   && export BREW_PREFIX="/usr/local/opt"
 
 [[ $OSTYPE == *darwin* ]] \
-  || export ASDF_DIR="${XDG_REPO_HOME}/asdf"
+  || export ASDF_DIR="${XDG_DATA_HOME}/asdf"
   # && export ASDF_DIR="/usr/local/opt/asdf" \
-export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
+export ASDF_DATA_DIR="${XDG_LIB_HOME}/asdf"
 
 ##### Locale #####
 export LANG=en_US.UTF-8
@@ -56,7 +55,7 @@ export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
 
 export GRADLE_USER_HOME="${XDG_DATA_HOME}/gradle"
 
-export _ZO_DATA_DIR="$XDG_DATA_HOME/zoxide"
+export _ZO_DATA_DIR="$XDG_STATE_HOME/zoxide"
 
 ##### Zsh #####
 # Keep this at the very end

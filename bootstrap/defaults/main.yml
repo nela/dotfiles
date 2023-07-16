@@ -1,0 +1,16 @@
+---
+# defaults file for bootstrap
+xdg_data_home: "{{ ansible_env.HOME }}/.local/share"
+git_repos:
+  - repo: "git@github.com:romkatv/zsh-defer.git"
+    dest: "{{ xdg_data_home }}/zsh/zsh-defer"
+    depth: 1
+  - repo: "git@github.com:wfxr/forgit.git"
+    dest: "{{ xdg_data_home }}/zsh/forgit"
+    depth: 1
+  - repo: "git@github.com:zdharma-continuum/fast-syntax-highlighting.git"
+    dest: "{{ xdg_data_home }}/zsh/fast-syntax-highlighting"
+    depth: 1
+  - repo: "git@github.com:tmux-plugins/tpm.git"
+    dest: "{{ xdg_data_home }}/tmux/tpm"
+    depth: 1

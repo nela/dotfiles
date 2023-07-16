@@ -14,7 +14,7 @@ local root_files = {
     "settings.gradle.kts", -- Gradle
   },
   -- Multi-module projects
-  { "build.gradle", "build.gradle.kts" },
+  -- { "build.gradle", "build.gradle.kts" },
 }
 
 local contains = function(t, e)
@@ -40,7 +40,7 @@ local function resolve_classname()
     return
   end
 
-  local grep_res = vim.api.nvim_exec('! grep "fun main(args: Array<String>)" -r ' .. root_dir, true)
+  local grep_res = vim.api.nvim_exec('! grep "fun main(arg[sv]: Array<String>)" -r ' .. root_dir, true)
   if not grep_res or string.match(grep_res, "shell returned 1") then
     vim.notify("Unable to find main func", vim.log.levels.WARN)
     return
@@ -56,7 +56,27 @@ local function resolve_classname()
   end
 
   if #files > 1 then
-    vim.notify("Multiple files contain 'fun main'", vim.log.levels.ERROR)
+    -- for _, f in ipairs(files) do
+    --   if string.find(f, "Main") then
+    --     mainfile = f
+    --     vim.print(mainfile)
+    --     break
+    --   end
+    -- end
+    --
+    -- if not mainfile then
+    --   for _, f in ipairs(files) do
+    --     if string.find(f, "Application") then
+    --       mainfile = f
+    --       break
+    --     end
+    --   end
+    -- end
+    -- if not mainfile then
+    --   vim.notify("Multiple files contain 'fun main'", vim.log.levels.ERROR)
+    --   return
+    -- end
+    return
   else
     mainfile = files[1]
   end
@@ -73,11 +93,13 @@ local function resolve_classname()
   return pkgname .. "." .. vim.fn.fnamemodify(mainfile, ":t:r") .. "Kt"
 end
 
+-- resolve_classname()
+
 dap.defaults.kotlin.auto_continue_if_many_stopped = false
 
 dap.adapters.kotlin = {
   type = "executable",
-  command = os.getenv("XDG_REPO_HOME")
+  command = os.getenv("XDG_DATA_HOME")
     .. "/kotlin-debug-adapter/adapter/build/install/adapter/bin/kotlin-debug-adapter",
   options = {
     initialize_timeout_sec = 60,
