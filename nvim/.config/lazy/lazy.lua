@@ -12,8 +12,8 @@ if not vim.loop.fs_stat(lazypath) then
 })
 end
 vim.opt.rtp:prepend(lazypath)
--- vim.opt.shiftwidth=2
--- vim.opt.tabstop=2
+vim.opt.shiftwidth=2
+vim.opt.tabstop=2
 
 local has_git = function()
 	local output = vim.fn.systemlist('git rev-parse --is-inside-work-tree 2>/dev/null')
@@ -65,9 +65,9 @@ require('lazy').setup({
 		event = 'VeryLazy',
 		init = function() require('leap').add_default_mappings() end
   },
-	{
-		'ggandor/leap.nvim', event = "VeryLazy",
-		dependencies = {
+	{ 
+		'ggandor/leap.nvim', event = "VeryLazy"
+		dependencies = { 
 			{ 'ggandor/leap-spooky.nvim', event = 'VeryLazy' }
 		}
 	},
@@ -102,43 +102,37 @@ require('lazy').setup({
 		}
 	},
 
-  -- Lsp --
-  {
-		'neovim/nvim-lspconfig',
+  -- Lsp -- 
+  { 
+		'neovim/nvim-lspconfig', 
 		event = { 'BufReadPost', 'BufNewFile' }
 	},
-  {
-		'mfussenegger/nvim-jdtls',
+  { 
+		'mfussenegger/nvim-jdtls', 
 		ft = 'java',
-		event = { 'BufReadPost', 'BufNewFile' }
+		event = { 'BufReadPost', 'BufNewFile' } 
 	},
-  {
-		'jose-elias-alvarez/typescript.nvim',
+  { 
+		'jose-elias-alvarez/typescript.nvim', 
 		ft = 'typescript',
 		event = { 'BufReadPost', 'BufNewFile' },
 		dependencies = 'nvim-lspconfig'
 	},
-  {
-		'folke/neodev.nvim',
+  { 
+		'folke/neodev.nvim', 
 		ft = 'lua',
 		event = 'VeryLazy'
 	},
-  {
-		'SmiteshP/nvim-navic',
-		event = 'VeryLazy'
-	},
-  {
-		'stevearc/aerial.nvim',
+  { 'SmiteshP/nvim-navic', event = 'VeryLazy' },
+  { 
+		'stevearc/aerial.nvim', 
 		cmd = { 'AerialOpen', 'AerialNavOpen', 'AerialToggle' }
 	},
 	{
 		'ray-x/lsp_signature.nvim',
 		event = 'InsertEnter'
 	},
-	{
-		'onsails/lspkind-nvim',
-		event = 'InsertEnter'
-	},
+	{ 'onsails/lspkind-nvim', event = 'InsertEnter' },
 
 	-- Dap --
 	{
@@ -153,7 +147,7 @@ require('lazy').setup({
 			{
 				"mxsdev/nvim-dap-vscode-js",
 				ft = { "javascript", "typescript" },
-				event = "VeryLazy"
+				event = "VeryLazy" 
 			},
 			{
 				'theHamsta/nvim-dap-virtual-text',

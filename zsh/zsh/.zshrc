@@ -126,7 +126,9 @@ fi
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
-(( $+commands[zoxide] )) && zsh-defer eval "$(zoxide init zsh)"
+(( $+commands[zoxide] ))                                                                \
+  && zsh-defer eval "$(zoxide init zsh)"                                                \
+  || printf ${_warning_fix} "Zoxide not installed." "Use packet manager to install it"
 
 unset error     \
   fix           \

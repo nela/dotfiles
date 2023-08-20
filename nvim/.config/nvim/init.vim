@@ -13,6 +13,8 @@ set undofile
 set ttimeout
 set ttyfast
 
+set splitkeep=topline "screen
+
 set hidden
 set nospell
 set hlsearch
@@ -21,7 +23,7 @@ set smartcase
 set matchpairs+=<:>,":",':' " use % to jump between pairs
 set incsearch
 " set backspace=indent,eol,start
-" set tabstop=2 " set the default tabstop
+set tabstop=2 " set the default tabstop
 set softtabstop=2
 set shiftwidth=2 " set the default shift width for indents
 set expandtab  " make tabs into spaces (set by tabstop)
@@ -59,18 +61,8 @@ set background=dark
 
 set sessionoptions+=winpos,terminal,folds
 
-com! FormatXML :%!python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
-
-nnoremap = :FormatXML<Cr>
 " lua require('nelspui')
 " lua require('nelspconfig')
-
-command LoadPacker lua require('plugins')
-" close all buffers except current one
-command! BufOnly execute '%bdelete|edit#|bdelete#'
-
-" set foldmethod=expr
-" set foldexpr=nvim_treesitter#foldexpr() "ignore vimtex
 
 let g:gruvbox_material_palette = 'original'
 let g:gruvbox_material_background = 'hard'
@@ -79,14 +71,23 @@ let g:gruvbox_material_better_performance = 1
 let g:gruvbox_material_diagnostic_virtual_text = 'colored'
 
 if has ('mac')
-  let g:gruvbox_material_enable_italic = 1
-  let g:gruvbox_material_disable_italic_comment = 0
-  let g:gruvbox_material_virtual_text = 1
+	let g:gruvbox_material_enable_italic = 1
+	let g:gruvbox_material_disable_italic_comment = 0
+	let g:gruvbox_material_virtual_text = 1
 else
-  let g:gruvbox_material_palette = 'original'
-  let g:gruvbox_material_background = 'hard'
-  let g:gruvbox_material_enable_italic = 0
-  let g:gruvbox_material_disable_italic_comment = 1
+	let g:gruvbox_material_palette = 'original'
+	let g:gruvbox_material_background = 'hard'
+	let g:gruvbox_material_enable_italic = 0
+	let g:gruvbox_material_disable_italic_comment = 1
 endif
 
-colorscheme gruvbox-material
+command! BufOnly execute '%bdelete|edit#|bdelete#'
+
+" command LoadPacker lua require('plugins')
+lua require("plugins")
+" close all buffers except current one
+
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr() "ignore vimtex
+
+" colorscheme gruvbox-material
