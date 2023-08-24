@@ -1,4 +1,6 @@
 ---
-- hosts: localhost
+- name: Setup current configuration
+  hosts: localhost
+  connection: local
   roles:
     - role: "{{ playbook_dir }}/bootstrap"

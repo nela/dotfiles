@@ -7,7 +7,7 @@ return {
     opts = {
       servers = {
         lua_ls = {
-          cmd = { os.getenv('XDG_DATA_HOME') .. '/lsp/lua_ls/bin/lua-language-server' },
+          cmd = { '/lua-language-server' },
           settings = {
             Lua = {
               runtime = { version = "LuaJIT" },

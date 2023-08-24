@@ -1,0 +1,24 @@
+---
+- name: Create XDG dirs
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - .cache
+    - .config
+    - .local/bin
+    - .local/etc
+    - .local/lib
+    - .local/share
+    - .local/state
+
+- name: Create misc dirs
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - .cache/less
+    - .cache/zoxide
+    - .local/share/tmux

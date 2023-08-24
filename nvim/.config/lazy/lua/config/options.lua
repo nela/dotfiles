@@ -1,3 +1,6 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+
 vim.opt.backupdir      = os.getenv('XDG_CACHE_HOME') .. '/nvim/backup'
 vim.opt.directory      = os.getenv('XDG_CACHE_HOME') .. '/nvim/swap'
 vim.opt.undodir        = os.getenv('XDG_CACHE_HOME') .. '/nvim/undo'

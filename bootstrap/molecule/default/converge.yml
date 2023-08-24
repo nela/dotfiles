@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include dotfiles.bootstrap2"
+      include_role:
+        name: bootstrap2

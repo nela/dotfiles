@@ -1,0 +1,21 @@
+---
+  dependency:
+    name: galaxy
+  driver:
+    name: docker
+  platforms:
+    - name: instance
+      image: "geerlingguy/docker-ubuntu2204-ansible:latest"
+      volumes:
+        - /var/lib/docker
+      privileged: true
+      pre_build_image: true
+    # cgroupns_mode: host
+  lint:
+    set -e
+    yamllint .
+    ansible-lint
+  provisioner:
+    name: ansible
+  verifier:
+    name: ansible

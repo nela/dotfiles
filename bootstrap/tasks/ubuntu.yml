@@ -1,0 +1,80 @@
+- name: Set zsh as user shell
+  block:
+    - name: Install zsh
+      become: true
+      ansible.builtin.apt:
+        name: zsh
+        state: present
+        update_cache: true
+        install_recommends: true
+    - name: Change shell to zsh
+      become: true
+      ansible.builtin.user:
+        name: nea
+        shell: /bin/zsh
+
+
+- name: Clone Git directories
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    depth: "{{ item.depth }}"
+    single_branch: yes
+    version: master
+  with_items: "{{ git_repos + git_repos_ubuntu }}"
+
+- name: Install Neovim
+  block:
+    - name: Download AppImage
+      ansible.builtin.get_url:
+        url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+        dest: "{{ ansible_env.HOME }}/.local/bin/nvim.appimage"
+        mode: a+x
+    # - name: Make exectuable
+    #   ansible.builtin.file:
+    #     dest: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
+    #     mode: a+x
+    - name: Create Symlinks
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
+        path: "{{ ansible_env.HOME}}/.local/bin/{{ item }}"
+        state: link
+      with_items:
+        - v
+        - nvim
+
+- name: Install Zoxide
+  block:
+    - name: Download installation script
+      become: true
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
+        dest: /tmp/zoxide_install.sh
+        mode: u+rwx
+    - name: Execute install script
+      become: true
+      ansible.builtin.shell: /tmp/zoxide_install.sh
+    - name: Zoxide cleanup
+      become: true
+      ansible.builtin.file:
+        path: /tmp/zoxide_install.sh
+        state: absent
+
+- name: Install Delta
+  block:
+    - name: Download deb package
+      become: true
+      vars:
+        remote: "{{ lookup('env', 'GITHUB_REMOTE', default='https://github.com') }}"
+      ansible.builtin.get_url:
+        url: "{{ remote }}/dandavison/delta/releases/download/0.16.5/git-delta-musl_0.16.5_amd64.deb"
+        dest: /tmp/git-delta-musl_0.16.5_amd64.deb
+    - name: Install delta from deb
+      become: true
+      ansible.builtin.apt:
+        deb: /tmp/git-delta-musl_0.16.5_amd64.deb
+    - name: Cleanup
+      become: true
+      ansible.builtin.file:
+        path: /tmp/git-delta-musl_0.16.5_amd64.deb
+        state: absent
