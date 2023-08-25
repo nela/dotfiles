@@ -46,14 +46,14 @@ return {
           format = require('lspkind').cmp_format({
             -- with_text = true,
             mode = 'symbol_text',
-            menu = {
+            --[[ menu = {
               buffer = '[buf]',
               nvim_lua = '[api]',
               nvim_lsp = '[LSP]',
               luasnip = '[snip]',
               path = '[path]',
               ['vim-dadbod-completion'] = '[db]'
-            },
+            }, --]]
             maxwidth = 80,
             ellipsis_char = '...',
             before = function(entry, vim_item)

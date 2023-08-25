@@ -1,6 +1,6 @@
 return {
   { 'nvim-lua/plenary.nvim' },
-	{ dir = '~/.local/share/zsh/fzf', cond = [[ vim.fn.has('mac') != 1]], event = "VeryLazy" },
+  { dir = '~/.local/share/zsh/fzf', cond = [[ vim.fn.has('mac') != 1]], event = "VeryLazy" },
 	{ dir = '/usr/local/opt/fzf', cond = [[ vim.fn.has('mac') == 1]], event = "VeryLazy" },
   { 'tpope/vim-surround', event = 'VeryLazy' },
   { 'tpope/vim-abolish', event = 'VeryLazy' },
