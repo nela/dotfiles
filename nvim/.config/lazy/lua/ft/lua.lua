@@ -18,6 +18,7 @@ return {
               },
               telemetry = { enable = false },
               completion = { callSnippet = "Replace" },
+              hint = { inlay = true }
             },
           },
         }

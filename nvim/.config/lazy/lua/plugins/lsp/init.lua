@@ -22,7 +22,7 @@ return {
       -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
       -- Be aware that you also will need to properly configure your LS P server to
       -- provide the inlay hints.
-      inlay_hints = { enabled = false, },
+      inlay_hints = { enabled = true, },
 
       -- add any global capabilities here
       -- capabilities = {},
@@ -39,7 +39,51 @@ return {
 
       },
     },
+    ---@param opts PluginLspOpts
     config = function(_, opts)
+      local util = require("util")
+
+      if util.has("neoconf.nvim") then
+        local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
+        require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
+      end
+
+      util.on_attach(function(client, buffer)
+        require("plugins.lsp.keymaps").on_attach(client, buffer)
+      end)
+
+      local handlers = require("plugins.lsp.handlers")
+      handlers.update_register_capabilities(require("plugins.lsp.keymaps").on_attach)
+      handlers.update_rename()
+      require("plugins.lsp.ui").redefine_diagnostic_signs()
+
+      vim.diagnostic.config({
+        float = {
+          show_header = true,
+          border = "rounded",
+          source = "always",
+          -- format = function(d)
+          --   local t = vim.deepcopy(d)
+          --   local code = d.code or d.user_data.lsp.code
+          --   if code then
+          --     t.message = string.format("%s [%s]", t.message, code):gsub("1. ", "")
+          --   end
+          --   return t.message
+          -- end,
+        },
+        severity_sort = true,
+        update_in_insert = false,
+      })
+
+      local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+      if opts.inlay_hints.enabled and inlay_hint then
+        util.on_attach(function(client, buffer)
+          if client.supports_method('textDocument/inlayHint') then
+            inlay_hint(buffer, true)
+          end
+        end)
+      end
+
       local servers = opts.servers
       local has_cmp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
       local capabilities = vim.tbl_deep_extend(
@@ -50,7 +94,7 @@ return {
         opts.capabilities or {}
       )
 
-      require('util').on_attach(function(_, buf)
+      util.on_attach(function(_, buf)
         local ok, lspsignature = pcall(require, 'lsp_signature')
         if not ok then
           return
