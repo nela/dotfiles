@@ -1,0 +1,37 @@
+- name: Install Brew Packages
+  vars:
+    install_homebrew: true
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - alacritty
+    - asdf
+    - bat
+    - bitwarden
+    - fd
+    - firefox
+    - forgit
+    - fzf
+    - git-delta
+    - ripgrep
+    - spotify
+
+  pre_tasks:
+    - name: Ensuring Homebrew Is Installed
+      stat:
+        path: /usr/local/bin/brew
+      register: homebrew_check
+
+    - name: Fail if Homebrew not present
+      fail:
+        msg: Homebrew is missing...Install from http://brew.sh/
+      when:
+        - not homebrew_check.stat.exists
+        - not install_homebrew
+
+    - name: Installing Homebrew
+      shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      when:
+        - not homebrew_check.stat.exists
+        - install_homebrew
