@@ -37,6 +37,7 @@ return {
   },
   {
     "ggandor/leap-spooky.nvim",
+    event = "VeryLazy",
     dependencies = { "ggandor/leap.nvim" },
     config = function() require("leap-spooky").setup({}) end,
   },
