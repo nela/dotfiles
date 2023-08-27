@@ -97,7 +97,7 @@ elif [[ "$SYSTEM" == *Darwin* ]]; then
   _asdf_dir="/usr/local/opt/asdf/libexec"
 fi
 
-zsh-defer source "$_asdf_dir"/asdf.sh \
+zsh-defer ASDF_FORCE_PREPEND=no . "$_asdf_dir"/asdf.sh \
   || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 
 unset _asdf_dir
