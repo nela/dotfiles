@@ -22,6 +22,12 @@ require("lazy").setup({
       cmd = "StartupTime",
       init = function() vim.g.startuptime_tries = 10 end,
     },
+    {
+      "m4xshen/hardtime.nvim",
+      dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+      opts = {},
+      event = "VeryLazy"
+    },
     { import = "plugins" },
     { import = 'ft' }
   },
