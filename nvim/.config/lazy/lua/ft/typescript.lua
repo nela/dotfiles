@@ -1,3 +1,10 @@
+local angularls_cmd = {
+  "ngserver",
+  "--stdio",
+  "--tsProbeLocations", vim.fn.getcwd() .. '/node_modules',
+  "--ngProbeLocations", vim.fn.getcwd() .. '/node_modules',
+}
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -9,7 +16,10 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "jose-elias-alvarez/typescript.nvim" },
+    dependencies = {
+      "jose-elias-alvarez/typescript.nvim",
+      "joeveiga/ng.nvim"
+    },
     opts = {
       servers = {
         tsserver = {
@@ -56,14 +66,31 @@ return {
             }
           }
         },
+        angularls = {
+          keys = {
+            { "<leader>at", function () require("ng").goto_template_for_component() end },
+            { "<leader>ac", function () require("ng").goto_component_with_template_file() end },
+            { "<leader>aT", function () require("ng").get_template_tcb() end },
+          },
+        cmd = angularls_cmd,
+          on_new_config = function (new_config, _)
+            new_config.cmd = angularls_cmd
+          end
+        },
       },
       setup = {
         tsserver = function(_, opts)
           require("typescript").setup({ server = opts })
           return true
         end,
+        -- angularls = function(_, opts)
+        --   opts.on_new_config = function(new_config, _)
+        --     new_config.cmd = opts.cmd
+        --   end
+        --   return true
+        -- end
       }
-    }
+    },
   },
   {
     "mfussenegger/nvim-dap",
