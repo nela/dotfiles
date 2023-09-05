@@ -16,28 +16,6 @@ _warning='\e[0;33m \e[0;33m%s\e[0m\n'
 _warning_fix="\e[0;33m \e[0;33m%s\e[0m\n\t\e[1;96m\e[0m  %s\n"
 _error_fix="\e[0;31m \e[1;91m%s\e[0m\n\t\e[1;96m\e[0m  %s\n"
 
-_autoloaded="$ZSH"/autoloaded
-fpath=($_autoloaded $fpath)
-
-if [[ -d "$_autoloaded" ]]; then
-    for func in $_autoloaded/*; do
-        autoload -Uz ${func:t}
-    done
-fi
-unset _autoloaded
-
-local _lib="$ZSH"/lib
-
-if [[ -d "$_lib" ]]; then
-   for file in $_lib/*.zsh; do
-      source $file
-   done
-fi
-
-unset _lib
-
-[ -f "$DOTS"/private ] && source "$DOTS"/private
-
 [ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ] \
   && source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
@@ -91,13 +69,16 @@ unset _autosuggestion_dir
 local _asdf_dir
 
 if [[ "$SYSTEM" == *Linux* ]] && [ -d $ASDF_DIR ]; then
-  _asdf_dir="$ASDF_DIR"
+  _asdf_dir="${ASDF_DIR}"
   fpath=("$_asdf_dir"/completions $fpath) \
+  # echo $_asdf_dir
+  zsh-defer . "$_asdf_dir"/asdf.sh \
+    || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 elif [[ "$SYSTEM" == *Darwin* ]]; then
   _asdf_dir="/usr/local/opt/asdf/libexec"
 fi
 
-zsh-defer ASDF_FORCE_PREPEND=no . "$_asdf_dir"/asdf.sh \
+zsh-defer -c 'ASDF_FORCE_PREPEND=no . "$_asdf_dir"/asdf.sh' \
   || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 
 unset _asdf_dir
@@ -129,6 +110,28 @@ fi
 (( $+commands[zoxide] ))                                                                \
   && zsh-defer eval "$(zoxide init zsh)"                                                \
   || printf ${_warning_fix} "Zoxide not installed." "Use packet manager to install it"
+
+_autoloaded="$ZSH"/autoloaded
+fpath=($_autoloaded $fpath)
+
+if [[ -d "$_autoloaded" ]]; then
+    for func in $_autoloaded/*; do
+        autoload -Uz ${func:t}
+    done
+fi
+unset _autoloaded
+
+local _lib="$ZSH"/lib
+
+if [[ -d "$_lib" ]]; then
+   for file in $_lib/*.zsh; do
+      source $file
+   done
+fi
+
+unset _lib
+
+[ -f "$DOTS"/private ] && source "$DOTS"/private
 
 unset error     \
   fix           \
