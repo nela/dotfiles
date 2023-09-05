@@ -150,16 +150,33 @@ return {
         -- these are to remove the defaults
         lualine_a = { { 'mode', fmt = function(str) return str:sub(1,1) end, } },
         lualine_b = { filesize, filename },
-        lualine_c = { lsp, diagnostic },
-        lualine_x = {
-          {
+        lualine_c = { lsp, diagnostic,
+          --[[ {
             function() return require("nvim-navic").get_location() end,
             cond = function()
                 return package.loaded["nvim-navic"]
                   and require("nvim-navic").is_available()
                   and vim.fn.winwidth(0) > 80
               end,
-          },
+          }, ]]
+        },
+        lualine_x = {
+          --[[ {
+            function() return require("nvim-navic").get_location() end,
+            cond = function()
+                return package.loaded["nvim-navic"]
+                  and require("nvim-navic").is_available()
+                  and vim.fn.winwidth(0) > 80
+              end,
+          }, ]]
+          --[[ {
+            'navic'
+            cond = function()
+              return package.loaded["nvim-navic"]
+                and require("nvim-navic").is_available()
+                and vim.fn.winwidth(0) > 80
+            end,
+          }, ]]
           {
             'diff',
             symbols    = { added = " ", modified = " ", removed = " " },
@@ -182,11 +199,11 @@ return {
           },
           { 'b:gitsigns_head', icon = " ", padding = 1, color = { fg = gruvbox_regular.gray } }
         },
-        lualine_y = { { 'location', separator = '' } },
-        lualine_z = { 'progress' },
+        lualine_y = { { 'location', separator = '', padding = 1 } },
+        lualine_z = { { 'progress', padding = 1 } },
         -- These will be filled later
       },
-      inactive_sections = {
+      --[[ inactive_sections = {
         -- these are to remove the defaults
         lualine_a = {},
         lualine_b = { filesize, filename },
@@ -194,7 +211,7 @@ return {
         lualine_z = {},
         lualine_c = {},
         lualine_x = { 'progress' },
-      },
+      }, ]]
       extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', 'aerial' }
     }
     end
