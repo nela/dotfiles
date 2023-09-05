@@ -1,6 +1,6 @@
 return {
   { 'nvim-lua/plenary.nvim' },
-  { dir = '~/.local/share/zsh/fzf', cond = [[ vim.fn.has('mac') != 1]], event = "VeryLazy" },
+  { dir = '~/.local/share/fzf', cond = [[ vim.fn.has('mac') != 1]], event = "VeryLazy" },
 	{ dir = '/usr/local/opt/fzf', cond = [[ vim.fn.has('mac') == 1]], event = "VeryLazy" },
   { 'tpope/vim-surround', event = 'VeryLazy' },
   { 'tpope/vim-abolish', event = 'VeryLazy' },
@@ -9,6 +9,5 @@ return {
   { 'tpope/vim-repeat', event = 'VeryLazy' },
 	{ 'zegervdv/nrpattern.nvim', event = "VeryLazy" },
 	{ 'junegunn/vim-easy-align', cmd = 'EasyAlign' },
-	{ 'numToStr/Comment.nvim', event = "VeryLazy" },
 	{ 'windwp/nvim-autopairs', opts = { map = '<M-w>' }, event = "InsertEnter" },
 }
