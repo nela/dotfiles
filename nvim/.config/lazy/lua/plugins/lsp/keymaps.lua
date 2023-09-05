@@ -15,7 +15,7 @@ function M.get()
       desc = "Goto Implementation", has_method = "implementation"
     },
     {
-      "gy", "<cmd>FzfLua lsp_typedef<cr>",
+      "gy", "<cmd>FzfLua lsp_typedefs<cr>",
       desc = "Goto T[y]pe Definition", has_method = "typeDefinition"
     },
     { "K", vim.lsp.buf.hover, desc = "Hover", has_method = "hover" },
@@ -86,10 +86,10 @@ function M.has_method(buffer, method)
   local clients = vim.lsp.get_active_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
     if client.supports_method(method) then
-      print("client " .. client.name .. " method " .. method .. " true")
+      -- print("client " .. client.name .. " method " .. method .. " true")
       return true
     end
-    print("client " .. client.name .. " method " .. method .. " false")
+    -- print("client " .. client.name .. " method " .. method .. " false")
   end
   return false
 end
