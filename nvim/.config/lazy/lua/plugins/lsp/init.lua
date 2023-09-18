@@ -115,6 +115,16 @@ return {
           capabilities = vim.deepcopy(capabilities)
         }, servers[server] or {})
 
+        if opts.setup[server] then
+          if opts.setup[server](server, server_opts) then
+            return
+          end
+        elseif opts.setup["*"] then
+          if opts.setup["*"](server, server_opts) then
+            return
+          end
+        end
+
         require('lspconfig')[server].setup(server_opts)
       end
 

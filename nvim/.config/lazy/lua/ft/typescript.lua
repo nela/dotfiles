@@ -3,6 +3,8 @@ local angularls_cmd = {
   "--stdio",
   "--tsProbeLocations", vim.fn.getcwd() .. '/node_modules',
   "--ngProbeLocations", vim.fn.getcwd() .. '/node_modules',
+  -- "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/lib/node_modules',
+  -- "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/lib/node_modules'
 }
 
 return {
@@ -73,7 +75,7 @@ return {
             { "<leader>aT", function () require("ng").get_template_tcb() end },
           },
         cmd = angularls_cmd,
-          on_new_config = function (new_config, _)
+        on_new_config = function (new_config, _)
             new_config.cmd = angularls_cmd
           end
         },
