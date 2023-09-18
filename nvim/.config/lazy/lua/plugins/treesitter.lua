@@ -8,12 +8,20 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
      dependencies = {
        {
-         'nvim-treesitter/nvim-treesitter-textobjects',
-         init = function()
-         require('lazy.core.loader').disable_rtp_plugin('nvim-treesitter-textobjects')
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        init = function()
+          require('lazy.core.loader').disable_rtp_plugin('nvim-treesitter-textobjects')
+          require('lazy.core.loader').disable_rtp_plugin('nvim-ts-autotag')
           load_textobjects = true
-         end,
-       }
+        end,
+       },
+      {
+        'windwp/nvim-ts-autotag',
+        init = function()
+          require('lazy.core.loader').disable_rtp_plugin('nvim-ts-autotag')
+          load_autotag = true
+        end,
+      }
      },
     cmd = { 'TSUpdateSync', 'TSInstall' },
     opts = {
@@ -31,7 +39,7 @@ return {
         "python",
         "regex",
         -- "rst",
-        -- "rust",
+        "rust",
         -- "supercollider",
         -- "svelte",
         "tsx",
@@ -76,6 +84,9 @@ return {
         enable = true,
         extended_mode = true, -- highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
         max_file_lines = 1000, -- Do not enable for files with more than n lines, int
+      },
+      autotag = {
+        enable = true,
       },
       textobjects = {
         select = {
@@ -181,13 +192,19 @@ return {
       end
       require("nvim-treesitter.configs").setup(opts)
 
+      local Loader = require('lazy.core.loader')
       if load_textobjects and opts.textobjects then
-        print('loading')
-        local Loader = require('lazy.core.loader')
         Loader.disabled_rtp_plugins['nvim-treesitter-textobjects'] = nil
         local plugin = require('lazy.core.config').plugins['nvim-treesitter-textobjects']
         Loader.source_runtime(plugin.dir, 'plugin')
       end
+
+      if load_autotag and opts.autotag then
+        Loader.disabled_rtp_plugins['nvim-ts-autotag'] = nil
+        local plugin = require('lazy.core.config').plugins['nvim-ts-autotag']
+        Loader.source_runtime(plugin.dir, 'plugin')
+      end
+
     end
   },
 }
