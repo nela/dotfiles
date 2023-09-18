@@ -120,8 +120,9 @@ local lsp = {
 
 local diagnostic = {
 	'diagnostics',
-	sources = { 'nvim_diagnostic' },
+	-- sources = { 'nvim_diagnostic' },
 	symbols = { error = ' ', warn = ' ', info = ' ' },
+  padding = 1,
 	diagnostics_color = {
 		error = { fg = gruv_dim.red },
 		warn = { fg = gruv_dim.orange },
@@ -150,7 +151,7 @@ return {
         -- these are to remove the defaults
         lualine_a = { { 'mode', fmt = function(str) return str:sub(1,1) end, } },
         lualine_b = { filesize, filename },
-        lualine_c = { lsp, diagnostic,
+        lualine_c = { lsp, --[[ diagnostic, ]]
           --[[ {
             function() return require("nvim-navic").get_location() end,
             cond = function()
@@ -170,7 +171,7 @@ return {
               end,
           }, ]]
           --[[ {
-            'navic'
+            'navic',
             cond = function()
               return package.loaded["nvim-navic"]
                 and require("nvim-navic").is_available()
@@ -180,7 +181,7 @@ return {
           {
             'diff',
             symbols    = { added = " ", modified = " ", removed = " " },
-            padding    = 1,
+            -- padding    = 1,
             diff_color = {
               added    = { fg = gruv_dim.green },
               modified = { fg = gruv_dim.magenta },
@@ -197,7 +198,7 @@ return {
                 end
               end
           },
-          { 'b:gitsigns_head', icon = " ", padding = 1, color = { fg = gruvbox_regular.gray } }
+          { 'b:gitsigns_head', icon = "", padding = 1, color = { fg = gruvbox_regular.gray } }
         },
         lualine_y = { { 'location', separator = '', padding = 1 } },
         lualine_z = { { 'progress', padding = 1 } },
@@ -212,7 +213,7 @@ return {
         lualine_c = {},
         lualine_x = { 'progress' },
       }, ]]
-      extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', 'aerial' }
+      extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', --[[ 'aerial' ]] }
     }
     end
 	},
