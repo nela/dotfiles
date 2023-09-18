@@ -28,8 +28,7 @@ return {
         },
       },
       grep = {
-        rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 --no-ignore-vcs --glob '!{node_modules/*,.git/*}'-e",
-
+        rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob '!{node_modules/,.git/}' -e",
       }
     }
   }
