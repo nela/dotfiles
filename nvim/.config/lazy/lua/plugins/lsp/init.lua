@@ -26,9 +26,11 @@ return {
 
       -- add any global capabilities here
       -- capabilities = {},
-      -- Automatically format on save autoformat = true,
+      -- Automatically format on save
+      -- autoformat = true,
       -- Enable this to show formatters used in a notification
-      -- Useful for debugging formatter issues format_notify = false,
+      -- Useful for debugging formatter issues
+      format_notify = false,
       -- options for vim.lsp.buf.format `bufnr` and `filter` is handled by the LazyVim formatter,
       -- but can be also overridden when specified
       format = { formatting_options = nil, timeout_ms = nil, },
@@ -36,7 +38,6 @@ return {
       ---@type lspconfig.options
       servers = {
         -- jsonls = {},
-
       },
     },
     ---@param opts PluginLspOpts
@@ -50,6 +51,7 @@ return {
 
       util.on_attach(function(client, buffer)
         require("plugins.lsp.keymaps").on_attach(client, buffer)
+        require("plugins.lsp.commands").on_attach(client, buffer)
       end)
 
       local handlers = require("plugins.lsp.handlers")
