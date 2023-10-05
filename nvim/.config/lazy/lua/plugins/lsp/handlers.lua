@@ -52,7 +52,7 @@ function M.update_rename()
       end
     end
     vim.fn.setqflist(entries)
-    vim.cmd("copen")
+    -- vim.cmd("copen")
   end
 end
 
