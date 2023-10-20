@@ -3,7 +3,18 @@
 
 [core]
   editor = nvim
-  pager = delta
+  ; pager = bash -c 'delta --side-by-side --width ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+  ; pager = delta
+  pager = "{                                                         \
+    COLUMNS=$(tput cols);                                            \
+    if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
+        delta --side-by-side -w $COLUMNS;                            \
+    elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
+        delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
+    else                                                             \
+        delta;                                                       \
+    fi                                                               \
+  }"
 
 [interactive]
   diffFilter = delta --color-only --features=interactive
@@ -44,3 +55,23 @@
 
 [init]
   defaultBranch = main
+
+[alias]
+  br = branch
+  co = checkout
+  ca = commit --apend --no-edit
+  cm = commit -m
+  cf = commit --fixup
+  st = status -sb
+  unstage = reset HEAD --
+  ra = rebase -i --autosquash
+  ll = log --oneline
+  last = log -1 HEAD --stat
+  gl = config --global -l
+  se = !git rev-list --all | xargs git grep -F
+  pl = pull
+  ps = push
+  lod = log --oneline --graph --decorate
+
+[help]
+  autocorrect = 20
