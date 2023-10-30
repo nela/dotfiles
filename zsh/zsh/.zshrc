@@ -75,11 +75,13 @@ if [[ "$SYSTEM" == *Linux* ]] && [ -d $ASDF_DIR ]; then
   zsh-defer . "$_asdf_dir"/asdf.sh \
     || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 elif [[ "$SYSTEM" == *Darwin* ]]; then
-  _asdf_dir="/usr/local/opt/asdf/libexec"
+  export ASDF_FORCE_PREPEND=no
+  # _asdf_dir="/usr/local/opt/asdf/libexec"
+  export ASDF_DIR
+  zsh-defer -c 'ASDF_FORCE_PREPEND=no . /usr/local/opt/asdf/libexec/asdf.sh' \
+    || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 fi
 
-zsh-defer -c 'ASDF_FORCE_PREPEND=no . "$_asdf_dir"/asdf.sh' \
-  || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 
 unset _asdf_dir
 
@@ -101,9 +103,11 @@ fi
   && zsh-defer source "$XDG_DATA_HOME"/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
   || printf ${error} "Fast Syntax Highlighting not loaded"
 
-# [ -r "$XDG_REPO_HOME"/dircolors/dircolors.ansi-dark ] \
-#   &&  zsh-defer eval $(gdircolors ${XDG_REPO_HOME}/dircolors/dircolors.ansi-dark) \
-#   || printf ${error} "Dircolors not loaded"
+[ ! -d "$PNPM_HOME" ] && mkdir -p "$PNPM_HOME"
+[ ! -d "$PNPM_GLOBAL" ] && mkdir -p "$PNPM_GLOBAL"
+[ ! -d "$PNPM_GLOBAL_BIN" ] && mkdir -p "$PNPM_GLOBAL_BIN"
+[ ! -d "$PNPM_STATE" ] && mkdir -p "$PNPM_STATE"
+[ ! -d "$PNPM_CACHE" ] && mkdir -p "$PNPM_CACHE"
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
