@@ -25,19 +25,24 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPost" },
     opts = {
-      char = "▏",
-      --char = "│",
-      filetype_exclude = {
-        "help",
-        "alpha",
-        "dashboard",
-        "neo-tree",
-        "lazy",
+      indent = {
+        char = "│",
+        tab_char = "│",
+        -- char = "▏",
       },
-      show_trailing_blankline_indent = false,
-      show_current_context = false,
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "lazy",
+        },
+      },
     },
+    main = "ibl"
   }
 }

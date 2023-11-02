@@ -56,23 +56,55 @@ function M.update_rename()
   end
 end
 
-return M
 
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
---   virtual_text = {
---       format = function (diagnostic)
---         if diagnostic.severity == vim.diagnostic.severity.HINT then
---           return string.format('H: %s', diagnostic.message)
---         elseif diagnostic.severity == vim.diagnostic.severity.INFO then
---           return string.format('I: %s', diagnostic.message)
---         elseif diagnostic.severity == vim.diagnostic.severity.WARN then
---           return string.format('W: %s', diagnostic.message)
---         elseif diagnostic.severity == vim.diagnostic.severity.ERROR then
---           return string.format('E: %s', diagnostic.message)
---         end
---         return diagnostic.message
---       end,
---       spacing = 6,
---       prefix = "",
---     },
--- })
+local nela_ns = vim.api.nvim_create_namespace('nela/lsp_float')
+
+---LSP handler that adds extra inline highlights, keymaps, and window options.
+---Code inspired from `noice`.
+---@param handler fun(err: any, result: any, ctx: any, config: any): integer, integer
+---@return function
+function M.enhance_float_handler(handler)
+  local handle = function(err, result, ctx, config)
+    local buf, win = handler(err, result, ctx, vim.tbl_deep_extend('force', config or {} , {
+      border = 'rounded',
+      max_height = math.floor(vim.o.lines * 0.5),
+      max_width = math.floor(vim.o.columns * 0.4)
+    }))
+
+    if not buf or not win then
+      return
+    end
+
+    vim.wo[win].concealcursor = 'n'
+
+    -- Extra highlighs
+    for l, line in ipairs(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) do
+      for pattern, hl_group in pairs {
+        ['|%S-|'] = '@text.reference',
+        ['@S+'] = '@parameter',
+        ['^%s*(Parameters:)'] = '@text.title',
+        ['^%s*(Return:)'] = '@text.title',
+        ['^%s*(See also:)'] = '@text.title',
+        ['{%S-}'] = '@parameter'
+      } do
+
+        ---@type integer?
+        local from = 1
+        while from do
+          local to
+          from, to = line:find(pattern, from)
+          if from then
+            vim.api.nvim_buf_set_extmark(buf, nela_ns, l - 1, from - 1, {
+              end_col = to,
+              hl_group = hl_group
+            })
+          end
+          from = to and to + 1 or nil
+        end
+      end
+    end
+  end
+  return handle
+end
+
+return M

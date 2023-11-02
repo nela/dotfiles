@@ -57,6 +57,8 @@ return {
       local handlers = require("plugins.lsp.handlers")
       handlers.update_register_capabilities(require("plugins.lsp.keymaps").on_attach)
       handlers.update_rename()
+      vim.lsp.handlers['textDocument/hover'] = handlers.enhance_float_handler(vim.lsp.handlers.hover)
+      vim.lsp.handlers['textDocument/signatureHelp'] = handlers.enhance_float_handler(vim.lsp.handlers.signature_help)
       require("plugins.lsp.ui").redefine_diagnostic_signs()
 
       vim.diagnostic.config({
