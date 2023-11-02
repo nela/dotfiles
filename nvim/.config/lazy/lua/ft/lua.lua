@@ -7,7 +7,7 @@ return {
     opts = {
       servers = {
         lua_ls = {
-          cmd = { '/lua-language-server' },
+          cmd = { 'lua-language-server' },
           settings = {
             Lua = {
               runtime = { version = "LuaJIT" },
