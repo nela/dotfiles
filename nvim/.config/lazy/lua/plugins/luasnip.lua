@@ -3,45 +3,32 @@ return {
     'L3MON4D3/LuaSnip',
     build = 'make install_jsregexp',
     event = 'InsertEnter',
-    opts = function()
-      local types = require('luasnip.util.types')
-      return {
-        history = true,
-        updateevents = "TextChanged,TextChangedI",
-        enable_autosnippets = true,
-        ext_opts = {
-          [types.choiceNode] = {
-            active = {
-              virt_text = {
-                { ' <- Current Choice', 'NonTest' }
-              }
-            }
-          }
-        }
-      }
-    end,
+    opts = {
+      history = true,
+      delete_check_events = "TextChanged"
+    },
     keys = {
       {
-        '<c-k>',
+        '<C-j>',
         function()
-          if require('luasnip').expand_or_jumpable() then
-            require('luasnip').expand_or_jump()
-          end
+          return require('luasnip').expand_or_jumpable() and require('luasnip').expand_or_jump()
+            or "<C-k>"
+        end,
+        expr = true, silent = false, mode = {'i', 's' }
+      },
+      {
+        '<C-k>',
+        function()
+          return require('luasnip').jumpable(-1) and require('luasnip').jump(-1)
+            or '<C-k>'
         end,
         expr = true, silent = true, mode = {'i', 's' }
       },
       {
-        '<c-j>',
-        --if .expand_or_jumpable() then
-        function() require('luasnip').jump(-1) end,
-        expr = true, silent = true, mode = {'i', 's' }
-      },
-      {
-        '<c-l>',
+        '<C-l>',
         function()
-          if require('luasnip').choice_active() then
-            require('luasnip').change_choice(1)
-          end
+          return require('luasnip').choice_active() and require('luasnip').change_choice(1)
+            or '<C-l>'
         end,
         expr = true, silent = true, mode = {'i', 's' }
       }
