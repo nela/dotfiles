@@ -1,23 +1,21 @@
 local M = {}
 
-function M.update_register_capabilities(on_attach)
-  -- dynamic capability registration - might be changed
-  -- follow https://github.com/neovim/neovim/issues/24229
-  local register_capability = vim.lsp.handlers["client/registerCapability"]
-  vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
-    local ret = register_capability(err, res, ctx)
+--dynamic capability registration - might be changed
+-- follow https://github.com/neovim/neovim/issues/24229
+---@param on_attach fun(client, buffer)
+---@param original_handler fun(err, res, ctx)
+function M.dynamic_capability_registration(on_attach, original_handler)
+  return function(err, res, ctx)
+    local ret = original_handler(err, res, ctx)
     local client_id = ctx.client_id
-    ---@type lsp.Client
     local client = vim.lsp.get_client_by_id(client_id)
-    local buffer = vim.api.nvim_get_current_buf()
-    on_attach(client, buffer) --why send keymaps here?
+    local buf = vim.api.nvim_get_current_buf()
+    on_attach(client, buf)
     return ret
   end
 end
 
-function M.update_rename()
-  local rename = vim.lsp.handlers["textDocument/rename"]
-
+function M.enhance_rename(handler)
   local parse_edits = function(entries, bufnr, text_edits)
     for _, edit in ipairs(text_edits) do
       local start_line = edit.range.start.line + 1
@@ -31,8 +29,8 @@ function M.update_rename()
     end
   end
 
-  vim.lsp.handlers["textDocument/rename"] = function(err, result, ...)
-    rename(err, result, ...)
+  return function(err, result, ...)
+    handler(err, result, ...)
     if err then return end
 
     local entries = {}
@@ -52,7 +50,7 @@ function M.update_rename()
       end
     end
     vim.fn.setqflist(entries)
-    -- vim.cmd("copen")
+    vim.cmd("copen")
   end
 end
 
@@ -64,7 +62,7 @@ local nela_ns = vim.api.nvim_create_namespace('nela/lsp_float')
 ---@param handler fun(err: any, result: any, ctx: any, config: any): integer, integer
 ---@return function
 function M.enhance_float_handler(handler)
-  local handle = function(err, result, ctx, config)
+  return function(err, result, ctx, config)
     local buf, win = handler(err, result, ctx, vim.tbl_deep_extend('force', config or {} , {
       border = 'rounded',
       max_height = math.floor(vim.o.lines * 0.5),
@@ -104,7 +102,6 @@ function M.enhance_float_handler(handler)
       end
     end
   end
-  return handle
 end
 
 return M

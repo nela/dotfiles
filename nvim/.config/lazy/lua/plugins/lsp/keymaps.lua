@@ -59,6 +59,7 @@ function M.resolve(buffer)
   local Keys = require("lazy.core.handler.keys")
   local keymaps = {} ---@type table<string,LazyKeys|{has?:string}>
   if not Keys.resolve then
+    print('early return')
     return {}
   end
 

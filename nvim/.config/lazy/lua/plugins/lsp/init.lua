@@ -55,10 +55,12 @@ return {
       end)
 
       local handlers = require("plugins.lsp.handlers")
-      handlers.update_register_capabilities(require("plugins.lsp.keymaps").on_attach)
-      handlers.update_rename()
+      local register_caps_handler = vim.lsp.handlers["client/registerCapability"]
+      vim.lsp.handlers["client/registerCapability"] = handlers.dynamic_capability_registration(util.on_attach, register_caps_handler)
+      vim.lsp.handlers["textDocument/rename"] = handlers.enhance_rename(vim.lsp.handlers["textDocument/rename"])
       vim.lsp.handlers['textDocument/hover'] = handlers.enhance_float_handler(vim.lsp.handlers.hover)
       vim.lsp.handlers['textDocument/signatureHelp'] = handlers.enhance_float_handler(vim.lsp.handlers.signature_help)
+
       require("plugins.lsp.ui").redefine_diagnostic_signs()
 
       vim.diagnostic.config({
@@ -66,14 +68,6 @@ return {
           show_header = true,
           border = "rounded",
           source = "always",
-          -- format = function(d)
-          --   local t = vim.deepcopy(d)
-          --   local code = d.code or d.user_data.lsp.code
-          --   if code then
-          --     t.message = string.format("%s [%s]", t.message, code):gsub("1. ", "")
-          --   end
-          --   return t.message
-          -- end,
         },
         severity_sort = true,
         update_in_insert = false,

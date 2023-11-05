@@ -1,14 +1,14 @@
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
-		'git',
-    		'clone',
-    		'--filter=blob:none',
-    		-- 'git@github.com:folke/lazy.nvim.git',
-        'https://github.com/folke/lazy.nvim.git',
-    		'--depth=1',
-    		'--branch=stable', -- latest stable release
+		"git",
+    		"clone",
+    		"--filter=blob:none",
+    		-- "git@github.com:folke/lazy.nvim.git",
+        "https://github.com/folke/lazy.nvim.git",
+    		"--depth=1",
+    		"--branch=stable", -- latest stable release
     		lazypath,
 	})
 end
@@ -29,7 +29,11 @@ require("lazy").setup({
       event = "VeryLazy"
     },
     { import = "plugins" },
-    { import = 'ft' }
+    { import = "ft" }
+  },
+  install = { missing = false },
+  ui = {
+    border = "rounded"
   },
   defaults = { lazy = true },
 	performance = {

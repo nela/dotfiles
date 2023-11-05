@@ -5,6 +5,11 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
+  keys = {
+    { "<leader>nt", "<cmd>NvimTreeToggle<cr>", "n", { noremap = true } },
+    { "<leader>rf", "<cmd>NvimTreeRefresh<cr>", "n", { noremap = true } },
+    { "<leader>nf", "<cmd>NvimTreeFindFile<cr>",  "n", { noremap = true } },
+  },
   config = function(_, opts)
     require("nvim-tree").setup(opts)
   end,
@@ -22,7 +27,6 @@ return {
         return math.floor((vim.go.columns/9)*2)
       end,
       number = false,
-      -- mappings = { custom_only = true }
     },
     hijack_directories = {
       enable = true,
@@ -42,11 +46,8 @@ return {
 
       api.config.mappings.default_on_attach(bufnr)
 
-      vim.keymap.del('n', '<tab>', { buffer = bufnr })
-      vim.keymap.set('n', '<M-p>', api.node.open.preview, opts('Open Preview'))
-      vim.keymap.set('n', '<leader>nt', '<cmd>NvimTreeToggle<cr>', { noremap = true })
-      vim.keymap.set('n', '<leader>rf', '<cmd>NvimTreeRefresh<cr>', { noremap = true })
-      vim.keymap.set('n', '<leader>nf', '<cmd>NvimTreeFindFile<cr>', { noremap = true })
+      vim.keymap.del("n", "<tab>", { buffer = bufnr })
+      vim.keymap.set("n", "<M-p>", api.node.open.preview, opts("Open Preview"))
     end
   }
 }

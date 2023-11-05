@@ -114,14 +114,14 @@ local lsp = {
 	  end
 	  return msg
 	end,
-	icon = ' ',
+	icon = "",
 	color = { fg = gruvbox_regular.gray, }, --gui = 'bold'
 }
 
 local diagnostic = {
-	'diagnostics',
+	"diagnostics",
 	-- sources = { 'nvim_diagnostic' },
-	symbols = { error = ' ', warn = ' ', info = ' ' },
+	symbols = { error = " ", warn = " ", info = " ", hint = " " },
   padding = 1,
 	diagnostics_color = {
 		error = { fg = gruv_dim.red },
@@ -140,7 +140,6 @@ return {
       return {
       options = {
         theme = theme(gruvbox_regular),
-        -- theme = 'gruvbox-material',
         section_separators = '',
         component_separators = '',
         disabled_filetypes = { 'NvimTree' },
@@ -151,36 +150,24 @@ return {
         -- these are to remove the defaults
         lualine_a = { { 'mode', fmt = function(str) return str:sub(1,1) end, } },
         lualine_b = { filesize, filename },
-        lualine_c = { lsp, --[[ diagnostic, ]]
-          --[[ {
-            function() return require("nvim-navic").get_location() end,
-            cond = function()
-                return package.loaded["nvim-navic"]
-                  and require("nvim-navic").is_available()
-                  and vim.fn.winwidth(0) > 80
-              end,
-          }, ]]
-        },
+        lualine_c = { lsp, diagnostic, },
         lualine_x = {
-          --[[ {
+          {
             function() return require("nvim-navic").get_location() end,
             cond = function()
                 return package.loaded["nvim-navic"]
                   and require("nvim-navic").is_available()
                   and vim.fn.winwidth(0) > 80
               end,
-          }, ]]
-          --[[ {
-            'navic',
-            cond = function()
-              return package.loaded["nvim-navic"]
-                and require("nvim-navic").is_available()
-                and vim.fn.winwidth(0) > 80
-            end,
-          }, ]]
+          },
           {
             'diff',
-            symbols    = { added = " ", modified = " ", removed = " " },
+            -- symbols    = { added = " ", modified = " ", removed = " " },
+            symbols = {
+              added    = " ",
+              modified = " ",
+              removed  = " ",
+            },
             -- padding    = 1,
             diff_color = {
               added    = { fg = gruv_dim.green },
@@ -202,24 +189,14 @@ return {
         },
         lualine_y = { { 'location', separator = '', padding = 1 } },
         lualine_z = { { 'progress', padding = 1 } },
-        -- These will be filled later
       },
-      --[[ inactive_sections = {
-        -- these are to remove the defaults
-        lualine_a = {},
-        lualine_b = { filesize, filename },
-        lualine_y = {},
-        lualine_z = {},
-        lualine_c = {},
-        lualine_x = { 'progress' },
-      }, ]]
-      extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', --[[ 'aerial' ]] }
+      extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', 'aerial' }
     }
     end
 	},
   {
    'SmiteshP/nvim-navic',
-   -- event = 'VeryLazy',
+   event = { 'BufReadPost' },
    lazy = true,
    init = function()
      require('util').on_attach(function(client, buf)

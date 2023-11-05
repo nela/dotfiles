@@ -41,7 +41,7 @@ return {
         -- "rst",
         "rust",
         -- "supercollider",
-        -- "svelte",
+        "svelte",
         "tsx",
         "typescript",
         "yaml",
@@ -91,10 +91,8 @@ return {
       textobjects = {
         select = {
           enable = true,
-
           -- Automatically jump forward to textobj, similar to targets.vim
           lookahead = true,
-
           keymaps = {
             -- You can use the capture groups defined in textobjects.scm
             ["af"] = "@function.outer",
@@ -116,7 +114,7 @@ return {
           selection_modes = {
             ['@parameter.outer'] = 'v', -- charwise
             ['@function.outer'] = 'V', -- linewise
-            ['@class.outer'] = '<c-v>', -- blockwise
+            ['@class.outer'] = '<C-v>', -- blockwise
           },
           -- If you set this to `true` (default is `false`) then any textobject is
           -- extended to include preceding or succeeding whitespace. Succeeding
@@ -153,12 +151,14 @@ return {
             -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
             ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
             ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+            -- ["[F"] = "@function.outer"
           },
           goto_next_end = {
             ["]F"] = "@function.outer",
             ["]["] = "@class.outer",
           },
           goto_previous_start = {
+            ["[s"] = { query = "@scope", query_group = "locals", desc = "Prev scope" },
             ["[f"] = "@function.outer",
             ["[["] = "@class.outer",
           },
