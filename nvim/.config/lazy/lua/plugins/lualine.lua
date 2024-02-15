@@ -162,13 +162,9 @@ return {
           },
           {
             'diff',
-            -- symbols    = { added = " ", modified = " ", removed = " " },
-            symbols = {
-              added    = " ",
-              modified = " ",
-              removed  = " ",
-            },
-            -- padding    = 1,
+            -- symbols    = { added = " ", modified = "" "", removed = " " },
+            symbols = { added    = " ", modified = " ", removed  = " ", },
+            padding    = 1,
             diff_color = {
               added    = { fg = gruv_dim.green },
               modified = { fg = gruv_dim.magenta },
@@ -194,7 +190,7 @@ return {
     }
     end
 	},
-  {
+  --[[ {
    'SmiteshP/nvim-navic',
    event = { 'BufReadPost' },
    lazy = true,
@@ -206,5 +202,5 @@ return {
      end)
    end,
    opts = { depth_limit = 5, highlight = true, }
- }
+ } ]]
 }
