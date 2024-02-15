@@ -15,17 +15,6 @@ return {
     keys = {
       { "<leader>fb", function() require("fzf-lua").buffers() end, { "n", "v" }, silent = true, desc = "Fuzzy complete path" },
       { "<leader>fh", function() require("fzf-lua").help_tags() end, { "n", "v" }, silent = true, desc = "Fuzzy complete path" },
-      --[[ {
-        "<C-x><C-r>",
-        function()
-         require("fzf-lua").fzf_exec(function()
-            return vim.cmd.registers()
-          end)
-        end,
-        { "i" },
-        silent = true,
-        desc = "Fuzzy complete path"
-      }, ]]
       {
         "<C-x><C-p>",
         function()
