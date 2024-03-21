@@ -1,0 +1,15 @@
+---
+- name: Update apt
+  ansible.builtin.apt:
+    upgrade: safe
+    update_cache: true
+    install_recommends: false
+    state: latest
+
+- name: Install Zsh
+  ansible.builtin.apt:
+    name: "{{ apt_packages }}"
+    state: latest
+
+  # register: zsh_status
+  # become: true

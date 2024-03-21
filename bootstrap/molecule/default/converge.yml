@@ -1,7 +1,13 @@
 ---
 - name: Converge
   hosts: all
+  become: true
+  gather_facts: yes
   tasks:
-    - name: "Include dotfiles.bootstrap2"
+    - name: "Include dotfiles.bootstrap"
       include_role:
-        name: bootstrap2
+        name: bootstrap
+      vars:
+        setup_user: jane
+        github_token: secret
+        create_ssh_keypair: true

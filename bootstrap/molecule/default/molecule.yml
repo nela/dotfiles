@@ -2,14 +2,16 @@
   dependency:
     name: galaxy
   driver:
-    name: docker
+    name: podman
   platforms:
     - name: instance
+      dockerfile: Dockerfile.j2
       image: "geerlingguy/docker-ubuntu2204-ansible:latest"
+      # registry: "ghcr.io"
       volumes:
-        - /var/lib/docker
+        - /var/lib/podman
       privileged: true
-      pre_build_image: true
+      # pre_build_image: true
     # cgroupns_mode: host
   lint:
     set -e

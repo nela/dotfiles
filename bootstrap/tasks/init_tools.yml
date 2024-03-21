@@ -1,0 +1,15 @@
+- name: Clone Git directories
+  environment: "{{ env_vars }}"
+  vars:
+    # ansible_user: "{{ setup_user }}"
+    ansible_ssh_common_args: "-o 'IdentityAgent={{ ssh_auth_sock }}"
+  ansible.builtin.git:
+    # accept_hostkey: true
+    accept_newhostkey: true
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    depth: 1
+    clone: true
+  with_items: "{{ git_repos.all + git_repos.ubuntu }}"
+  # become: true
+  # become_user: "{{ setup_user }}"

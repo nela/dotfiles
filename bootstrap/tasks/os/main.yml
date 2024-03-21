@@ -1,0 +1,5 @@
+---
+- ansible.builtin.include_tasks: os/brew.yml
+  when: ansible_distribution == 'MacOSX'
+- ansible.builtin.include_tasks: os/apt.yml
+  when: ansible_distribution in ['Ubuntu', 'Debian']

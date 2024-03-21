@@ -1,0 +1,14 @@
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+
+RUN sudo apt upgrade \
+&& sudo apt update -y \
+&& sudo apt install vim git curl wget -y
+
+RUN sudo useradd -m jane
+
+VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
+CMD ["/lib/systemd/systemd"]

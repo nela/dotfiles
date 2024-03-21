@@ -4,3 +4,4 @@
   connection: local
   roles:
     - role: "{{ playbook_dir }}/bootstrap"
+    - role: ansible-role-asdf

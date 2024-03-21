@@ -1,5 +1,12 @@
 ---
-- ansible.builtin.include_tasks: default.yml
-- ansible.builtin.include_tasks: ubuntu.yml
-  when: ansible_distribution == 'Ubuntu'
-- ansible.builtin.include_tasks: symlink.yml
+- ansible.builtin.include_tasks: os/main.yml
+- ansible.builtin.include_tasks: user.yml
+  when: setup_user is defined and ansible_system == 'Linux'
+- ansible.builtin.include_tasks: ssh.yml
+  when: setup_user is defined and create_ssh_keypair
+- ansible.builtin.include_tasks: clone_git_dirs.yml
+# - ansible.builtin.include_tasks: keys.yml
+# - ansible.builtin.include_tasks: default.yml
+# - ansible.builtin.include_tasks: ubuntu.yml
+#   when: ansible_distribution == 'Ubuntu'
+# - ansible.builtin.include_tasks: symlink.yml

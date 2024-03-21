@@ -1,42 +1,62 @@
 ---
 # defaults file for bootstrap
-xdg_data_home: "{{ ansible_env.HOME }}/.local/share"
+xdg_data_home: "/home/{{ setup_user }}/.local/share"
 
 git_repos:
-  # - repo: "git@github.com:romkatv/zsh-defer.git"
-  - repo: "https://github.com/romkatv/zsh-defer.git"
-    dest: "{{ xdg_data_home }}/zsh/zsh-defer"
-    version: master
-    depth: 1
-  # - repo: "git@github.com:zdharma-continuum/fast-syntax-highlighting.git"
-  - repo: "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
-    dest: "{{ xdg_data_home }}/zsh/fast-syntax-highlighting"
-    version: master
-    depth: 1
-  # - repo: "git@github.com:tmux-plugins/tpm.git"
-  - repo: "https://github.com/tmux-plugins/tpm.git"
-    dest: "{{ xdg_data_home }}/tmux/tpm"
-    version: master
-    depth: 1
+  all:
+    - repo: "git@github.com:romkatv/zsh-defer.git"
+    # - repo: "https://github.com/romkatv/zsh-defer.git"
+      dest: "{{ xdg_data_home }}/zsh/zsh-defer"
+      version: master
+      depth: 1
+    - repo: "git@github.com:zdharma-continuum/fast-syntax-highlighting.git"
+    # - repo: "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+      dest: "{{ xdg_data_home }}/zsh/fast-syntax-highlighting"
+      version: master
+      depth: 1
+    - repo: "git@github.com:tmux-plugins/tpm.git"
+    # - repo: "https://github.com/tmux-plugins/tpm.git"
+      dest: "{{ xdg_data_home }}/tmux/tpm"
+      version: master
+      depth: 1
+  ubuntu:
+    - repo: "git@github.com:romkatv/powerlevel10k.git"
+    # - repo: "https://github.com/romkatv/powerlevel10k.git"
+      dest: "{{ xdg_data_home }}/zsh/powerlevel10k"
+      version: master
+      depth: 1
+    - repo: "git@github.com:asdf-vm/asdf.git"
+    # - repo: "https://github.com/asdf-vm/asdf.git"
+      dest: "{{ xdg_data_home }}/asdf"
+      version: v0.12.0
+      depth: 1
+    - repo: "git@github.com:junegunn/fzf.git"
+    # - repo: "https://github.com/junegunn/fzf.git"
+      dest: "{{ xdg_data_home }}/fzf"
+      version: master
+      depth: 1
+    - repo: "git@github.com:wfxr/forgit.git"
+    # - repo: "https://github.com/wfxr/forgit.git"
+      dest: "{{ xdg_data_home }}/zsh/forgit"
+      version: master
+      depth: 1
 
-git_repos_ubuntu:
-  # - repo: "git@github.com:romkat/powerlevel10k.git"
-  - repo: "https://github.com/romkatv/powerlevel10k.git"
-    dest: "{{ xdg_data_home }}/zsh/powerlevel10k"
-    version: master
-    depth: 1
-  # - repo: "git@github.com:asdf-vm/asdf.git"
-  - repo: "https://github.com/asdf-vm/asdf.git"
-    dest: "{{ xdg_data_home }}/asdf"
-    version: v0.12.0
-    depth: 1
-  # - repo: "git@github.com:junegunn/fzf.git"
-  - repo: "https://github.com/junegunn/fzf.git"
-    dest: "{{ xdg_data_home }}/fzf"
-    version: master
-    depth: 1
-    # - repo: "git@github.com:wfxr/forgit.git"
-  - repo: "https://github.com/wfxr/forgit.git"
-    dest: "{{ xdg_data_home }}/zsh/forgit"
-    version: master
-    depth: 1
+homebrew_packages:
+  - alacritty
+  - asdf
+  - bat
+  - bitwarden
+  - discord
+  - fd
+  - firefox
+  - forgit
+  - fzf
+  - git-delta
+  - ripgrep
+  - spotify
+
+apt_packages:
+  - git
+  - curl
+  - wget
+  - zsh

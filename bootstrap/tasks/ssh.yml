@@ -1,0 +1,48 @@
+---
+- name: Setup SSH
+  block:
+    - name: Create SSH dir
+      ansible.builtin.file:
+        mode: '0644'
+        owner: "{{ setup_user }}"
+        path: "/home/{{ setup_user }}/.ssh"
+        state: directory
+    - name: Generate SSH keypair
+      register: key
+      community.crypto.openssh_keypair:
+        force: true
+        owner: "{{ setup_user }}"
+        path: "/home/{{ setup_user }}/.ssh/id_rsa"
+        type: rsa
+    - name: Register keys
+      ansible.builtin.shell: |
+        eval "$(ssh-agent -s)" > /dev/null
+        echo '{"SSH_AUTH_SOCK":"'$SSH_AUTH_SOCK'","SSH_AGENT_PID":"'$SSH_AGENT_PID'"}'
+      register: env_vars_stdout
+    - name: Save to env_vars
+      ansible.builtin.set_fact:
+          env_vars: "{{ env_vars_stdout.stdout }}"
+          ssh_auth_sock: "{{ (env_vars_stdout.stdout | from_json | default({})).SSH_AUTH_SOCK  }}"
+    - name: Add key to ssh-agent
+      ansible.builtin.command:
+        cmd: "ssh-add /home/{{ setup_user }}/.ssh/id_rsa"
+      environment: "{{ env_vars }}"
+
+- name: Upload public key to GitHub
+  become: true
+  ansible.builtin.uri:
+    url: https://api.github.com/user/keys
+    method: POST
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ github_token }}"
+      Content-Type: application/json
+      Accept: application/vnd.github+json
+      X-GitHub-Api-Version: 2022-11-28
+    body:
+      title: "{{ setup_user }}-key"
+      key: "{{ key.public_key }}"
+    body_format: json
+    force_basic_auth: true
+    status_code: 201
+  when: github_token is defined

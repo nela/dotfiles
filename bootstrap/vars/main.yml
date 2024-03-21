@@ -1,3 +1,4 @@
 ---
 # vars file for bootstrap2
-setup_user: "nela"
+setup_user: nela44
+install_homebrew: true

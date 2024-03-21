@@ -1,10 +1,59 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
   gather_facts: false
+  vars:
+    setup_user: nela23
   tasks:
-    - name: Example assertion
-      ansible.builtin.assert:
-        that: true
+    - name: Zsh Installed
+      block:
+        - name: Check binary path
+          ansible.builtin.stat:
+            path: /bin/zsh
+          register: zsh_installed
+        - name: Assert exists
+          ansible.builtin.assert:
+            that: zsh_installed.stat.exists
+    - name: User created
+      block:
+        - name: Get users
+          ansible.builtin.getent:
+            database: passwd
+            split: ':'
+        - name: User is created
+          ansible.builtin.assert:
+            that: setup_user in getent_passwd.keys()
+        - name:
+          ansible.builtin.assert:
+            that: "'/bin/zsh' in getent_passwd[setup_user]"
+    - name: SSH Keys created
+      block:
+        - name: Check ssh key path
+          ansible.builtin.stat:
+            path: /home/{{ setup_user }}/.ssh/id_rsa
+          register: ssh_keys
+        - name: Verify exists
+          ansible.builtin.assert:
+            that: ssh_keys.stat.exists
+    - name: Verify keys uploaded to GitHub
+      block:
+        - name: Fetch keys from GitHub
+          register: keys
+          ansible.builtin.uri:
+            url: https://api.github.com/user/keys
+            method: GET
+            follow_redirects: all
+            force_basic_auth: true
+            headers:
+              Authorization: "Bearer secret"
+              Accept: application/vnd.github+json
+              X-GitHub-Api-Version: 2022-11-28
+            status_code: 200
+        # - name: debug
+        #   debug:
+        #     var: keys
+        - name: Assert key present
+          ansible.builtin.assert:
+            that: key_object.verified
+          vars:
+            key_object: "{{ keys.json | selectattr('title', '==', 'nela23-key') | first }}" # TODO user variable

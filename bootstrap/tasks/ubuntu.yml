@@ -1,4 +1,4 @@
-- name: Set zsh as user shell
+- name: Create new user
   block:
     - name: Install zsh
       become: true
@@ -7,12 +7,31 @@
         state: present
         update_cache: true
         install_recommends: true
-    - name: Change shell to zsh
-      become: true
+    - name: Create user
       ansible.builtin.user:
         name: "{{ setup_user }}"
+        # group: admin
+        generate_ssh_key: yes
         shell: /bin/zsh
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+    # - name: Change shell to zsh
+    #   become: true
+    #   ansible.builtin.user:
+    #     name: "{{ setup_user }}"
+    #     shell: /bin/zsh
 
+- name: Upload public keys
+  ansible.builtin.uri:
+    url: https://api.github.com/user/keys
+    method: POST
+    headers:
+      Authorization: "token {{ github_token }}"
+      Content-Type: application/json
+    body: '{ "title": "{{ setup_user }}-key", "key": "{{ lookup("ansible.builtin.file", "/home/nela23/.ssh/id_rsa.pub") }} }'
+    force_basic_auth: yes
+    status_code: 201
+  # delegate_to: localhost
 
 - name: Clone Git directories
   ansible.builtin.git:
@@ -21,27 +40,27 @@
     depth: "{{ item.depth }}"
     single_branch: yes
     version: master
-  with_items: "{{ git_repos + git_repos_ubuntu }}"
-
-- name: Install Neovim
-  block:
-    - name: Download AppImage
-      ansible.builtin.get_url:
-        url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-        dest: "{{ ansible_env.HOME }}/.local/bin/nvim.appimage"
-        mode: a+x
-    # - name: Make exectuable
-    #   ansible.builtin.file:
-    #     dest: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
-    #     mode: a+x
-    - name: Create Symlinks
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
-        path: "{{ ansible_env.HOME}}/.local/bin/{{ item }}"
-        state: link
-      with_items:
-        - v
-        - nvim
+  with_items: "{{ git_repos.all + git_repos.ubuntu }}"
+#
+# - name: Install Neovim
+#   block:
+#     - name: Download AppImage
+#       ansible.builtin.get_url:
+#         url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+#         dest: "{{ ansible_env.HOME }}/.local/bin/nvim.appimage"
+#         mode: a+x
+#     # - name: Make exectuable
+#     #   ansible.builtin.file:
+#     #     dest: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
+#     #     mode: a+x
+#     - name: Create Symlinks
+#       ansible.builtin.file:
+#         src: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
+#         path: "{{ ansible_env.HOME}}/.local/bin/{{ item }}"
+#         state: link
+#       with_items:
+#         - v
+#         - nvim
 
 - name: Install Zoxide
   block:
