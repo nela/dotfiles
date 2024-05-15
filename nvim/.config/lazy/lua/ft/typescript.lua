@@ -3,8 +3,8 @@ local angularls_cmd = {
   "--stdio",
   -- "--tsProbeLocations", vim.fn.getcwd() .. '/node_modules',
   -- "--ngProbeLocations", vim.fn.getcwd() .. '/node_modules',
-  "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.5.1/lib/node_modules',
-  "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.5.1/lib/node_modules'
+  "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
+  "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
 }
 
 return {
