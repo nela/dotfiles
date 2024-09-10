@@ -15,6 +15,10 @@ return {
           cmd = { os.getenv('XDG_DATA_HOME') .. "/lsp/glsl_analyzer/bin/glsl_analyzer"},
           filetypes = { "glsl", "vert", "frag" }
         }
+        --[[ glslls = {
+          cmd = { os.getenv('XDG_DATA_HOME') .. '/lsp/glsl-language-server/build/glslls', '--stdin'},
+          filetypes = { "glsl" }
+        } ]]
       },
     }
   }

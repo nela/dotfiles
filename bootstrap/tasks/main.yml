@@ -1,10 +1,37 @@
 ---
-- ansible.builtin.include_tasks: os/main.yml
-- ansible.builtin.include_tasks: user.yml
-  when: setup_user is defined and ansible_system == 'Linux'
-- ansible.builtin.include_tasks: ssh.yml
+# - name: Create user
+#   ansible.builtin.user:
+#     name: "{{ setup_user }}"
+#     shell: /bin/zsh
+#     create_home: true
+#   when: true
+#   register: user
+
+- name: Create XDG Dirs
+  ansible.builtin.include_tasks: default.yml
+
+- name: Init package manager
+  ansible.builtin.include_tasks: os/main.yml
+  when: setup_user is defined
+
+- name: Setup SSH
+  ansible.builtin.include_tasks: ssh.yml
   when: setup_user is defined and create_ssh_keypair
-- ansible.builtin.include_tasks: clone_git_dirs.yml
+
+- name: Upload SSH keys to GitHub
+  ansible.builtin.include_tasks: github_repositories.yml
+  when: github_token is defined
+
+- name: Install ASDF packages
+  ansible.builtin.include_tasks: asdf.yml
+
+- name: Clone git repos
+  ansible.builtin.include_tasks: github_repositories.yml
+
+- name: Init symlinks
+  ansible.builtin.include_tasks: symlink.yml
+
+# - ansible.builtin.include_tasks: clone_git_dirs.yml
 # - ansible.builtin.include_tasks: keys.yml
 # - ansible.builtin.include_tasks: default.yml
 # - ansible.builtin.include_tasks: ubuntu.yml

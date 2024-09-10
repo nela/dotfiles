@@ -3,7 +3,7 @@
 xdg_data_home: "/home/{{ setup_user }}/.local/share"
 
 git_repos:
-  all:
+  common:
     - repo: "git@github.com:romkatv/zsh-defer.git"
     # - repo: "https://github.com/romkatv/zsh-defer.git"
       dest: "{{ xdg_data_home }}/zsh/zsh-defer"
@@ -19,7 +19,7 @@ git_repos:
       dest: "{{ xdg_data_home }}/tmux/tpm"
       version: master
       depth: 1
-  ubuntu:
+  Ubuntu/Debian:
     - repo: "git@github.com:romkatv/powerlevel10k.git"
     # - repo: "https://github.com/romkatv/powerlevel10k.git"
       dest: "{{ xdg_data_home }}/zsh/powerlevel10k"
@@ -27,8 +27,8 @@ git_repos:
       depth: 1
     - repo: "git@github.com:asdf-vm/asdf.git"
     # - repo: "https://github.com/asdf-vm/asdf.git"
-      dest: "{{ xdg_data_home }}/asdf"
-      version: v0.12.0
+      dest: "{{ xdg_data_home }}/asdf/source"
+      version: v0.14.0
       depth: 1
     - repo: "git@github.com:junegunn/fzf.git"
     # - repo: "https://github.com/junegunn/fzf.git"
@@ -52,8 +52,15 @@ homebrew_packages:
   - forgit
   - fzf
   - git-delta
+  - glslviewer
+  - neovim
   - ripgrep
   - spotify
+  - tree
+  - vlc
+  - zsh
+  - zsh-autosuggestions
+  - zoxide
 
 apt_packages:
   - git

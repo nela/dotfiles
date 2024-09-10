@@ -1,0 +1,46 @@
+---
+asdf_plugins:
+  - name: nodejs
+    repository: https://github.com/asdf-vm/asdf-nodejs.git
+    versions:
+      - 20.10.0
+    global: 20.10.0
+  - name: python
+    repository: https://github.com/danhper/asdf-python.git
+    versions:
+      - 3.12.2
+      - 3.11.8
+    global: 3.12.2
+  - name: lua-language-server
+    repository: https://github.com/bellini666/asdf-lua-language-server
+    versions:
+      - latest
+    global: latest
+  - name: pnpm
+    repository: https://github.com/jonathanmorley/asdf-pnpm.git
+    versions:
+      - latest
+    global: latest
+  - name: rust
+    repository: https://github.com/code-lever/asdf-rust.git
+    versions:
+      - latest
+  - name: rust-analyzer
+    repository: https://github.com/Xyven1/asdf-rust-analyzer
+    versions:
+      - latest
+    global: latest
+  - name: java
+    repository: https://github.com/halcyon/asdf-java.git
+    versions:
+      - temurin-21.0.2+13.0.LTS
+    global: temurin-21.0.2+13.0.LTS
+  - name: maven
+    repository: https://github.com/halcyon/asdf-maven.git
+    versions:
+      - latest
+    # global: latest
+  # - name: neovim
+  #   repository: https://github.com/richin13/asdf-neovim.git
+  #   versions:
+  #     - latest

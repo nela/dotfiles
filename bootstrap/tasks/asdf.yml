@@ -1,6 +1,77 @@
-# - name: Install ASDF packages
-#   tasks:
-#     - ansible.builtin.import_role:
-#         name: trallnag.asdf_plugin
-#       loop:
-#         -
+---
+- name: Include asdf vars
+  ansible.builtin.include_vars:
+    file: defaults/asdf.yml
+    # name: asdf_vars
+
+- name: Determine ASDF location
+  block:
+    - name: Determine ASDF location OSX
+      ansible.builtin.set_fact:
+        asdf_dir: something
+      when: "ansible_os_family == 'Darwin'"
+    - name: Determine ASDF location Linux
+      ansible.builtin.set_fact:
+        # asdf_dir: "{{ user.home }}/.local/share/asdf/source/asdf.sh"
+        asdf_dir: "/home/{{ setup_user }}/.local/share/asdf/source"
+      when: "ansible_os_family == 'Debian'"
+
+- name: lnk
+  ansible.builtin.file:
+    src: "{{ asdf_dir }}/bin/asdf"
+    dest: /usr/bin/asdf
+    owner: "{{ setup_user }}"
+    mode: "0777"
+    state: link
+
+# - name: asdf
+#   shell: "echo {{ item.0.name }} {{ item.1 }}"
+#   with_subelements:
+#     - "{{ asdf_plugins }}"
+#     - versions
+#     - flags:
+#       skip_missing: true
+#   register: hmm
+#
+# - name: debug
+#   debug:
+#     var: hmm
+
+    # source /home/jane/.local/share/asdf/source/asdf.sh && {{ asdf_dir }}/bin/asdf install {{ item.0.name }} {{ item.1 }}
+- name: Install ASDF plugins
+  environment:
+    ASDF_DATA_DIR: /home/jane/.local/share/asdf/tools
+  ansible.builtin.shell: "{{ asdf_dir }}/bin/asdf plugin add {{ item.name }} {{ item.repository }}"
+  args:
+    # executable: /bin/zsh
+    creates: "/home/jane/.local/share/asdf/tools/plugins/{{ item.name }}"
+  when: "asdf_dir is defined"
+  with_items: "{{ asdf_plugins }}"
+  # ignore_errors: true
+
+- name: Install ASDF packages
+  environment:
+    ASDF_DATA_DIR: /home/jane/.local/share/asdf/tools
+    ASDF_DIR: /home/jane/.local/share/asdf/source
+    asdf: /home/jane/.local/share/asdf/source/bin/asdf
+  ansible.builtin.shell: >-
+    asdf install {{ item.0.name }} {{ item.1 }}
+  args:
+    creates: "/home/jane/.local/share/asdf/tools/installs/{{ item.0.name }}/{{ item. 1 }}"
+  with_subelements:
+    - "{{ asdf_plugins }}"
+    - versions
+    - flags:
+      skip_missing: true
+  failed_when: false
+
+- name: Set global ASDF versions
+  environment:
+    ASDF_DATA_DIR: /home/jane/.local/share/asdf/tools
+    ASDF_DIR: /home/jane/.local/share/asdf/source
+  ansible.builtin.shell: "asdf={{ asdf_dir }}/bin/asdf && {{ asdf_dir }}/bin/asdf global {{ item.name }} {{ item.global | default(item.versions[0])  }}"
+  with_items: "{{ asdf_plugins }}"
+
+
+# - name: Set global ASDF package versions
+#   ansible.builtin.shell:

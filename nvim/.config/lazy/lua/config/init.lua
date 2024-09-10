@@ -7,6 +7,7 @@ function M.setup(opts)
     vim.api.nvim_exec_autocmds("User", { pattern = pattern, modeline = false })
   end
 
+
   require("config.options")
 
   if vim.fn.argc(-1) == 0 then

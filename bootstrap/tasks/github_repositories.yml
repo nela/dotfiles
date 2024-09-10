@@ -1,0 +1,72 @@
+---
+- name: Find SSH public key
+  when: ssh is not defined
+  block:
+    - name: Register keys in ~/.ssh directory
+      ansible.builtin.find:
+        paths: "{{ user.home }}/.ssh"
+        patterns: "*.pub"
+        recurse: false
+        file_type: file
+      register: valid_ssh_keys
+
+    - name: Read public key content
+      ansible.builtin.slurp:
+        src: "{{ valid_ssh_keys.files | map(attribute='path') | first }}"
+      register: chosen_key
+
+    - name: Set public key to var
+      ansible.builtin.set_fact:
+        ssh:
+          filename: "{{ chosen_key.source }}"
+          public_key: "{{ chosen_key.content | b64decode | trim }}"
+
+- name: Upload public key to GitHub
+  ansible.builtin.uri:
+    url: https://api.github.com/user/keys
+    method: POST
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ github_token }}"
+      Content-Type: application/json
+      Accept: application/vnd.github+json
+      X-GitHub-Api-Version: 2022-11-28
+    body:
+      title: "{{ setup_user }}-key"
+      key: "{{ ssh.public_key }}"
+    body_format: json
+    force_basic_auth: true
+    status_code: 201
+  register: github_response
+
+
+- name: debug
+  debug:
+    var: github_response.json.id
+
+- name: Clone common repositories
+  ansible.builtin.git:
+    accept_newhostkey: true
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    depth: 1
+    clone: true
+    key_file: "{{ ssh.filename | split('.pub') | first }}"
+  with_items: "{{ git_repos.common }}"
+
+- name: Clone distro specific repositories
+  block:
+    - name: Determine items
+      ansible.builtin.set_fact:
+        distro_repos: "{{ item.value | list }}"
+      loop: "{{ lookup('dict', git_repos) }}"
+      when: "ansible_distribution in item.key"
+    - name: Clone items
+      ansible.builtin.git:
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        depth: 1
+        clone: true
+        key_file: "{{ ssh.filename | split('.pub') | first }}"
+      with_items: "{{ distro_repos }}"
+      when: "distro_repos is defined"

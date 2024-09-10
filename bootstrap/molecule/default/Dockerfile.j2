@@ -4,8 +4,8 @@ FROM {{ item.registry.url }}/{{ item.image }}
 FROM {{ item.image }}
 {% endif %}
 
-RUN sudo apt upgrade \
-&& sudo apt update -y \
+RUN sudo apt update \
+&& sudo apt upgrade \
 && sudo apt install vim git curl wget -y
 
 RUN sudo useradd -m jane

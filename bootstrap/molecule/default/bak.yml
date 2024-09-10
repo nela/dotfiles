@@ -1,0 +1,21 @@
+# ---
+- name: Cleanup
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Delete SSH key from GitHub
+      ansible.builtin.uri:
+        url: https://api.github.com/user/keys/{{ github_response.json.id }}
+        method: DELETE
+        follow_redirects: all
+        headers:
+          Authorization: "Bearer {{ github_token }}"
+          Content-Type: application/json
+          Accept: application/vnd.github+json
+          X-GitHub-Api-Version: 2022-11-28
+        body:
+          title: "{{ setup_user }}-key"
+          key: "{{ ssh.public_key }}"
+        body_format: json
+        force_basic_auth: true
+        status_code: 201
