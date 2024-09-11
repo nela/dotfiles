@@ -1,0 +1,92 @@
+import = ["/Users/nela/dotfiles/alacritty/.config/alacritty/gruvbox-dark.toml"]
+
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[cursor]
+style = { blinking = "Always", shape = "Block"}
+blink_interval = 1750
+thickness = 0.15
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 13
+
+[font.glyph_offset]
+x = 0
+y = 4
+
+[font.normal]
+family = "MesloLGS NF"
+
+[font.offset]
+x = 1
+y = 4
+
+[[keyboard.bindings]]
+chars = "\u001Be"
+key = "E"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bs"
+key = "S"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bv"
+key = "V"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bx"
+key = "X"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bw"
+key = "W"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bc"
+key = "C"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001E"
+key = "Key6"
+mods = "Control"
+
+[mouse]
+hide_when_typing = true
+
+# [mouse.double_click]
+# threshold = 300
+#
+# [mouse.triple_click]
+# threshold = 300
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[window]
+decorations = "None"
+dynamic_padding = true
+opacity = 0.9
+option_as_alt = "OnlyLeft"
+
+[window.dimensions]
+columns = 120
+lines = 40
+
+[window.padding]
+x = 6
+y = 4
