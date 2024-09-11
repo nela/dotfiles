@@ -34,11 +34,11 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
 [[ $OSTYPE == *darwin* ]] \
   && export BREW_PREFIX="/usr/local/opt"
 
-if [[ $OSTYPE == *darwin* ]] then;
-  export ASDF_FORCE_PREPEND="no"
-else
-  export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
-fi
+# if [[ $OSTYPE == *darwin* ]] then;
+#   export ASDF_FORCE_PREPEND="no"
+# else
+#   export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+# fi
 
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf/tools"
 
