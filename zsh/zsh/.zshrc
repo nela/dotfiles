@@ -19,13 +19,12 @@ _error_fix="\e[0;31m \e[1;91m%s\e[0m\n\t\e[1;96m\e[0m  %s\n"
 [ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ] \
   && source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
-local _p10k_dir
-
-[[ $SYSTEM == *Darwin* ]] \
-  && _p10k_dir="$BREW_PREFIX"/powerlevel10k || _p10k_dir="$XDG_DATA_HOME"/zsh/powerlevel10k
+local _p10k_dir="$XDG_DATA_HOME"/zsh/powerlevel10k
 
 [ -f "$_p10k_dir"/powerlevel10k.zsh-theme ] \
-  && source "$_p10k_dir"/powerlevel10k.zsh-theme
+  && source "$_p10k_dir"/powerlevel10k.zsh-theme \
+  || printf ${_warning_fix} "Powerlevel10k not found"
+
 unset _p10k_dir
 
 # Zsh-defer
