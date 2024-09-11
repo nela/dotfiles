@@ -16,13 +16,25 @@ return {
           source = "if_many",
           -- prefix = "x",
           prefix = "icons",
+          format = function(diagnostic)
+              -- Use shorter, nicer names for some sources:
+              local special_sources = {
+                  ['Lua Diagnostics.'] = 'lua',
+                  ['Lua Syntax Check.'] = 'lua',
+              }
+
+              local source = special_sources[diagnostic.source] or diagnostic.source
+              return string.format('%s[%s] ', source, diagnostic.code)
+          end,
         },
-        severity_sort = true,
       },
       -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
       -- Be aware that you also will need to properly configure your LS P server to
       -- provide the inlay hints.
-      inlay_hints = { enabled = true, },
+      inlay_hints = {
+        enabled = true,
+        -- exclude = { "lua" }
+      },
 
       -- add any global capabilities here
       -- capabilities = {},
@@ -42,42 +54,30 @@ return {
     },
     ---@param opts PluginLspOpts
     config = function(_, opts)
-      local util = require("util")
 
-      if util.has("neoconf.nvim") then
-        local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
-        require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
-      end
+      local util = require('util')
 
-      util.on_attach(function(client, buffer)
-        require("plugins.lsp.keymaps").on_attach(client, buffer)
-        require("plugins.lsp.commands").on_attach(client, buffer)
+      util.lsp.setup()
+      --register handlers
+      require("plugins.lsp.handlers")
+      require("plugins.lsp.ui")
+
+      --setup keymaps
+      util.lsp.on_attach(function(client, buffer)
+        require('plugins.lsp.keymaps').on_attach(client, buffer)
       end)
 
-      local handlers = require("plugins.lsp.handlers")
-      local register_caps_handler = vim.lsp.handlers["client/registerCapability"]
-      vim.lsp.handlers["client/registerCapability"] = handlers.dynamic_capability_registration(util.on_attach, register_caps_handler)
-      vim.lsp.handlers["textDocument/rename"] = handlers.enhance_rename(vim.lsp.handlers["textDocument/rename"])
-      vim.lsp.handlers['textDocument/hover'] = handlers.enhance_float_handler(vim.lsp.handlers.hover)
-      vim.lsp.handlers['textDocument/signatureHelp'] = handlers.enhance_float_handler(vim.lsp.handlers.signature_help)
+      util.lsp.on_dynamic_capability(require('plugins.lsp.keymaps').on_attach)
 
-      require("plugins.lsp.ui").redefine_diagnostic_signs()
-
-      vim.diagnostic.config({
-        float = {
-          show_header = true,
-          border = "rounded",
-          source = "always",
-        },
-        severity_sort = true,
-        update_in_insert = false,
-      })
-
-      local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-      if opts.inlay_hints.enabled and inlay_hint then
-        util.on_attach(function(client, buffer)
-          if client.supports_method('textDocument/inlayHint') then
-            inlay_hint(buffer, true)
+      if opts.inlay_hints.enabled then
+        util.lsp.on_supports_method('textDocument/inlayHint' , function(_, buffer)
+          vim.print('running inlay hint function')
+          if
+            vim.api.nvim_buf_is_valid(buffer)
+            and vim.bo[buffer].buftype == ""
+            and not vim.tbl_contains(opts.inlay_hints.exclude or {}, vim.bo[buffer].filetype)
+          then
+            vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
           end
         end)
       end
@@ -92,26 +92,17 @@ return {
         opts.capabilities or {}
       )
 
-      util.on_attach(function(_, buf)
-        local ok, lspsignature = pcall(require, 'lsp_signature')
-        if not ok then
-          return
-        end
-        lspsignature.on_attach({
-            bind = true,
-            handler_opts = {
-              border = 'shadow' --'rounded',
-            -- floating_window = false,
-            -- hint_prefix = "",
-            },
-          }, buf)
-        end
-      )
+      if util.has("neoconf.nvim") then
+        local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
+        require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
+      end
 
       local setup = function(server)
         local server_opts = vim.tbl_deep_extend( 'force', {
           capabilities = vim.deepcopy(capabilities)
         }, servers[server] or {})
+
+        if server_opts.enabled == false then return end
 
         if opts.setup[server] then
           if opts.setup[server](server, server_opts) then
@@ -122,7 +113,6 @@ return {
             return
           end
         end
-
         require('lspconfig')[server].setup(server_opts)
       end
 

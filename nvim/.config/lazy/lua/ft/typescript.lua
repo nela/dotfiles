@@ -24,7 +24,7 @@ return {
     },
     opts = {
       servers = {
-        tsserver = {
+        ts_ls = {
           --cmd = { "typescript-language-server --stdio" },
           keys = {
             { "<leader>oi", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
@@ -38,13 +38,13 @@ return {
                 tabSize = vim.o.tabstop
               },
               inlayHints = {
-                includeInlayEnumMemberValueHints = true,
+                --[[ includeInlayEnumMemberValueHints = true,
                 includeInlayFunctionLikeReturnTypeHints = true,
                 includeInlayFunctionParameterTypeHints = true,
                 includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
                 includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHints = true, ]]
               },
             },
             javascript = {
@@ -54,13 +54,13 @@ return {
                 tabSize = vim.o.tabstop
               },
               inlayHints = {
-                includeInlayEnumMemberValueHints = true,
+                --[[ includeInlayEnumMemberValueHints = true,
                 includeInlayFunctionLikeReturnTypeHints = true,
                 includeInlayFunctionParameterTypeHints = true,
                 includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
                 includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHints = true, ]]
               },
             },
             completions = {
@@ -81,16 +81,10 @@ return {
         },
       },
       setup = {
-        tsserver = function(_, opts)
+        ts_ls = function(_, opts)
           require("typescript").setup({ server = opts })
           return true
         end,
-        -- angularls = function(_, opts)
-        --   opts.on_new_config = function(new_config, _)
-        --     new_config.cmd = opts.cmd
-        --   end
-        --   return true
-        -- end
       }
     },
   },

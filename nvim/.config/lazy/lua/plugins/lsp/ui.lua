@@ -1,12 +1,14 @@
-local M = {}
-
-function M.redefine_diagnostic_signs()
-  local sign_define = vim.fn.sign_define
-
-  sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn", linehl = "", numhl = "DiagnosticSignWarn" })
-  sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", numhl = "DiagnosticSignError" })
-  sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", numhl ="DiagnosticSignInfo" })
-  sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", numhl ="DiagnosticSignHint" })
+for _, level in ipairs({ 'Hint', 'Info', 'Warn', 'Error'}) do
+  local sign = 'DiagnosticSign' .. level
+  vim.fn.sign_define(sign, { texthl = sign, numhl = sign})
 end
-
-return M
+--
+vim.diagnostic.config({
+  float = {
+    show_header = true,
+    border = "rounded",
+    source = "if_many",
+  },
+  severity_sort = true,
+  update_in_insert = false,
+})

@@ -2,8 +2,8 @@ local M = {}
 
 function M.get()
   M._keys = {
-    { "<leader>cd", vim.diagnostic.open_float, desc = "Line Diagnostics" },
-    { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+    { "<leader>ld", vim.diagnostic.open_float, desc = "Line Diagnostics" },
+    { "<leader>li", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
     {
       "gd", "<cmd>FzfLua lsp_definitions<cr>",
       desc = "Goto Definitions", has_method = "definition"
@@ -37,9 +37,7 @@ function M.get()
     { "<leader>rn", vim.lsp.buf.rename, desc = "Rename", has_method = "rename" },
     --{ "<leader>cf", format, desc = "Format Document", has_method = "formatting" },
     --{ "<leader>cf", format, desc = "Format Range", mode = "v", has_method = "rangeFormatting" },
-    {
-      "<leader>cA",
-      function()
+    { "<leader>cA", function()
         vim.lsp.buf.code_action({
           context = {
             only = {
@@ -57,9 +55,9 @@ end
 
 function M.resolve(buffer)
   local Keys = require("lazy.core.handler.keys")
-  local keymaps = {} ---@type table<string,LazyKeys|{has?:string}>
+
   if not Keys.resolve then
-    print('early return')
+    -- print('early return')
     return {}
   end
 
