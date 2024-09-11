@@ -1,5 +1,8 @@
 # vmim:syntax=gitconfig
 # vim:filetype=gitconfig
+[user]
+  name = "Nemanja Lakicevic"
+  email = "nocontact"
 
 [core]
   editor = nvim
