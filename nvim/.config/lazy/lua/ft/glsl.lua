@@ -12,8 +12,8 @@ return {
     opts = {
       servers = {
         glsl_analyzer = {
-          cmd = { os.getenv('XDG_DATA_HOME') .. "/lsp/glsl_analyzer/bin/glsl_analyzer"},
-          filetypes = { "glsl", "vert", "frag" }
+          cmd = { 'glsl_analyzer' },
+          filetypes = { "glsl" }
         }
       },
     }
