@@ -39,7 +39,7 @@ return {
         },
         tools = {
           on_initialized = function()
-            print('rust_tools on_initialized')
+            -- print('rust_tools on_initialized')
             vim.cmd([[
                   augroup RustLSP
                     autocmd CursorHold                      *.rs silent! lua vim.lsp.buf.document_highlight()

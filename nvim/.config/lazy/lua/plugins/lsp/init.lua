@@ -71,7 +71,7 @@ return {
 
       if opts.inlay_hints.enabled then
         util.lsp.on_supports_method('textDocument/inlayHint' , function(_, buffer)
-          vim.print('running inlay hint function')
+          -- vim.print('running inlay hint function')
           if
             vim.api.nvim_buf_is_valid(buffer)
             and vim.bo[buffer].buftype == ""
@@ -113,6 +113,8 @@ return {
             return
           end
         end
+        -- vim.print(server)
+        --   vim.print(server_opts)
         require('lspconfig')[server].setup(server_opts)
       end
 

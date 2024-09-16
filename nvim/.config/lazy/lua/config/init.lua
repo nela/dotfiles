@@ -16,11 +16,11 @@ function M.setup(opts)
       callback = function()
         _load("autocmds")
         _load("keymaps")
-        print("autocmd")
+        -- print("autocmd")
       end
     })
   else
-    print('second')
+    -- print('second')
     _load("autocmds")
     _load("keymaps")
   end
