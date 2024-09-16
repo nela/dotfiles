@@ -1,10 +1,23 @@
+local node_version = '20.10.0'
+local pnpm_dir = os.getenv('PNPM_GLOBAL') .. '/5/.pnpm/'
+
+local function find_probes_dir()
+  for name, type in vim.fs.dir(pnpm_dir, { depth = 1 }) do
+    if name:match('typescript@[%d+.]+%d+') and type == 'directory' then
+      return pnpm_dir
+    end
+  end
+
+  return os.getenv('ASDF_DATA_DIR') .. '/installs/nodejs/' .. node_version .. '/lib/node_modules'
+end
+
 local angularls_cmd = {
   "ngserver",
   "--stdio",
-  -- "--tsProbeLocations", vim.fn.getcwd() .. '/node_modules',
-  -- "--ngProbeLocations", vim.fn.getcwd() .. '/node_modules',
-  "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
-  "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
+  "--tsProbeLocations", find_probes_dir(),
+  "--ngProbeLocations", find_probes_dir()
+  -- "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
+  -- "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
 }
 
 return {
@@ -25,7 +38,7 @@ return {
     opts = {
       servers = {
         ts_ls = {
-          --cmd = { "typescript-language-server --stdio" },
+          -- cmd = { "typescript-language-server --stdio" },
           keys = {
             { "<leader>oi", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
             { "<leader>tr", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" }
