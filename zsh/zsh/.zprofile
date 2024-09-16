@@ -20,8 +20,8 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 export PNPM_STORE="${XDG_DATA_HOME}/pnpm/store"
 export PNPM_GLOBAL="${XDG_DATA_HOME}/pnpm/global"
-export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm/"
-export PNPM_STATE="${XDG_STATE_HOME}/pnpm/state"
+export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm"
+export PNPM_STATE="${XDG_STATE_HOME}/pnpm"
 export PNPM_CACHE="${XDG_CACHE_HOME}/pnpm"
 
 ##### Custom #####

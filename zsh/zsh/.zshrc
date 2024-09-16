@@ -111,8 +111,8 @@ unset _forgit_dir
 [ ! -d "${PNPM_HOME}" ] && mkdir -p "${PNPM_HOME}"
 [ ! -d "${PNPM_GLOBAL}" ] && mkdir -p "${PNPM_GLOBAL}"
 [ ! -d "${PNPM_GLOBAL_BIN}" ] && mkdir -p "${PNPM_GLOBAL_BIN}"
-[ ! -d "${PNPM_STATE}" ] && mkdir -p "${PNPM_STATE}"
-[ ! -d "${PNPM_CACHE}" ] && mkdir -p "${PNPM_CACHE}"
+# [ ! -d "${PNPM_STATE}" ] && mkdir -p "${PNPM_STATE}"
+# [ ! -d "${PNPM_CACHE}" ] && mkdir -p "${PNPM_CACHE}"
 
 [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
