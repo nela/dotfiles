@@ -71,7 +71,8 @@ if [[ "${SYSTEM}" == *Linux* ]] && [ -d ${ASDF_DIR} ]; then
   fpath=("${ASDF_DIR}"/completions $fpath) \
 fi
 
-zsh-defer source "${ASDF_DIR}"/asdf.sh \
+# zsh-defer
+source "${ASDF_DIR}"/asdf.sh \
   || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 
 # elif [[ "$SYSTEM" == *Darwin* ]]; then

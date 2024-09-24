@@ -36,7 +36,8 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
 
 # if [[ $OSTYPE == *darwin* ]] then;
 #   export ASDF_FORCE_PREPEND="no"
-# else
+[[ ${SYSTEM} == *Linux* ]] && export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+
 #   export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
 # fi
 
