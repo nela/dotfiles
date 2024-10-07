@@ -2,22 +2,27 @@ local node_version = '20.10.0'
 local pnpm_dir = os.getenv('PNPM_GLOBAL') .. '/5/.pnpm/'
 
 local function find_probes_dir()
-  for name, type in vim.fs.dir(pnpm_dir, { depth = 1 }) do
-    if name:match('typescript@[%d+.]+%d+') and type == 'directory' then
-      return pnpm_dir
+  -- local working_dir = vim.fs.basename(vim.api.nvim_buf_attach)
+  -- vim.print(working_dir)
+  if vim.fn.isdirectory(pnpm_dir) ~= 0 then
+    for name, type in vim.fs.dir(pnpm_dir, { depth = 1 }) do
+      if name:match('typescript@[%d+.]+%d+') and type == 'directory' then
+        return pnpm_dir
+      end
     end
   end
 
+  vim.print('returning asdf dir')
   return os.getenv('ASDF_DATA_DIR') .. '/installs/nodejs/' .. node_version .. '/lib/node_modules'
 end
 
 local angularls_cmd = {
   "ngserver",
   "--stdio",
-  "--tsProbeLocations", find_probes_dir(),
-  "--ngProbeLocations", find_probes_dir()
-  -- "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
-  -- "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
+  -- "--tsProbeLocations", find_probes_dir(),
+  -- "--ngProbeLocations", find_probes_dir()
+  "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
+  "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
 }
 
 return {
@@ -81,6 +86,53 @@ return {
             }
           }
         },
+        --[[ vtsls = {
+          filetypes = {
+            'javascript',
+            'javascriptreact',
+            'javascript.jsx',
+            'typescript',
+            'typescriptreact',
+            'typescript.jsx'
+          },
+          settings = {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = {
+                  enableServerSideFuzzyMatch = true
+                },
+              },
+            },
+            typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = {
+                completeFunctionCalls = true
+              }
+            },
+            inlayHints = {
+              enumMemberValues = { enabled = true },
+              functionLikeReturnTypes = { enabled = true },
+              parameterNames = { enabled = 'literals' },
+              parameterTypes = { enabled = true },
+              propertyDeclarationTypes = { enabled = true },
+              variableTypes = { enabled = false },
+            }
+          },
+          keys = {
+            "<leader>gd", function()
+              local params = vim.lsp.util.make_position_params()
+              local opts = {
+                command = "typescript.goToSourceDefinition",
+                arguments = { params.textDocument.uri, params.position }
+              }
+              vim.lsp.buf_request(0, "workspace/executeCommand", opts, vim.lsp.handlers["textDocument/definition"])
+            end,
+            desc = "Goto Source Definition"
+          }
+        }, ]]
         angularls = {
           keys = {
             { "<leader>at", function () require("ng").goto_template_for_component() end },
