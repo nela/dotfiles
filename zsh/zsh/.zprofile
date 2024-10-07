@@ -2,10 +2,9 @@
 # nvim:filetype=zsh
 
 ##### PATH #####
-# [[ ":${PATH}:" != *":/usr/local/bin:"* ]] && export PATH="/usr/local/bin:${PATH}"
-# [[ ":${PATH}:" != *":/usr/local/sbin:"* ]] && export PATH="/usr/local/sbin:${PATH}"
-# [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]] && export PATH="${HOME}/.local/bin:${PATH}"
-# [[ ":${PATH}:" != *":${PNPM_GLOBAL_BIN}:"* ]] && export PATH="${PNPM_GLOBAL_BIN}:${PATH}"
+
+# Macports path
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 ##### XDG #####
 export XDG_DATA_HOME="${HOME}/.local/share"
@@ -73,9 +72,9 @@ export ZCOMPCACHE="$XDG_CACHE_HOME/zsh/zcompcache"
 [ -d "$ZCOMPCACHE" ] || mkdir -p "$ZCOMPCACHE"
 
 path=(
+  $path
   /usr/local/{bin,sbin}
   $XDG_BIN_HOME
-  $path
 )
 
 # eliminates duplicates in *paths

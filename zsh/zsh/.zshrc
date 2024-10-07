@@ -115,7 +115,7 @@ unset _forgit_dir
 # [ ! -d "${PNPM_STATE}" ] && mkdir -p "${PNPM_STATE}"
 # [ ! -d "${PNPM_CACHE}" ] && mkdir -p "${PNPM_CACHE}"
 
-[ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
+# [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
 (( $+commands[zoxide] ))                                                                \
   && zsh-defer eval "$(zoxide init zsh)"                                                \
