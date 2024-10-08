@@ -5,17 +5,17 @@ function M.get()
     { "<leader>ld", vim.diagnostic.open_float, desc = "Line Diagnostics" },
     { "<leader>li", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
     {
-      "gd", "<cmd>FzfLua lsp_definitions<cr>",
+      "<leader>gd", "<cmd>FzfLua lsp_definitions<cr>",
       desc = "Goto Definitions", has_method = "definition"
     },
-    { "gr", "<cmd>FzfLua lsp_references<cr>", desc = "References", has_method = "references" },
-    { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration", has_method = "declaration" },
+    { "<leader>gr", "<cmd>FzfLua lsp_references<cr>", desc = "References", has_method = "references" },
+    { "<leader>gD", vim.lsp.buf.declaration, desc = "Goto Declaration", has_method = "declaration" },
     {
-      "gI", "<cmd>FzfLua lsp_implementation<cr>",
+      "<leader>gI", "<cmd>FzfLua lsp_implementation<cr>",
       desc = "Goto Implementation", has_method = "implementation"
     },
     {
-      "gy", "<cmd>FzfLua lsp_typedefs<cr>",
+      "<leader>gy", "<cmd>FzfLua lsp_typedefs<cr>",
       desc = "Goto T[y]pe Definition", has_method = "typeDefinition"
     },
     { "K", vim.lsp.buf.hover, desc = "Hover", has_method = "hover" },

@@ -65,6 +65,7 @@ return {
       --setup keymaps
       util.lsp.on_attach(function(client, buffer)
         require('plugins.lsp.keymaps').on_attach(client, buffer)
+        require("plugins.lsp.commands").on_attach(client, buffer)
       end)
 
       util.lsp.on_dynamic_capability(require('plugins.lsp.keymaps').on_attach)
