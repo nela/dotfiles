@@ -1,3 +1,19 @@
+--[[ local function substitute(str)
+  str = str:gsub("%%", vim.fn.expand "%")
+  str = str:gsub("$fileBase", vim.fn.expand "%:r")
+  str = str:gsub("$filePath", vim.fn.expand "%:p")
+  str = str:gsub("$file", vim.fn.expand "%")
+  str = str:gsub("$dir", vim.fn.expand "%:p:h")
+  str = str:gsub("#", vim.fn.expand "#")
+  str = str:gsub("$altFile", vim.fn.expand "#")
+
+  return cmd
+end
+
+vim.api.nvim_create_user_command("Build", function()
+
+end) ]]
+
 return {
   {
     "stevearc/conform.nvim",
@@ -69,15 +85,24 @@ return {
     "mfussenegger/nvim-dap",
     opts = function()
       local dap = require("dap")
-      require("dap").adapters["codelldb"] = {
-        type = "server",
-        host = "localhost",
-        port = "${port}",
-        executable = {
-          command = os.getenv("XDG_DATA_HOME") .. 'codelldb/adapter/bin/codelldb',
-          args = { "--port", "${port}" }
+      if not dap.adapters["codelldb"] then
+        vim.print("no codelldb")
+        -- local command =
+        require("dap").adapters["codelldb"] = {
+          type = "server",
+          host = "127.0.0.1",
+          port = "${port}",
+          executable = {
+            command = os.getenv("XDG_DATA_HOME") .. '/codelldb/adapter/codelldb',
+            args = {
+              -- "--liblldb",
+              -- "/Users/nela/.local/share/codelldb/lldb/lib/liblldb.dylib",
+              "--port",
+              "${port}"
+            }
+          }
         }
-      }
+      end
 
       for _, lang in ipairs({ "c", "cpp"--[[ , "rust"  ]]}) do
         dap.configurations[lang] = {
