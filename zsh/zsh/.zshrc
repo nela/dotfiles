@@ -69,9 +69,12 @@ local _asdf_dir
 
 if [[ "${SYSTEM}" == *Linux* ]] && [ -d ${ASDF_DIR} ]; then
   fpath=("${ASDF_DIR}"/completions $fpath) \
+  _asdf_dir=${ASDF_DIR}
+elif [[ "${SYSTEM}" == *Darwin* ]] then;
+  _asdf_dir=/usr/local/opt/asdf/libexec
 fi
 
-zsh-defer source "${ASDF_DIR}"/asdf.sh \
+zsh-defer source "${_asdf_dir}"/asdf.sh \
   || printf ${_error_fix} "Sourcing ASDF init script failed" "Check \$ASDF_DIR paths"
 
 # elif [[ "$SYSTEM" == *Darwin* ]]; then
@@ -86,6 +89,8 @@ if [ -d "${ASDF_DATA_DIR}"/plugins/java ]; then
     || printf ${_warning_fix} "ASDF plugin set-java-home not loaded" \
         "Check \$ASDF_DATA_DIR path, plugins and other installations paths."
 fi
+
+unset _asdf_dir
 
 [ -r "${DOTS}"/shells/fzf.sh ] && zsh-defer source ${DOTS}/shells/fzf.sh \
   || printf ${error} "FZF config not loaded"
@@ -114,7 +119,7 @@ unset _forgit_dir
 # [ ! -d "${PNPM_STATE}" ] && mkdir -p "${PNPM_STATE}"
 # [ ! -d "${PNPM_CACHE}" ] && mkdir -p "${PNPM_CACHE}"
 
-[ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
+# [ -x /usr/libexec/path_helper ] && zsh-defer eval "$(/usr/libexec/path_helper)"
 
 (( $+commands[zoxide] ))                                                                \
   && zsh-defer eval "$(zoxide init zsh)"                                                \

@@ -2,10 +2,10 @@
 # nvim:filetype=zsh
 
 ##### PATH #####
-# [[ ":${PATH}:" != *":/usr/local/bin:"* ]] && export PATH="/usr/local/bin:${PATH}"
-# [[ ":${PATH}:" != *":/usr/local/sbin:"* ]] && export PATH="/usr/local/sbin:${PATH}"
-# [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]] && export PATH="${HOME}/.local/bin:${PATH}"
-# [[ ":${PATH}:" != *":${PNPM_GLOBAL_BIN}:"* ]] && export PATH="${PNPM_GLOBAL_BIN}:${PATH}"
+
+# Macports path
+[[ ${OSTYPE} == *darwin* ]] && \
+  export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 ##### XDG #####
 export XDG_DATA_HOME="${HOME}/.local/share"
@@ -36,8 +36,12 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
 
 # if [[ $OSTYPE == *darwin* ]] then;
 #   export ASDF_FORCE_PREPEND="no"
-# else
-#   export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+if [[ ${SYSTEM} == *Linux* ]] then;
+  export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+fi
+
+# elif [[ ${SYSTEM} == *Darwin* ]] then;
+#   export ASDF_DIR="/usr/local/opt/asdf"
 # fi
 
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf/tools"
@@ -73,8 +77,8 @@ export ZCOMPCACHE="$XDG_CACHE_HOME/zsh/zcompcache"
 
 path=(
   /usr/local/{bin,sbin}
-  $XDG_BIN_HOME
   $path
+  $XDG_BIN_HOME
 )
 
 # eliminates duplicates in *paths
