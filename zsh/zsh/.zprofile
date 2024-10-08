@@ -4,7 +4,8 @@
 ##### PATH #####
 
 # Macports path
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+[[ ${OSTYPE} == *darwin* ]] && \
+  export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 ##### XDG #####
 export XDG_DATA_HOME="${HOME}/.local/share"
@@ -35,9 +36,12 @@ export VENV_HOME="${XDG_DATA_HOME}/nelapys"
 
 # if [[ $OSTYPE == *darwin* ]] then;
 #   export ASDF_FORCE_PREPEND="no"
-[[ ${SYSTEM} == *Linux* ]] && export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+if [[ ${SYSTEM} == *Linux* ]] then;
+  export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+fi
 
-#   export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+# elif [[ ${SYSTEM} == *Darwin* ]] then;
+#   export ASDF_DIR="/usr/local/opt/asdf"
 # fi
 
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf/tools"
@@ -72,8 +76,8 @@ export ZCOMPCACHE="$XDG_CACHE_HOME/zsh/zcompcache"
 [ -d "$ZCOMPCACHE" ] || mkdir -p "$ZCOMPCACHE"
 
 path=(
-  $path
   /usr/local/{bin,sbin}
+  $path
   $XDG_BIN_HOME
 )
 
