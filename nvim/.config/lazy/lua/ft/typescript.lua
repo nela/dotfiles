@@ -42,51 +42,51 @@ return {
     },
     opts = {
       servers = {
-        ts_ls = {
-          -- cmd = { "typescript-language-server --stdio" },
-          keys = {
-            { "<leader>oi", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
-            { "<leader>tr", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" }
-          },
-          settings = {
-            typescript = {
-              format = {
-                indentSize = vim.o.shiftwidth,
-                convertTabsToSpaces = vim.o.expandtab,
-                tabSize = vim.o.tabstop
-              },
-              inlayHints = {
-                --[[ includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true, ]]
-              },
-            },
-            javascript = {
-              format = {
-                indentSize = vim.o.shiftwidth,
-                convertTabsToSpaces = vim.o.expandtab,
-                tabSize = vim.o.tabstop
-              },
-              inlayHints = {
-                --[[ includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true, ]]
-              },
-            },
-            completions = {
-              completeFunctionCalls = true
-            }
-          }
-        },
-        --[[ vtsls = {
+        -- ts_ls = {
+        --   -- cmd = { "typescript-language-server --stdio" },
+        --   keys = {
+        --     { "<leader>oi", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
+        --     { "<leader>tr", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" }
+        --   },
+        --   settings = {
+        --     typescript = {
+        --       format = {
+        --         indentSize = vim.o.shiftwidth,
+        --         convertTabsToSpaces = vim.o.expandtab,
+        --         tabSize = vim.o.tabstop
+        --       },
+        --       inlayHints = {
+        --         --[[ includeInlayEnumMemberValueHints = true,
+        --         includeInlayFunctionLikeReturnTypeHints = true,
+        --         includeInlayFunctionParameterTypeHints = true,
+        --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        --         includeInlayPropertyDeclarationTypeHints = true,
+        --         includeInlayVariableTypeHints = true, ]]
+        --       },
+        --     },
+        --     javascript = {
+        --       format = {
+        --         indentSize = vim.o.shiftwidth,
+        --         convertTabsToSpaces = vim.o.expandtab,
+        --         tabSize = vim.o.tabstop
+        --       },
+        --       inlayHints = {
+        --         --[[ includeInlayEnumMemberValueHints = true,
+        --         includeInlayFunctionLikeReturnTypeHints = true,
+        --         includeInlayFunctionParameterTypeHints = true,
+        --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        --         includeInlayPropertyDeclarationTypeHints = true,
+        --         includeInlayVariableTypeHints = true, ]]
+        --       },
+        --     },
+        --     completions = {
+        --       completeFunctionCalls = true
+        --     }
+        --   }
+        -- },
+        vtsls = {
           filetypes = {
             'javascript',
             'javascriptreact',
@@ -121,18 +121,21 @@ return {
               variableTypes = { enabled = false },
             }
           },
-          keys = {
-            "<leader>gd", function()
-              local params = vim.lsp.util.make_position_params()
-              local opts = {
-                command = "typescript.goToSourceDefinition",
-                arguments = { params.textDocument.uri, params.position }
-              }
-              vim.lsp.buf_request(0, "workspace/executeCommand", opts, vim.lsp.handlers["textDocument/definition"])
-            end,
-            desc = "Goto Source Definition"
-          }
-        }, ]]
+          --[[ keys = {
+            {
+              "<leader>gd",
+              function()
+                local params = vim.lsp.util.make_position_params()
+                local opts = {
+                  command = "typescript.goToSourceDefinition",
+                  arguments = { params.textDocument.uri, params.position }
+                }
+                vim.lsp.buf_request_all(0, "workspace/executeCommand", opts, vim.lsp.handlers["textDocument/definition"])
+              end,
+              desc = "Goto Source Definition"
+            }
+          } ]]
+        },
         angularls = {
           keys = {
             { "<leader>at", function () require("ng").goto_template_for_component() end },
@@ -146,10 +149,14 @@ return {
         },
       },
       setup = {
-        ts_ls = function(_, opts)
+        --[[ ts_ls = function(_, opts)
           require("typescript").setup({ server = opts })
           return true
-        end,
+        end, ]]
+        vtsls = function(_, opts)
+          opts.settings.javascript =
+          vim.tbl_deep_extend("force", {}, opts.settings.typescript, opts.settings.javascript or {})
+        end
       }
     },
   },
