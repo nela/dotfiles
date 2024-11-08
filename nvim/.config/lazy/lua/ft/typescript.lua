@@ -1,7 +1,7 @@
 local node_version = '20.10.0'
 local pnpm_dir = os.getenv('PNPM_GLOBAL') .. '/5/.pnpm/'
 
-local function find_probes_dir()
+--[[ local function find_probes_dir()
   -- local working_dir = vim.fs.basename(vim.api.nvim_buf_attach)
   -- vim.print(working_dir)
   if vim.fn.isdirectory(pnpm_dir) ~= 0 then
@@ -14,7 +14,7 @@ local function find_probes_dir()
 
   vim.print('returning asdf dir')
   return os.getenv('ASDF_DATA_DIR') .. '/installs/nodejs/' .. node_version .. '/lib/node_modules'
-end
+end ]]
 
 local angularls_cmd = {
   "ngserver",
@@ -24,6 +24,41 @@ local angularls_cmd = {
   "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
   "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
 }
+
+
+local function make_default_locations_handler(prompt)
+  local fzf = require('fzf-lua')
+
+  -- preprocess only to call load icons
+  fzf.make_entry.preprocess({ formatter = { "path.filename_first", 2 }, file_icons = true  })
+	return function(err, locations, ctx, config)
+		config = config or {}
+		if err then
+			error(err)
+		end
+		local client = vim.lsp.get_client_by_id(ctx.client_id)
+    if not client then return end
+
+		if not locations or vim.tbl_isempty(locations) then
+		elseif #locations == 1 then
+			vim.lsp.util.jump_to_location(locations[1], client.offset_encoding, config.reuse_win)
+		else
+			local items = vim.lsp.util.locations_to_items(locations, client.offset_encoding)
+      local cwd = vim.loop.cwd()
+
+      local entries = {}
+      for _, entry in ipairs(items) do
+          -- local file = fzf.make_entry.file(entry.filename, { cwd = cwd, file_icons = true, color_icons = true, path_shorten = true })
+          -- vim.print(entry)
+          entry = fzf.make_entry.lcol(entry,  {})
+          entry = fzf.make_entry.file(entry, { cwd = cwd, file_icons = true, color_icons = true, path_shorten = true })
+          table.insert(entries, entry)
+      end
+
+      fzf.fzf_exec(entries, { prompt = prompt .. '>', previewer = "builtin"  })
+		end
+	end
+end
 
 return {
   {
@@ -35,57 +70,25 @@ return {
     end,
   },
   {
+    "yioneko/nvim-vtsls",
+    dependencies = {     "ibhagwan/fzf-lua" },
+    event = "BufReadPost",
+    -- lazy = false,
+    opts = {
+      handlers = {
+        file_references = make_default_locations_handler('File References'),
+        source_definition = make_default_locations_handler('Source Definitions')
+      }
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/typescript.nvim",
-      "joeveiga/ng.nvim"
+      "joeveiga/ng.nvim",
     },
     opts = {
       servers = {
-        -- ts_ls = {
-        --   -- cmd = { "typescript-language-server --stdio" },
-        --   keys = {
-        --     { "<leader>oi", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
-        --     { "<leader>tr", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" }
-        --   },
-        --   settings = {
-        --     typescript = {
-        --       format = {
-        --         indentSize = vim.o.shiftwidth,
-        --         convertTabsToSpaces = vim.o.expandtab,
-        --         tabSize = vim.o.tabstop
-        --       },
-        --       inlayHints = {
-        --         --[[ includeInlayEnumMemberValueHints = true,
-        --         includeInlayFunctionLikeReturnTypeHints = true,
-        --         includeInlayFunctionParameterTypeHints = true,
-        --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-        --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        --         includeInlayPropertyDeclarationTypeHints = true,
-        --         includeInlayVariableTypeHints = true, ]]
-        --       },
-        --     },
-        --     javascript = {
-        --       format = {
-        --         indentSize = vim.o.shiftwidth,
-        --         convertTabsToSpaces = vim.o.expandtab,
-        --         tabSize = vim.o.tabstop
-        --       },
-        --       inlayHints = {
-        --         --[[ includeInlayEnumMemberValueHints = true,
-        --         includeInlayFunctionLikeReturnTypeHints = true,
-        --         includeInlayFunctionParameterTypeHints = true,
-        --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-        --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        --         includeInlayPropertyDeclarationTypeHints = true,
-        --         includeInlayVariableTypeHints = true, ]]
-        --       },
-        --     },
-        --     completions = {
-        --       completeFunctionCalls = true
-        --     }
-        --   }
-        -- },
         vtsls = {
           filetypes = {
             'javascript',
@@ -110,31 +113,17 @@ return {
               updateImportsOnFileMove = { enabled = 'always' },
               suggest = {
                 completeFunctionCalls = true
-              }
+              },
+              -- inlayHints = {
+              --   enumMemberValues = { enabled = true },
+              --   functionLikeReturnTypes = { enabled = true },
+              --   parameterNames = { enabled = 'literals' },
+              --   parameterTypes = { enabled = true },
+              --   propertyDeclarationTypes = { enabled = true },
+              --   variableTypes = { enabled = false },
+              -- }
             },
-            inlayHints = {
-              enumMemberValues = { enabled = true },
-              functionLikeReturnTypes = { enabled = true },
-              parameterNames = { enabled = 'literals' },
-              parameterTypes = { enabled = true },
-              propertyDeclarationTypes = { enabled = true },
-              variableTypes = { enabled = false },
-            }
           },
-          --[[ keys = {
-            {
-              "<leader>gd",
-              function()
-                local params = vim.lsp.util.make_position_params()
-                local opts = {
-                  command = "typescript.goToSourceDefinition",
-                  arguments = { params.textDocument.uri, params.position }
-                }
-                vim.lsp.buf_request_all(0, "workspace/executeCommand", opts, vim.lsp.handlers["textDocument/definition"])
-              end,
-              desc = "Goto Source Definition"
-            }
-          } ]]
         },
         angularls = {
           keys = {
@@ -149,16 +138,12 @@ return {
         },
       },
       setup = {
-        --[[ ts_ls = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end, ]]
         vtsls = function(_, opts)
           opts.settings.javascript =
           vim.tbl_deep_extend("force", {}, opts.settings.typescript, opts.settings.javascript or {})
         end
-      }
-    },
+      },
+    }
   },
   {
     "mfussenegger/nvim-dap",
