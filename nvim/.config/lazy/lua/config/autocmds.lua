@@ -90,9 +90,9 @@ autocmd("BufWritePre", {
   group = augroup("buffer_update"),
   pattern = "*",
   callback = function ()
-    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    -- local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     vim.cmd("%s/\\s\\+$//e") -- whitespaces
-    vim.cmd("undojoin")
+    --[[ vim.cmd("undojoin")
     vim.cmd("keepjumps exe '%s/\\($\\n\\s*\\)*\\%$//e'") --empty lines
     vim.cmd("undojoin")
     local eof = vim.api.nvim_buf_line_count(0)
@@ -100,7 +100,7 @@ autocmd("BufWritePre", {
       row = eof
       col = 0
     end
-    vim.api.nvim_win_set_cursor(0, { row, col })
+    vim.api.nvim_win_set_cursor(0, { row, col }) ]]
   end,
 })
 
