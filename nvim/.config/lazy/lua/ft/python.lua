@@ -2,9 +2,6 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      { "folke/neodev.nvim", opts = {}, ft = 'lua', event = 'VeryLazy' },
-    },
     opts = {
       servers = {
         pyright = {
