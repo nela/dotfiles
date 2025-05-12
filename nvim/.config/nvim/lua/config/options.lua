@@ -33,7 +33,7 @@ vim.opt.visualbell     = true
 vim.opt.scrolloff      = 3
 vim.opt.wildmenu       = true
 vim.opt.wildmode       = 'longest:full,full'
-vim.opt.colorcolumn    = '120'
+-- vim.opt.colorcolumn    = '120'
 vim.opt.termguicolors  = true
 vim.opt.sessionoptions = 'buffers,tabpages,winpos,curdir,folds'
 vim.opt.dictionary     = '/usr/share/dict/words'
@@ -55,3 +55,6 @@ vim.opt.shortmess:append({ W = true, I = true, c = true, C = true})
 
 vim.opt.matchpairs:append('<:>')
 vim.opt.thesaurus:append(os.getenv('XDG_DATA_HOME') .. '/thesaurus/words')
+
+vim.g.gruvbox_material_background = 'hard'
+vim.g.gruvbox_material_better_performance = 1

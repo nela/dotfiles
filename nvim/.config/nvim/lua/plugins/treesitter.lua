@@ -34,7 +34,7 @@ return {
         "javascript",
         "json",
         "kotlin",
-        "latex",
+        -- "latex",
         "lua",
         "python",
         "regex",
