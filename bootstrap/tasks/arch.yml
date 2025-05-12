@@ -1,0 +1,82 @@
+- name: Install pacman packages
+  become: true
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name: "{{ item }}"
+  with_items:
+    - fzf
+    - bat
+    - ripgrep
+    - fd
+    - zoxide
+    - dunst
+    - pipewire
+    - wireplumber
+    - qt5-wayland
+    - qt6-wayland
+    - hyprland
+    - hypridle
+    - hyprpaper
+    - hyprpicker
+    - waybar
+    - nodejs
+    - pnpm
+    - lua-language-server
+    - rust
+    - luarocks
+    - breeze
+    - breeze-gtk
+    - qt5ct
+    - nwg-look
+    - bluez
+    - blueman
+    - luarocks
+
+- name: Install AUR packages
+  become: false
+  yay:
+    state: latest
+    update_cache: true
+    name: "{{ item }}"
+  with_items:
+    - laptop-mode-tools
+    - zsh-defer-git
+    - forgit
+    - zsh-fast-syntax-highlighting
+    - hyprpolkitagent
+    - jdk-temurin
+    - asdf-vm
+    - glslviewer
+    - glsl-language-server
+    - wlogout
+
+- name: Start systemd services
+  block:
+  - name: Reload systemd daemon
+    become: true
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: Enable systemd service
+    become: "{{ item.scope | default('system') != 'user' }}"
+    ansible.builtin.systemd_service:
+      name: "{{ item.name }}"
+      scope: "{{ item.scope | default('system') }}"
+      enabled: true
+      state: started
+    with_items:
+      - name: laptop-mode.service
+
+# - name: Language servers with pnpm
+#   community.general.pnpm:
+#     name: "{{ item }}"
+#     state: latest
+#     global: true
+#   with_items:
+#     - '@vtsls/language-server'
+#   environment:
+#     PNPM_HOME: "{{ lookup('env', 'PNPM_HOME', default=ansible_env.HOME + '/.local/share/pnpm') }}"
+#     PNPM_GLOBAL: "{{ lookup('env', 'PNPM_GLOBAL', default=ansible_env.HOME + '/.local/share/pnpm/global') }}"
+#     PNPM_CACHE: "{{ lookup('env', 'PNPM_CACHE', default=ansible_env.HOME + '/.cache/pnpm') }}"
+#     PNPM_STATE: "{{ lookup('env', 'PNPM_STATE', default=ansible_env.HOME + '/.local/state/pnpm') }}"

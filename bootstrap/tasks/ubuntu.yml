@@ -13,7 +13,6 @@
         name: "{{ setup_user }}"
         shell: /bin/zsh
 
-
 - name: Clone Git directories
   ansible.builtin.git:
     repo: "{{ item.repo }}"
@@ -22,26 +21,6 @@
     single_branch: yes
     version: master
   with_items: "{{ git_repos + git_repos_ubuntu }}"
-
-- name: Install Neovim
-  block:
-    - name: Download AppImage
-      ansible.builtin.get_url:
-        url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-        dest: "{{ ansible_env.HOME }}/.local/bin/nvim.appimage"
-        mode: a+x
-    # - name: Make exectuable
-    #   ansible.builtin.file:
-    #     dest: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
-    #     mode: a+x
-    - name: Create Symlinks
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME}}/.local/bin/nvim.appimage"
-        path: "{{ ansible_env.HOME}}/.local/bin/{{ item }}"
-        state: link
-      with_items:
-        - v
-        - nvim
 
 - name: Install Zoxide
   block:
