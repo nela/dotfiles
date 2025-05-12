@@ -3,9 +3,8 @@
 
 ##### PATH #####
 
-# Macports path
-[[ ${OSTYPE} == *darwin* ]] && \
-  export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
+export QT_QPA_PLATFORMTHEME=qt5ct
 
 ##### XDG #####
 export XDG_DATA_HOME="${HOME}/.local/share"
@@ -15,12 +14,17 @@ export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_LIB_HOME="${HOME}/.local/lib"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
+# Macports path
+[[ ${OSTYPE} == *darwin* ]] && \
+  export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
+export PATH="${XDG_BIN_HOME}":$PATH
 ##### PNPM #####
 # export PNPM_GLOBAL_BIN="${XDG_DATA_HOME}/pnpm"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 export PNPM_STORE="${XDG_DATA_HOME}/pnpm/store"
 export PNPM_GLOBAL="${XDG_DATA_HOME}/pnpm/global"
-export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}/pnpm"
+export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}"
 export PNPM_STATE="${XDG_STATE_HOME}/pnpm"
 export PNPM_CACHE="${XDG_CACHE_HOME}/pnpm"
 
@@ -31,33 +35,33 @@ export ZSHRC="${ZSH}/.zshrc"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export EDITOR="nvim"
 export VENV_HOME="${XDG_DATA_HOME}/nelapys"
-[[ $OSTYPE == *darwin* ]] \
-  && export BREW_PREFIX="/usr/local/opt"
+[[ $OSTYPE == *darwin* ]] &&
+  export BREW_PREFIX="$(brew --prefix)"
 
-# if [[ $OSTYPE == *darwin* ]] then;
-#   export ASDF_FORCE_PREPEND="no"
-if [[ ${SYSTEM} == *Linux* ]] then;
-  export ASDF_DIR="${XDG_DATA_HOME}/asdf/source"
+local uname_str=$(uname -a | tr '[:upper:]' '[:lower:]')
+
+if [ -d "${XDG_DATA_HOME}"/asdf/source ]; then
+  export ASDF_DIR="${XDG_DATA_HOME}"/asdf/source
+elif [[ uname_str == *darwin* ]]; then
+  export ASDF_DIR="/usr/local/opt/asdf"
+elif [[ uname_str == *archlinux* ]]; then
+  export ASDF_DIR="/opt/asdf-vm"
 fi
 
-# elif [[ ${SYSTEM} == *Darwin* ]] then;
-#   export ASDF_DIR="/usr/local/opt/asdf"
-# fi
-
-export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf/tools"
+export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
 
 ##### Locale #####
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
-export LC_COLLATE=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
-export LC_MESSAGES=en_US.UTF-8
-export LC_MONETARY=en_US.UTF-8
-export LC_NUMERIC=en_US.UTF-8
-export LC_TIME=nb_NO.UTF-8
-#export LC_ALL=en_US.UTF-8
-export LESSCHARSET=utf-8
-export TZ=Europe/Oslo
+# export LANG=en_US.UTF-8
+# export LANGUAGE=en_US.UTF-8
+# export LC_COLLATE=en_US.UTF-8
+# export LC_CTYPE=en_US.UTF-8
+# export LC_MESSAGES=en_US.UTF-8
+# export LC_MONETARY=en_US.UTF-8
+# export LC_NUMERIC=en_US.UTF-8
+# export LC_TIME=nb_NO.UTF-8
+# #export LC_ALL=en_US.UTF-8
+# export LESSCHARSET=utf-8
+# export TZ=Europe/Oslo
 
 export LESSHISTFILE="${XDG_CACHE_HOME}/less/lesshst"
 
