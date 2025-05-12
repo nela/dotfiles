@@ -29,6 +29,31 @@ return {
     }
   },
   {
-    'sindrets/diffview.nvim', cmd = { 'DiffviewOpen' }
+    'sindrets/diffview.nvim', cmd = { 'DiffviewOpen' },
+    opts = {
+      file_panel = {
+        win_config = function ()
+          local width = math.floor((vim.go.columns/9)*2)
+          return {
+            position = 'left',
+            width = width
+          }
+        end
+      },
+      keymaps = {
+        view = {
+          { "<tab>", "<s-tab>", false },
+          -- ["<tab>"] = false,
+          -- ["<s-tab>"] = false,
+          { "n", "]m", function() require('diffview.actions').select_next_entry() end, { desc = "Open the diff for the next file" } },
+          { "n", "[m", function() require('diffview.actions').select_prev_entry() end, { desc = "Open the diff for the previous file" } }
+        },
+        file_panel = {
+          { "<tab>", "<s-tab>", false },
+          { "n", "]m", function() require('diffview.actions').select_next_entry() end, { desc = "Open the diff for the next file" } },
+          { "n", "[m", function() require('diffview.actions').select_prev_entry() end, { desc = "Open the diff for the previous file" } }
+        }
+      }
+    }
   }
 }

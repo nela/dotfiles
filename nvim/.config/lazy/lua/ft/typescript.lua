@@ -1,5 +1,34 @@
-local node_version = '20.10.0'
+local node_version = '22.14.0'
 local pnpm_dir = os.getenv('PNPM_GLOBAL') .. '/5/.pnpm/'
+
+-- Workaround for truncating long TypeScript inlay hints.
+
+-- local methods = vim.lsp.protocol.Methods
+-- TODO: Remove this if https://github.com/neovim/neovim/issues/27240 gets addressed.
+
+-- local inlay_hint_handler = vim.lsp.handlers[methods.textDocument_inlayHint]
+
+--[[ vim.lsp.handlers[methods.textDocument_inlayHint] = function(err, result, ctx, config)
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    local new_results = {}
+    if client and client.name == 'vtsls' then
+      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+      -- vim.print(result)
+      for _, r in pairs(result) do
+        vim.print(row)
+        vim.print(r)
+
+        if row == r.position.line  and r.position.character > col  then
+          table.insert(new_results, r)
+        end
+
+      end
+    end
+
+  vim.print(new_results)
+
+    inlay_hint_handler(err, new_results, ctx, config)
+end ]]
 
 --[[ local function find_probes_dir()
   -- local working_dir = vim.fs.basename(vim.api.nvim_buf_attach)
@@ -21,8 +50,8 @@ local angularls_cmd = {
   "--stdio",
   -- "--tsProbeLocations", find_probes_dir(),
   -- "--ngProbeLocations", find_probes_dir()
-  "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules',
-  "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/20.10.0/lib/node_modules'
+  "--tsProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/22.14.0/lib/node_modules',
+  "--ngProbeLocations", '/home/nela/.local/share/asdf/tools/installs/nodejs/22.14.0/lib/node_modules'
 }
 
 
@@ -117,7 +146,7 @@ return {
               -- inlayHints = {
               --   enumMemberValues = { enabled = true },
               --   functionLikeReturnTypes = { enabled = true },
-              --   parameterNames = { enabled = 'literals' },
+                -- parameterNames = { enabled = 'literals' },
               --   parameterTypes = { enabled = true },
               --   propertyDeclarationTypes = { enabled = true },
               --   variableTypes = { enabled = false },

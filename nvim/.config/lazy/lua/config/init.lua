@@ -23,6 +23,7 @@ function M.setup(opts)
     -- print('second')
     _load("autocmds")
     _load("keymaps")
+    _load("commands")
   end
 
   require("config.lazy")

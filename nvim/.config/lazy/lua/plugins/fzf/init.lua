@@ -98,11 +98,11 @@ return {
         }
       }
     },
-    --[[ config = function()
+    on_attach = function(bufnr)
       vim.keymap.set({ "n", "v", "i" }, "<C-x><C-p>",
         function() require("fzf-lua").complete_path() end,
-        { silent = true, desc = "Fuzzy complete path" }
+        { buffer = bufnr, silent = true, desc = "Fuzzy complete path" }
       )
-    end ]]
+    end
   }
 }

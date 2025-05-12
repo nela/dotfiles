@@ -126,8 +126,8 @@ return {
           },
         },
         mapping = {
-          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-h>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-l>'] = cmp.mapping.scroll_docs(4),
           ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close()
