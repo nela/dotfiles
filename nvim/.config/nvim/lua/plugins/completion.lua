@@ -3,7 +3,7 @@ return {
     'neovim/nvim-lspconfig',
     opts = {
       servers = {
-        emmet_language_server = {
+        --[[ emmet_language_server = {
             filetypes = {
             "css",
             -- "eruby",
@@ -16,7 +16,7 @@ return {
             -- "pug",
             -- "typescriptreact"
           },
-        }
+        } ]]
       }
     }
   },
@@ -66,7 +66,7 @@ return {
         formatting = {
           format = require('lspkind').cmp_format({
             -- with_text = true,
-            mode = 'symbol_text',
+            mode = 'symbol',
             menu = {
               buffer = '[buf]',
               nvim_lua = '[api]',
@@ -76,20 +76,23 @@ return {
               omni = '[omni]',
               ['vim-dadbod-completion'] = '[db]'
             },
-            maxwidth = 80,
+            maxwidth = {
+              menu = 50,
+              abbr = 50
+            },
             ellipsis_char = '...',
-            before = function(entry, vim_item)
-              local word = entry:get_insert_text()
-              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
-                word = vim.lsp.util.parse_snippet(word)
-              end
-              word = str.oneline(word)
-              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
-                word = word .. '~'
-                vim_item.abbr = word
-              end
-                return vim_item
-            end
+            -- before = function(entry, vim_item)
+            --   local word = entry:get_insert_text()
+            --   if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
+            --     word = vim.lsp.util.parse_snippet(word)
+            --   end
+            --   word = str.oneline(word)
+            --   if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
+            --     word = word .. '~'
+            --     vim_item.abbr = word
+            --   end
+            --     return vim_item
+            -- end
           }),
         },
         experimental = {

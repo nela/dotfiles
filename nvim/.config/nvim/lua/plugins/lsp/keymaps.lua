@@ -28,7 +28,7 @@ function M.get()
       "<leader>ca", vim.lsp.buf.code_action, mode = { "n", "v" },
       desc = "Code Action", has_method = "codeAction"
     },
-    { "]d", function() vim.diagnostic.goto_next() end, desc = "Next Diagnostic" },
+    { "]d", function() vim.diagnostic.jump({ count = 1, float = true}) end, desc = "Next Diagnostic" },
     { "[d", function() vim.diagnostic.goto_prev() end, desc = "Prev Diagnostic" },
     { "]e", function() vim.diagnostic.goto_next({ severity = "ERROR" }) end, desc = "Next Error" },
     { "[e", function() vim.diagnostic.goto_prev({ severity = "ERROR" }) end, desc = "Prev Error" },
@@ -64,7 +64,7 @@ function M.resolve(buffer)
   local spec = M.get()
   local opts = require("util").opts("nvim-lspconfig")
 
-  local clients = vim.lsp.get_active_clients({ bufnr = buffer })
+  local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
     local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
     vim.list_extend(spec, maps)
@@ -74,9 +74,9 @@ end
 
 function M.has_method(buffer, method)
   method = method:find("/") and method or "textDocument/" .. method
-  local clients = vim.lsp.get_active_clients({ bufnr = buffer })
+  local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
-    if client.supports_method(method) then
+    if client:supports_method(method) then
       return true
     end
   end
@@ -88,7 +88,8 @@ function M.on_attach(_, buffer)
   local keymaps = M.resolve(buffer)
 
   for _, keys in pairs(keymaps) do
-    if not keys.has_method or M.has_method(buffer, keys.has_method) then
+    local has = not keys.has or M.has_method(buffer, keys.has)
+    if  has then
       local opts = Keys.opts(keys)
       opts.has_method = nil
       opts.silent = opts.silent ~= false

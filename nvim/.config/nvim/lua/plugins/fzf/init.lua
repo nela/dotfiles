@@ -3,15 +3,7 @@ return {
     "ibhagwan/fzf-lua",
     lazy = "BufReadPost",
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      {
-        dir = '~/.local/share/fzf',
-        cond = [[ vim.fn.has('mac') != 1]],
-      },
-      {
-        dir = '/usr/local/opt/fzf',
-        cond = [[ vim.fn.has('mac') == 1]],
-      }
+      "nvim-tree/nvim-web-devicons"
     },
     keys = {
       { "<leader>fb", function() require("fzf-lua").buffers() end, { "n", "v" }, silent = true, desc = "Fuzzy complete path" },
