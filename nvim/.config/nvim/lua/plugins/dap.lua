@@ -1,20 +1,19 @@
-
 return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
       "rcarriga/nvim-dap-ui",
-      -- virtual text for the debugger
       {
         "theHamsta/nvim-dap-virtual-text",
         opts = {},
       },
     },
     event = { "BufReadPre" },
-    keys = function(_, keys)
+    keys = function(_)
       local dap = require("dap")
+      --stylua: ignore
       return {
-        { "<leader>dB", function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+        { "<leader>dB", function() dap.set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Breakpoint Condition" },
         { "<leader>db", function() dap.toggle_breakpoint() end, desc = "Toggle Breakpoint" },
         { "<leader>dc", function() dap.continue() end, desc = "Continue" },
         { "<leader>dC", function() dap.run_to_cursor() end, desc = "Run to Cursor" },
@@ -24,7 +23,8 @@ return {
         { "<leader>dk", function() dap.up() end, desc = "Go down in current stacktrace." },
         { "<leader>dl", function() dap.run_last() end, desc = "Run Last" },
         { "<leader>dO", function() dap.step_out() end, desc = "Step Out" },
-        { "<leader>do", function() dap.step_over() end, desc = "Step Over" },
+        { "<leader>do", function() dap.step_over() end, desc = "Step Over"
+        },
         { "<leader>df", function() dap.focus_frame() end, desc = "Move cursor to current dap line." },
         { "<leader>dp", function() dap.pause() end, desc = "Pause" },
         { "<leader>dr", function() dap.repl.toggle() end, desc = "Toggle REPL" },
@@ -33,15 +33,54 @@ return {
         { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
       }
     end,
-    config = function ()
-      vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual"} )
+    opts = function()
+      local dap = require("dap")
+      if not dap.adapters["codelldb"] then
+        -- local command =
+        require("dap").adapters["codelldb"] = {
+          type = "server",
+          host = "127.0.0.1",
+          port = "${port}",
+          executable = {
+            command = 'codelldb',
+            args = {
+              "--port",
+              "${port}"
+            }
+          }
+        }
+      end
+
+      for _, lang in ipairs({ "c", "cpp", "rust" }) do
+        dap.configurations[lang] = {
+          {
+            type = "codelldb",
+            request = "launch",
+            name = "Launch file",
+            program = function()
+              return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+            end,
+            cwd = "${workspaceFolder}"
+          },
+          {
+            type = "codelldb",
+            request = "attach",
+            name = "Attach to process",
+            pid = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}"
+          }
+        }
+      end
+    end,
+    config = function()
+      vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
       local icons = {
-            Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-            Breakpoint = " ",
-            BreakpointCondition = " ",
-            BreakpointRejected = { " ", "DiagnosticError" },
-            LogPoint = ".>",
-       }
+        Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+        Breakpoint = " ",
+        BreakpointCondition = " ",
+        BreakpointRejected = { " ", "DiagnosticError" },
+        LogPoint = ".>",
+      }
 
       for name, sign in pairs(icons) do
         sign = type(sign) == "table" and sign or { sign }
@@ -50,14 +89,14 @@ return {
           { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
         )
       end
-    end
+    end,
   },
   {
     "rcarriga/nvim-dap-ui",
     dependencies = {
-        "nvim-neotest/nvim-nio" ,
-        "theHamsta/nvim-dap-virtual-text"
-      },
+      "nvim-neotest/nvim-nio",
+      "theHamsta/nvim-dap-virtual-text",
+    },
     -- stylua: ignore
     keys = {
       { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
@@ -65,7 +104,7 @@ return {
     },
     opts = {
       force_buffers = true,
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
       layouts = {
         {
           elements = {
@@ -76,15 +115,16 @@ return {
           },
           position = "left",
           size = 40,
-        }, {
+        },
+        {
           elements = {
             { id = "repl", size = 0.5 },
-            { id = "console", size = 0.5 }
+            { id = "console", size = 0.5 },
           },
           position = "bottom",
-          size = 10
-        }
-      }
+          size = 10,
+        },
+      },
     },
     config = function(_, opts)
       local dap = require("dap")
@@ -100,5 +140,5 @@ return {
         dapui.close({})
       end
     end,
-  }
+  },
 }

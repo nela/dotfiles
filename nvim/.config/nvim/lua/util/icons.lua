@@ -1,11 +1,5 @@
-local defaults = {
-  ---@type string|fun()
-  colorscheme = function()
-    require("tokyonight").load()
-  end,
-
+local M = {
   -- stylua: ignore
-  icons = {
     misc = {
       dots = "󰇘",
     },
@@ -17,10 +11,10 @@ local defaults = {
       LogPoint            = ".>",
     },
     diagnostics = {
-      Error = " ",
-      Warn  = " ",
-      Hint  = " ",
-      Info  = " ",
+      ERROR = " ",
+      WARN  = " ",
+      HINT  = " ",
+      INFO  = " ",
     },
     git = {
       added    = " ",
@@ -71,46 +65,44 @@ local defaults = {
       Unit          = " ",
       Value         = " ",
       Variable      = "󰀫 ",
-    },
   },
-  ---@type table<string, string[]|boolean>?
+}
 
-  kind_filter = {
-    default = {
-      "Class",
-      "Constructor",
-      "Enum",
-      "Field",
-      "Function",
-      "Interface",
-      "Method",
-      "Module",
-      "Namespace",
-      "Package",
-      "Property",
-      "Struct",
-      "Trait",
-    },
-    markdown = false,
-    help = false,
-    -- you can specify a different filter for each filetype
-    lua = {
+local kind_filter = {
+  default = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Field",
+    "Function",
+    "Interface",
+    "Method",
+    "Module",
+    "Namespace",
+    "Package",
+    "Property",
+    "Struct",
+    "Trait",
+  },
+  markdown = false,
+  help = false,
+  -- you can specify a different filter for each filetype
+  lua = {
 
-      "Class",
-      "Constructor",
-      "Enum",
-      "Field",
-      "Function",
-      "Interface",
-      "Method",
-      "Module",
-      "Namespace",
-      -- "Package", -- remove package since luals uses it for control flow structures
-      "Property",
+    "Class",
+    "Constructor",
+    "Enum",
+    "Field",
+    "Function",
+    "Interface",
+    "Method",
+    "Module",
+    "Namespace",
+    -- "Package", -- remove package since luals uses it for control flow structures
+    "Property",
 
-      "Struct",
-      "Trait",
-    },
+    "Struct",
+    "Trait",
   },
 }
 
@@ -175,3 +167,5 @@ local from = {
   Window = "",
   WordFile = "󰈭",
 }
+
+return M

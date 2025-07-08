@@ -1,66 +1,43 @@
 return {
+  { 'hrsh7th/cmp-buffer', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'hrsh7th/cmp-path', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'hrsh7th/cmp-nvim-lua', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'hrsh7th/cmp-omni', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'hrsh7th/cmp-cmdline', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'andersevenrud/cmp-tmux', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'onsails/lspkind.nvim', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
+  { 'hrsh7th/cmp-nvim-lsp-signature-help', event = 'InsertEnter', dependencies = { 'hrsh7th/nvim-cmp' } },
   {
-    'neovim/nvim-lspconfig',
-    opts = {
-      servers = {
-        --[[ emmet_language_server = {
-            filetypes = {
-            "css",
-            -- "eruby",
-            "html",
-            "javascript",
-            -- "javascriptreact",
-            "less",
-            "sass",
-            "scss",
-            -- "pug",
-            -- "typescriptreact"
-          },
-        } ]]
-      }
-    }
-  },
-	{
-		'hrsh7th/nvim-cmp',
-		event = "InsertEnter",
+    'hrsh7th/nvim-cmp',
+    event = 'InsertEnter',
     version = false,
-		dependencies = {
-			'hrsh7th/cmp-buffer',
-			'hrsh7th/cmp-nvim-lsp',
-			'hrsh7th/cmp-path',
-			'hrsh7th/cmp-nvim-lua',
-			'hrsh7th/cmp-omni',
-			'hrsh7th/cmp-cmdline',
-			'andersevenrud/cmp-tmux',
-      'onsails/lspkind.nvim'
-		},
     opts = function()
       local cmp = require('cmp')
       local defaults = require('cmp.config.default')()
-      local types = require("cmp.types")
-      local str = require("cmp.utils.str")
 
-      vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+      vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
 
       return {
         completion = {
-          completeopt = 'menu,menuone,noinsert'
+          completeopt = 'menu,menuone,noinsert',
         },
         snippet = {
           expand = function(args)
             require('luasnip').lsp_expand(args.body)
-          end
+          end,
         },
         sources = cmp.config.sources({
           { name = 'nvim_lua' },
           -- { name = 'zsh' },
           { name = 'nvim_lsp' },
+          { name = 'nvim_lsp_signature_help' },
           { name = 'path' },
           { name = 'luasnip' },
           { name = 'tmux' },
           -- { name = 'omni' },
           { name = 'buffer', keyword_length = 4 },
-          { name = 'vim-dadbod-completion' }
+          { name = 'vim-dadbod-completion' },
         }),
 
         formatting = {
@@ -74,11 +51,11 @@ return {
               luasnip = '[snip]',
               path = '[path]',
               omni = '[omni]',
-              ['vim-dadbod-completion'] = '[db]'
+              ['vim-dadbod-completion'] = '[db]',
             },
             maxwidth = {
               menu = 50,
-              abbr = 50
+              abbr = 50,
             },
             ellipsis_char = '...',
             -- before = function(entry, vim_item)
@@ -97,8 +74,8 @@ return {
         },
         experimental = {
           ghost_text = {
-            hl_group = 'CmpGhostText'
-          }
+            hl_group = 'CmpGhostText',
+          },
         },
         sorting = defaults.sorting,
         -- sorting = {
@@ -125,7 +102,7 @@ return {
         -- },
         window = {
           documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
           },
         },
         mapping = {
@@ -133,13 +110,13 @@ return {
           ['<C-l>'] = cmp.mapping.scroll_docs(4),
           ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
-            c = cmp.mapping.close()
+            c = cmp.mapping.close(),
           }),
-          ["<C-p>"] = cmp.mapping.select_prev_item({
-            behavior = cmp.SelectBehavior.Insert
+          ['<C-p>'] = cmp.mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Insert,
           }),
-          ["<C-n>"] = cmp.mapping.select_next_item({
-            behavior = cmp.SelectBehavior.Insert
+          ['<C-n>'] = cmp.mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Insert,
           }),
           ['<C-y>'] = cmp.mapping.confirm({
             select = true,
@@ -151,7 +128,7 @@ return {
           ['<C-space>'] = cmp.mapping.complete(),
           -- ["<Tab>"] = cmp.config.disable,
         },
-    }
-  end
-	},
+      }
+    end,
+  },
 }

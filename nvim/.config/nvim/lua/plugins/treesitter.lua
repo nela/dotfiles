@@ -1,52 +1,55 @@
-local load_textobjects = false
+local filetypes = {
+  'bash',
+  'c',
+  'comment',
+  'html',
+  'javascript',
+  'typescript',
+  'tsx',
+  'svelte',
+  -- "java",
+  'json',
+  -- "kotlin",
+  -- "latex",
+  'lua',
+  'python',
+  'regex',
+  'glsl',
+  -- "rst",
+  'rust',
+  'supercollider',
+  'svelte',
+  'yaml',
+  'css',
+  'scss',
+  'qmljs',
+  'ron',
+  'rust',
+  'toml',
+  'sql',
+  'terraform',
+}
 
 return {
   {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
-    event = { 'BufReadPost', 'BufNewFile' },
-     dependencies = {
-       {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        init = function()
-          require('lazy.core.loader').disable_rtp_plugin('nvim-treesitter-textobjects')
-          require('lazy.core.loader').disable_rtp_plugin('nvim-ts-autotag')
-          load_textobjects = true
-        end,
-       },
-      {
-        'windwp/nvim-ts-autotag',
-        init = function()
-          require('lazy.core.loader').disable_rtp_plugin('nvim-ts-autotag')
-          load_autotag = true
-        end,
-      }
-     },
+    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline event = "VeryLazy",
+    init = function(plugin)
+      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+      -- no longer trigger the **nvim-treesitter** module to be loaded in time.
+      -- Luckily, the only things that those plugins need are the custom queries, which we make available
+      -- during startup.
+      require('lazy.core.loader').add_to_rtp(plugin)
+      require('nvim-treesitter.query_predicates')
+    end,
     cmd = { 'TSUpdateSync', 'TSInstall' },
+    ft = filetypes,
     opts = {
-      ensure_installed = {
-        "bash",
-        "c",
-        "comment",
-        "html",
-        "java",
-        "javascript",
-        "json",
-        "kotlin",
-        -- "latex",
-        "lua",
-        "python",
-        "regex",
-        -- "rst",
-        "rust",
-        -- "supercollider",
-        "svelte",
-        "tsx",
-        "typescript",
-        "yaml",
-      },
-      highlight = { enable = true, additional_vim_regex_highlighting = true, },
+      ensure_installed = filetypes,
+      highlight = { enable = true, additional_vim_regex_highlighting = true },
       indent = { enable = true },
       playground = {
         enable = true,
@@ -72,8 +75,8 @@ return {
           init_selection = '<Cr>',
           scope_incremental = '<Cr>',
           node_incremental = '<Tab>',
-          node_decremental = '<S-Tab>'
-        }
+          node_decremental = '<S-Tab>',
+        },
       },
       query_linter = {
         enable = true,
@@ -83,128 +86,222 @@ return {
       rainbow = {
         enable = true,
         extended_mode = true, -- highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        max_file_lines = 1000, -- Do not enable for files with more than n lines, int
+        max_file_lines = 10000, -- Do not enable for files with more than n lines, int
       },
       autotag = {
         enable = true,
       },
       textobjects = {
         select = {
-          enable = true,
-          -- Automatically jump forward to textobj, similar to targets.vim
-          lookahead = true,
+          enable = false, -- provided by mini.ai
+          lookahead = true, -- jump forward to textobj, similar to targets.vim
           keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            -- You can optionally set descriptions to the mappings (used in the desc parameter of
-            -- nvim_buf_set_keymap) which plugins like which-key display
-            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-            -- You can also use captures from other query groups like `locals.scm`
-            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = '@class.inner',
           },
-          -- You can choose the select mode (default is charwise 'v')
-          --
-          -- Can also be a function which gets passed a table with the keys
-          -- * query_string: eg '@function.inner'
-          -- * method: eg 'v' or 'o'
-          -- and should return the mode ('v', 'V', or '<c-v>') or a table
-          -- mapping query_strings to modes.
-          selection_modes = {
-            ['@parameter.outer'] = 'v', -- charwise
-            ['@function.outer'] = 'V', -- linewise
-            ['@class.outer'] = '<C-v>', -- blockwise
-          },
-          -- If you set this to `true` (default is `false`) then any textobject is
-          -- extended to include preceding or succeeding whitespace. Succeeding
-          -- whitespace has priority in order to act similarly to eg the built-in
-          -- `ap`.
-          --
-          -- Can also be a function which gets passed a table with the keys
-          -- * query_string: eg '@function.inner'
-          -- * selection_mode: eg 'v'
-          -- and should return true of false
           include_surrounding_whitespace = true,
         },
         swap = {
           enable = true,
           swap_next = {
-            ["<leader>p"] = "@parameter.inner",
+            ['<leader>p'] = '@parameter.inner',
           },
           swap_previous = {
-            ["<leader>P"] = "@parameter.inner",
+            ['<leader>P'] = '@parameter.inner',
           },
         },
         move = {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            ["]f"] = "@function.outer",
-            ["]]"] = { query = "@class.outer", desc = "Next class start" },
-            --
-            -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
-            ["]l"] = "@loop.*",
-            -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
-            --
-            -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-            -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-            ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-            -- ["[F"] = "@function.outer"
+            [']a'] = '@parameter.inner',
+            [']f'] = '@function.outer',
+            -- ["]]"] = "@class.outer",
+            [']z'] = '@fold',
+            [']i'] = '@conditional.outer',
           },
           goto_next_end = {
-            ["]F"] = "@function.outer",
-            ["]["] = "@class.outer",
+            [']A'] = '@parameter.inner',
+            [']F'] = '@function.outer',
+            -- ["]["] = "@class.outer",
+            [']I'] = '@conditional.outer',
           },
           goto_previous_start = {
-            ["[s"] = { query = "@scope", query_group = "locals", desc = "Prev scope" },
-            ["[f"] = "@function.outer",
-            ["[["] = "@class.outer",
+            ['[a'] = '@parameter.inner',
+            ['[f'] = '@function.outer',
+            -- ["[["] = "@class.outer",
+            ['[i'] = '@conditional.outer',
           },
           goto_previous_end = {
-            ["[F"] = "@function.outer",
-            ["[]"] = "@class.outer",
+            ['[A'] = '@parameter.inner',
+            ['[F'] = '@function.outer',
+            -- ["[]"] = "@class.outer",
+            ['[I'] = '@conditional.outer',
           },
-          -- Below will go to either the start or the end, whichever is closer.
-          -- Use if you want more granular movements
-          -- Make it even more gradual by adding multiple queries and regex.
+          -- next closest, either start or end
           goto_next = {
-            ["]i"] = "@conditional.outer",
+            [']l'] = '@loop.*',
           },
           goto_previous = {
-            ["[i"] = "@conditional.outer",
-          }
+            ['[l'] = '@loop.*',
+          },
         },
-      }
+      },
     },
     config = function(_, opts)
-      if type(opts.ensure_installed) == "table" then
-        ---@type table<string, boolean>
-        local added = {}
-        opts.ensure_installed = vim.tbl_filter(function(lang)
-          if added[lang] then
-            return false
+      require('nvim-treesitter.configs').setup(opts)
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    event = 'VeryLazy',
+    config = function()
+      local util = require('util')
+      if util.is_loaded('nvim-treesitter') then
+        local opts = util.get_opts('nvim-treesitter')
+        require('nvim-treesitter.configs').setup({ textobjects = opts.textobjects })
+      end
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = 'VeryLazy',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {
+      enable = true,
+      -- separator = '-',
+      on_attach = function(bufnr)
+        local config = vim.fn['gruvbox_material#get_configuration']()
+        local palette =
+          vim.fn['gruvbox_material#get_palette'](config.background, config.foreground, config.colors_override)
+        vim.cmd.highlight('TreesitterContext guibg=' .. palette.bg0[1])
+        vim.cmd.highlight('TreesitterContextBottom  guibg=' .. palette.bg0[1])
+        vim.cmd.highlight(
+          'TreesitterContextLineNumberBottom  guibg=' .. palette.bg_dim[1] .. ' guifg=',
+          palette.orange[1]
+        )
+        vim.keymap.set('n', '<leader>cc', function()
+          require('treesitter-context').go_to_context(vim.v.count1)
+        end, { silent = true, buffer = bufnr })
+        return true
+      end,
+    },
+  },
+  {
+    'stevearc/aerial.nvim',
+    event = { 'VeryLazy' },
+    -- Optional dependencies
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
+    },
+
+    keys = {
+      {
+        '<leader>af',
+        function()
+          local data = require('aerial.data')
+          local backends = require('aerial.backends')
+          local fzf_lua = require('fzf-lua')
+          local lspkind = require('lspkind')
+
+          local bufnr = vim.api.nvim_get_current_buf()
+          local be = backends.get()
+          if not be then
+            vim.notify('no supported')
+            return
+          elseif not data.has_symbols(bufnr) then
+            be.fetch_symbols_sync(bufnr, {})
           end
-          added[lang] = true
-          return true
-        end, opts.ensure_installed)
-      end
-      require("nvim-treesitter.configs").setup(opts)
 
-      local Loader = require('lazy.core.loader')
-      if load_textobjects and opts.textobjects then
-        Loader.disabled_rtp_plugins['nvim-treesitter-textobjects'] = nil
-        local plugin = require('lazy.core.config').plugins['nvim-treesitter-textobjects']
-        Loader.source_runtime(plugin.dir, 'plugin')
-      end
+          if not data.has_symbols(bufnr) then
+            vim.notify('no symbols')
+            return
+          end
+          local fname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':.')
 
-      if load_autotag and opts.autotag then
-        Loader.disabled_rtp_plugins['nvim-ts-autotag'] = nil
-        local plugin = require('lazy.core.config').plugins['nvim-ts-autotag']
-        Loader.source_runtime(plugin.dir, 'plugin')
-      end
+          local symbols = data.get_or_create(bufnr)
+          local entries = {}
+          for _, sym in symbols:iter({ skip_hidden = false }) do
+            local symbolkind = lspkind.symbolic(sym.kind) or sym.kind
+            table.insert(entries, {
+              line = string.format('%s %s %s:%d:%d', symbolkind, sym.name, fname, sym.lnum, math.max(sym.lnum - 20, 1)),
+              lnum = sym.lnum,
+              col = sym.col,
+            })
+          end
 
-    end
+          local contents = {}
+          for _, ent in ipairs(entries) do
+            table.insert(contents, ent.line)
+          end
+
+local builtin = require("fzf-lua.previewer.builtin")
+local MyPreviewer = builtin.buffer_or_file:extend()
+
+function MyPreviewer:new(o, opts, fzf_win)
+  MyPreviewer.super.new(self, o, opts, fzf_win)
+  setmetatable(self, MyPreviewer)
+  return self
+end
+
+---@param entry_str string
+function MyPreviewer:parse_entry(entry_str)
+  -- Assume an arbitrary entry in the format of 'file:line'
+
+  -- local _, line = entry_str:match("([^:]+):?(.*)")
+local line, col = entry_str:match(".*:(%d+):(%d+)")
+  -- local linecol =
+  return {
+    path = fname,
+    line =  tonumber(line),
+    col = tonumber(col)
+  }
+end
+
+          if next(contents) == nil then
+            vim.notify('no symbols')
+            return
+          end
+
+          fzf_lua.fzf_exec(contents, {
+            prompt = 'Symbols> ',
+            fzf_opts = {
+              ['--delimiter'] = ' ',
+              ['--with-nth'] = '1,2',
+            },
+            -- preview = 'bat {3} --style=plain,numbers --color=always --highlight-line={4} --line-range={5}:256',
+            previewer = MyPreviewer,
+
+            actions = {
+              ['enter'] = function(selected, _)
+                local sel = selected[1]
+                for _, entry in ipairs(entries) do
+                  if entry.line == sel then
+                    vim.cmd("normal! m'")
+                    vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col })
+                    vim.cmd('normal! zz')
+                    return
+                  end
+                end
+              end,
+            },
+          })
+        end,
+        'n',
+      },
+    },
+    opts = {
+      nav = {
+        win_opts = {
+          winblend = 0,
+        },
+      },
+      icons = {
+        Collapsed = '❯', -- '▶'
+      },
+    },
   },
 }

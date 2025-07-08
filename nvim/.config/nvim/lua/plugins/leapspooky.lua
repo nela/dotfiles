@@ -2,9 +2,27 @@ return {
   {
     "ggandor/leap.nvim",
     keys = {
-      { "s", mode = { "n", --[[ "x", "o" ]] }, desc = "Leap forward to" },
-      { "S", mode = { "n", --[[ "x", "o" ]] }, desc = "Leap backward to" },
-      { "gs", mode = { "n", --[[ "x", "o" ]] }, desc = "Leap from windows" },
+      {
+        "s",
+        mode = {
+          "n", --[[ "x", "o" ]]
+        },
+        desc = "Leap forward to",
+      },
+      {
+        "S",
+        mode = {
+          "n", --[[ "x", "o" ]]
+        },
+        desc = "Leap backward to",
+      },
+      {
+        "gs",
+        mode = {
+          "n", --[[ "x", "o" ]]
+        },
+        desc = "Leap from windows",
+      },
     },
     config = function(_, opts)
       local leap = require("leap")
@@ -14,14 +32,16 @@ return {
       leap.add_default_mappings(true)
       vim.keymap.del({ "x", "o" }, "x")
       vim.keymap.del({ "x", "o" }, "X")
-      vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment"} )
+      vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
       vim.api.nvim_set_hl(0, "LeapMatch", {
-        fg = "white", bold = true, nocombine = true
+        fg = "white",
+        bold = true,
+        nocombine = true,
       })
     end,
     opts = {
-      highlight_unlabeled_phase_one_targets = true
-    }
+      highlight_unlabeled_phase_one_targets = true,
+    },
   },
   {
     "ggandor/flit.nvim",
@@ -39,6 +59,8 @@ return {
     "ggandor/leap-spooky.nvim",
     event = "VeryLazy",
     dependencies = { "ggandor/leap.nvim" },
-    config = function() require("leap-spooky").setup({}) end,
+    config = function()
+      require("leap-spooky").setup({})
+    end,
   },
 }
