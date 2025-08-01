@@ -120,13 +120,14 @@ autocmd('FileType', {
   end,
 })
 
+local cursortoggle = augroup('cursor_toggle')
 autocmd('WinEnter', {
-  group = augroup('cursor_toggle'),
+  group = cursortoggle,
   pattern = '*',
   command = 'setlocal cursorline',
 })
 autocmd('WinLeave', {
-  group = augroup('cursor_toggle'),
+  group = cursortoggle,
   pattern = '*',
   command = 'setlocal nocursorline',
 })

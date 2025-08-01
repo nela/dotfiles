@@ -49,14 +49,14 @@ return {
       mouse_providers = {
         'LSP',
       },
-      mouse_delay = 1000,
+      mouse_delay = 2000,
     },
     init = function(_)
       require('hover.providers.lsp')
       require('hover.providers.diagnostic')
       require('hover.providers.dap')
       require('hover.providers.man')
-      require('hover.providers.dictionary')
+      -- require('hover.providers.dictionary')
       require('hover.providers.highlight')
       -- require('hover.providers.gh')
       -- require('hover.providers.gh_user')

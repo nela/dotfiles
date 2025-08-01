@@ -19,6 +19,8 @@ local function debounce(ms, fn)
   end
 end
 
+
+
 ---@param name string
 local augroup = function(name)
   return vim.api.nvim_create_augroup("nela.lsp." .. name, { clear = false })
@@ -402,6 +404,7 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
   vim.api.nvim_set_option_value("spell", false, { scope = "local", win = winid })
   return bufnr, winid
 end
+
 
 -- Update mappings when registering dynamic capabilities.
 local register_capability = vim.lsp.handlers[methods.client_registerCapability]

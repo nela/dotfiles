@@ -141,12 +141,12 @@ return {
             ['[I'] = '@conditional.outer',
           },
           -- next closest, either start or end
-          goto_next = {
+          --[[ goto_next = {
             [']l'] = '@loop.*',
           },
           goto_previous = {
             ['[l'] = '@loop.*',
-          },
+          }, ]]
         },
       },
     },

@@ -25,48 +25,46 @@
     - lua-language-server
     - rust
     - luarocks
-    - breeze
-    - breeze-gtk
     - qt5ct
     - nwg-look
     - bluez
     - blueman
     - luarocks
 
-- name: Install AUR packages
-  become: false
-  yay:
-    state: latest
-    update_cache: true
-    name: "{{ item }}"
-  with_items:
-    - laptop-mode-tools
-    - zsh-defer-git
-    - forgit
-    - zsh-fast-syntax-highlighting
-    - hyprpolkitagent
-    - jdk-temurin
-    - asdf-vm
-    - glslviewer
-    - glsl-language-server
-    - wlogout
+# - name: Install AUR packages
+#   become: false
+#   yay:
+#     state: latest
+#     update_cache: true
+#     name: "{{ item }}"
+#   with_items:
+#     - zsh-defer-git
+#     - forgit
+#     - zsh-fast-syntax-highlighting
+#     - hyprpolkitagent
+#     - jdk-temurin
+#     - laptop-mode-tools
+#     - asdf-vm
+#     - glslviewer
+#     - glsl-language-server
+#     - wlogout
 
-- name: Start systemd services
-  block:
-  - name: Reload systemd daemon
-    become: true
-    ansible.builtin.systemd_service:
-      daemon_reload: true
-
-  - name: Enable systemd service
-    become: "{{ item.scope | default('system') != 'user' }}"
-    ansible.builtin.systemd_service:
-      name: "{{ item.name }}"
-      scope: "{{ item.scope | default('system') }}"
-      enabled: true
-      state: started
-    with_items:
-      - name: laptop-mode.service
+# - name: Start systemd services
+#   block:
+#   - name: Reload systemd daemon
+#     become: true
+#     ansible.builtin.systemd_service:
+#       daemon_reload: true
+# 
+#   - name: Enable systemd service
+#     become: "{{ item.scope | default('system') != 'user' }}"
+#     ansible.builtin.systemd_service:
+#       name: "{{ item.name }}"
+#       scope: "{{ item.scope | default('system') }}"
+#       enabled: true
+#       state: started
+#     with_items:
+#       - name: laptop-mode.service
 
 # - name: Language servers with pnpm
 #   community.general.pnpm:

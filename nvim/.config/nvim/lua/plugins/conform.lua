@@ -11,7 +11,8 @@ return {
       },
       formatters_by_ft = {
         lua = { 'stylua' },
-        rust = { 'rustfmt' }
+        rust = { 'rustfmt' },
+        typescript = { 'prettier' }
       },
     },
     keys = {

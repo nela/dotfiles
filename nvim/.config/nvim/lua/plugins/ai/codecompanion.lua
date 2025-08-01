@@ -1,16 +1,17 @@
 return {
   'olimorris/codecompanion.nvim',
+  enabled = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
     {
       'echasnovski/mini.diff',
-      --[[ config = function()
-        local diff = require('mini.diff')
-        diff.setup({
-          -- Disabled by default
-          source = diff.gen_source.none(),
-        })
-      end, ]]
+        config = function()
+          local diff = require('mini.diff')
+          diff.setup({
+            -- Disabled by default
+            source = diff.gen_source.none(),
+          })
+        end,
     },
     { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
     'nvim-treesitter/nvim-treesitter',
@@ -31,8 +32,24 @@ return {
 
     local diff_opts = config.display.diff.opts
     table.insert(diff_opts, 'context:99') -- Setting the context to a very large number disables folding.
-
     return {
+      adapters = {
+        opts = {
+          show_model_choices = false,
+        },
+        gemini = function()
+          return require('codecompanion.adapters').extend('gemini', {
+            schema = {
+              model = {
+                default = 'gemini-2.5-pro',
+              },
+            },
+            env = {
+              api_key = 'GEMINI_API_KEY',
+            },
+          })
+        end,
+      },
       strategies = {
         chat = {
           adapter = 'gemini',
@@ -40,24 +57,20 @@ return {
         inline = {
           adapter = 'gemini',
         },
+        cmd = {
+          adapter = 'gemini',
+        },
       },
-      gemini = function()
-        return require('codecompanion.adapters').extend('gemini', {
-          schema = {
-            model = {
-              default = 'gemini-2.5-pro',
-            },
+      opts = {
+        display = {
+          diff = {
+            provider = 'default' --'mini_diff',
           },
-          env = {
-            api_key = 'GEMINI_API_KEY',
-          },
-        })
-      end,
-      display = {
-        diff = {
-          provider = 'mini_diff',
         },
       },
     }
+  end,
+  init = function()
+    require('plugins.ai.fidget-spinner'):init()
   end,
 }

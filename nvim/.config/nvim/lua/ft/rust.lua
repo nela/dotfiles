@@ -112,10 +112,7 @@ return {
     opts = function()
       return {
         adapters = {
-          require("neotest-rust")({
-            args = { "--no-capture" },
-          }),
-          -- ["rustaceanvim.neotest"] = {},
+          require("rustaceanvim.neotest")
         },
       }
     end,

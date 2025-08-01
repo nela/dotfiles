@@ -1,4 +1,4 @@
-general.import = ["/Users/nela/dotfiles/alacritty/.config/alacritty/gruvbox-dark.toml"]
+general.import = ["~/dotfiles/alacritty/.config/alacritty/gruvbox-dark.toml"]
 
 [bell]
 animation = "EaseOutExpo"
@@ -82,7 +82,7 @@ multiplier = 3
 [window]
 decorations = "None"
 dynamic_padding = true
-opacity = 0.9
+# opacity = 0.9
 option_as_alt = "OnlyLeft"
 
 [window.dimensions]
@@ -91,4 +91,4 @@ lines = 40
 
 [window.padding]
 x = 2
-y = 4
+y = 2

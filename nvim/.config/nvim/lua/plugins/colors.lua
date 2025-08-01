@@ -46,9 +46,13 @@ return {
             vim.fn['gruvbox_material#get_palette'](config.background, config.foreground, config.colors_override)
           local set_hl = vim.fn['gruvbox_material#highlight']
 
-          set_hl('NormalFloat', palette.none, palette.bg_dim)
-          set_hl('FloatBorder', palette.none, palette.bg_dim)
+          set_hl('NormalFloat', palette.fg0, palette.none)
+          set_hl('FloatShadow', palette.fg0, palette.bg_dim)
+          set_hl('FloatTitle', palette.orange, palette.bg_dim)
+          set_hl('FloatFooter', palette.orange, palette.bg_dim)
+          set_hl('FloatBorder', palette.fg0, palette.bg_dim)
           set_hl('Pmenu', palette.none, palette.bg0)
+          -- set_hl('PmenuExtra', palette.none, palette.bg_dim)
           set_hl('CursorLine', palette.none, palette.bg0)
         end,
       })

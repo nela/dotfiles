@@ -117,13 +117,13 @@ unset _asdf_dir
   || printf ${error} "FZF config not loaded"
 
 
-local uname_str=$(uname -a | tr '[:upper:]' '[:lower:]')
+local uname_str=$(uname -r | tr '[:upper:]' '[:lower:]')
 
 if [ -d "${XDG_DATA_HOME}"/zsh/forgit ]; then
   _forgit_dir="${XDG_DATA_HOME}"/zsh/forgit
 elif [[ $uname_str == *darwin* ]]; then
   _forgit_dir="${BREW_PREFIX}"/forgit/share/forgit
-elif [[ $uname_str == *archlinux* ]]; then
+elif [[ $uname_str == *arch* || $uname_str == *zen* ]]; then
   _forgit_dir=/usr/share/zsh/plugins/forgit
 fi
 
@@ -142,7 +142,7 @@ elif [ -d /usr/share/zsh/plugins/fast-syntax-highlighting ]; then
 fi
 
 [ -r "$_fs_highlight_dir"/fast-syntax-highlighting.plugin.zsh ] \
-  && zsh-defer source "$_fs_highlight_dir"/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
+  && zsh-defer source "$_fs_highlight_dir"/fast-syntax-highlighting.plugin.zsh \
   || printf ${error} "Fast Syntax Highlighting not loaded"
 
 unset _fs_highlight_dir
@@ -180,7 +180,7 @@ fi
 
 unset _lib
 
-[ -f "${DOTS}"/private ] && source "${DOTS}"/private
+# [ -f "${DOTS}"/private ] && source "${DOTS}"/private
 
 unset error     \
   fix           \
