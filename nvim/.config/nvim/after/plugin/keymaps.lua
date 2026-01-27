@@ -10,6 +10,9 @@ local function map(mode, lhs, rhs, opts)
   -- end
 end
 
+map("n", "<Tab>", "<Tab>", { noremap = true })
+map("n", "<C-i>", "<C-i>", { noremap = true })
+
 -- tabs
 map("n", "]r", "<cmd>tabnext<cr>")
 map("n", "[r", "<cmd>tabprev<cr>")
@@ -59,25 +62,26 @@ map("v", "K", ":m '<-2<cr>gv=gv")
 map("v", "J", ":m '>+1<cr>gv=gv")
 
 -- Setup keymaps
-vim.keymap.set("n", "K", function()
-  local hover_win = vim.b.hover_preview
-  if hover_win and vim.api.nvim_win_is_valid(hover_win) then
-    vim.api.nvim_set_current_win(hover_win)
-  else
-    require("hover").hover()
-  end
-end, { desc = "hover.nvim" })
 
---- hover.nvim
-map("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
-map("n", "<C-p>", function()
-  require("hover").hover_switch("previous")
-end, { desc = "hover.nvim (previous source)" })
-map("n", "<C-n>", function()
-  require("hover").hover_switch("next")
-  -- sources = { 'nvim_diagnostic' },
-end, { desc = "hover.nvim (next source)" })
+-- vim.keymap.set("n", "K", function()
+--   local hover_win = vim.b.hover_preview
+--   if hover_win and vim.api.nvim_win_is_valid(hover_win) then
+--     vim.api.nvim_set_current_win(hover_win)
+--   else
+--     require("hover").hover()
+--   end
+-- end, { desc = "hover.nvim" })
+--
+-- --- hover.nvim
+-- map("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
+-- map("n", "<C-p>", function()
+--   require("hover").hover_switch("previous")
+-- end, { desc = "hover.nvim (previous source)" })
+-- map("n", "<C-n>", function()
+--   require("hover").hover_switch("next")
+--   -- sources = { 'nvim_diagnostic' },
+-- end, { desc = "hover.nvim (next source)" })
 
 -- Mouse support
-map("n", "<MouseMove>", require("hover").hover_mouse, { desc = "hover.nvim (mouse)" })
-vim.o.mousemoveevent = true
+-- map("n", "<MouseMove>", require("hover").hover_mouse, { desc = "hover.nvim (mouse)" })
+-- vim.o.mousemoveevent = true

@@ -17,3 +17,4 @@ export ZDOTDIR="$HOME/dotfiles/zsh/zsh"
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR}/.zprofile"
 fi
+. "$HOME/.cargo/env"

@@ -27,6 +27,8 @@ if [ -d /usr/share/zsh-theme-powerlevel10k ]; then
   _p10k_dir=/usr/share/zsh-theme-powerlevel10k
 elif [ -d "${XDG_DATA_HOME}"/zsh/powerlevel10k ]; then
   _p10k_dir="${XDG_DATA_HOME}"/zsh/powerlevel10k
+elif [ -d "${HOMEBREW_PREFIX}"/share/powerlevel10k ]; then
+  _p10k_dir="${HOMEBREW_PREFIX}"/share/powerlevel10k
 fi
 
 [ -r "$_p10k_dir"/powerlevel10k.zsh-theme ] \
@@ -54,16 +56,28 @@ fi
 unset _zsh_defer_dir
 
 
+## Aliases
 [ -r "${DOTS}"/shells/aliases.sh ] && zsh-defer source "${DOTS}"/shells/aliases.sh \
   || printf ${_error_fix} "Unable to source local aliases"
+
+## Zsh-vi-Mode
+local _zsh_vi_mode_dir
+if [ -d "${HOMEBREW_PREFIX}"/opt/zsh-vi-mode ]; then
+  _zsh_vi_mode_dir="${HOMEBREW_PREFIX}"/opt/zsh-vi-mode/share
+fi
+
+zsh-defer source "${_zsh_vi_mode_dir}"/zsh-vi-mode/zsh-vi-mode.plugin.zsh \
+  || printf ${error} "Zsh Vi Mode not loaded"
+
+unset _zsh_vi_mode_dir
 
 ## FZF
 local _fzf_dir
 
-if [[ -d "${BREW_PREFIX}"/fzf ]]; then
-  _fzf_dir="${BREW_PREFIX}"/fzf/shell
-elif [[ -d "${XDG_DATA_HOME}"/fzf ]]; then
-  _fzf_dir="${XDG_DATA_HOME}"/fzf/shell
+if [[ -d "${HOMEBREW_PREFIX}"/opt/fzf ]]; then
+  _fzf_dir="${HOMEBREW_PREFIX}"/opt/fzf/shell
+elif [[ -d "${XDG_DATA_HOME}"/opt/fzf ]]; then
+  _fzf_dir="${XDG_DATA_HOME}"/opt/fzf/shell
 elif [[ -d /usr/share/fzf ]]; then
   _fzf_dir=/usr/share/fzf
 fi
@@ -96,8 +110,8 @@ local _asdf_dir
 if [ -d "${XDG_DATA_HOME}"/asdf/source ]; then
   [ -d "${ASDF_DIR}" ] && fpath=("${ASDF_DIR}"/completions $fpath)
   _asdf_dir="${ASDF_DIR}"
-elif [ -d "${BREW_PREFIX}"/asdf/libexec ]; then
-  _asdf_dir="${BREW_PREFIX}"/asdf/libexec
+elif [ -d "${HOMEBREW_PREFIX}"/asdf/libexec ]; then
+  _asdf_dir="${HOMEBREW_PREFIX}"/asdf/libexec
 fi
 
 zsh-defer source "${_asdf_dir}"/asdf.sh \
@@ -121,8 +135,8 @@ local uname_str=$(uname -r | tr '[:upper:]' '[:lower:]')
 
 if [ -d "${XDG_DATA_HOME}"/zsh/forgit ]; then
   _forgit_dir="${XDG_DATA_HOME}"/zsh/forgit
-elif [[ $uname_str == *darwin* ]]; then
-  _forgit_dir="${BREW_PREFIX}"/forgit/share/forgit
+elif [ -d "${HOMEBREW_PREFIX}"/share/forgit ]; then
+  _forgit_dir="${HOMEBREW_PREFIX}"/share/forgit
 elif [[ $uname_str == *arch* || $uname_str == *zen* ]]; then
   _forgit_dir=/usr/share/zsh/plugins/forgit
 fi
@@ -139,6 +153,8 @@ if [ -d "${XDG_DATA_HOME}"/zsh/fast-syntax-highlighting ]; then
   _fs_highlight_dir="${XDG_DATA_HOME}"/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 elif [ -d /usr/share/zsh/plugins/fast-syntax-highlighting ]; then
   _fs_highlight_dir=/usr/share/zsh/plugins/fast-syntax-highlighting
+elif [ -d "${HOMEBREW_PREFIX}"/share/zsh-fast-syntax-highlighting ]; then
+  _fs_highlight_dir="${HOMEBREW_PREFIX}"/share/zsh-fast-syntax-highlighting
 fi
 
 [ -r "$_fs_highlight_dir"/fast-syntax-highlighting.plugin.zsh ] \

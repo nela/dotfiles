@@ -14,17 +14,13 @@ export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_LIB_HOME="${HOME}/.local/lib"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
-# Macports path
-[[ ${OSTYPE} == *darwin* ]] && \
-  export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-
 export PATH="${XDG_BIN_HOME}":$PATH
 ##### PNPM #####
 # export PNPM_GLOBAL_BIN="${XDG_DATA_HOME}/pnpm"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 export PNPM_STORE="${XDG_DATA_HOME}/pnpm/store"
 export PNPM_GLOBAL="${XDG_DATA_HOME}/pnpm/global"
-export PNPM_GLOBAL_BIN="${XDG_BIN_HOME}"
+export PNPM_GLOBAL_BIN="${XDG_DATA_HOME}/pnpm"
 export PNPM_STATE="${XDG_STATE_HOME}/pnpm"
 export PNPM_CACHE="${XDG_CACHE_HOME}/pnpm"
 
@@ -35,8 +31,8 @@ export ZSHRC="${ZSH}/.zshrc"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export EDITOR="nvim"
 export VENV_HOME="${XDG_DATA_HOME}/nelapys"
-[[ $OSTYPE == *darwin* ]] &&
-  export BREW_PREFIX="$(brew --prefix)"
+# [[ $OSTYPE == *darwin* ]] &&
+#   export BREW_PREFIX="$(brew --prefix)"
 
 local uname_str=$(uname -a | tr '[:upper:]' '[:lower:]')
 
@@ -58,9 +54,14 @@ export GRADLE_USER_HOME="${XDG_DATA_HOME}/gradle"
 
 export _ZO_DATA_DIR="$XDG_STATE_HOME/zoxide"
 
+# HOMEBREW envs
+if [[ ${OSTYPE} == *darwin* ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 ## Private keys and stuff
-[ -f "${ZSH}"/zsh/.envprivate ] && source "${ZSH}"/zsh/.envprivate || echo 'no gemini'
+[ -f "${ZSH}"/zsh/.envprivate ] && source "${ZSH}"/zsh/.envprivate
+
 
 
 ##### Zsh #####

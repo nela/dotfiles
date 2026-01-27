@@ -2,10 +2,17 @@ return {
   -- install  pnpm
   {
     'MeanderingProgrammer/render-markdown.nvim',
+    -- enabled = false,
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
-    opts = {},
+    opts = {
+      code = {
+        sign = false,
+        width = "block",
+        right_pad = 1,
+      },
+    }
   },
   {
     'iamcco/markdown-preview.nvim',

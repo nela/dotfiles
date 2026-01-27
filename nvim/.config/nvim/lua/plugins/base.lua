@@ -23,7 +23,7 @@ return {
   { 'tpope/vim-sleuth', event = 'VeryLazy' },
   { 'zegervdv/nrpattern.nvim' }, -- TODO LazyLoad
   { 'junegunn/vim-easy-align', cmd = 'EasyAlign' },
-  { 'windwp/nvim-autopairs', opts = { map = '<M-w>' }, event = 'VeryLazy' },
+  { 'windwp/nvim-autopairs', opts = { map = '<M-w>' }, event = 'InsertEnter' },
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },

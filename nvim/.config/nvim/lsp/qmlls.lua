@@ -1,5 +1,5 @@
 ---@type vim.lsp.Config
 return {
-  cmd = { "qmlls6", "-E" },
+  cmd = { "qmlls" },
   filetypes = { "qml", "qmljs" },
 }

@@ -28,14 +28,14 @@ return {
         bg1 = { '#141617', '235' },
       } ]]
 
-      if vim.fn.has('mac') then
+      --[[ if vim.fn.has('mac') then
         vim.g.gruvbox_material_enable_italic = 1
         vim.g.gruvbox_material_disable_italic_comment = 0
         vim.g.gruvbox_material_virtual_text = 1
       else
         vim.g.gruvbox_material_enable_italic = 0
         vim.g.gruvbox_material_disable_italic_comment = 1
-      end
+      end ]]
 
       vim.api.nvim_create_autocmd('ColorScheme', {
         group = vim.api.nvim_create_augroup('custom_highlights_gruvboxmaterial', {}),

@@ -24,6 +24,7 @@ vim.opt.mouse          = 'a'
 vim.opt.virtualedit    = 'block'
 vim.opt.ruler          = true
 vim.opt.laststatus     = 3
+-- vim.opt.cmdheight      = 0  -- hide the command line (also fixes ghostty cursor shader jumping)
 vim.opt.number         = true
 --vim.opt.relativenumber = true
 vim.opt.errorbells     = false
@@ -60,3 +61,5 @@ vim.opt.thesaurus:append(os.getenv('XDG_DATA_HOME') .. '/thesaurus/words')
 
 vim.g.gruvbox_material_background = 'hard'
 vim.g.gruvbox_material_better_performance = 1
+
+vim.g.rust_diagnostics_engine = 'bacon_ls'

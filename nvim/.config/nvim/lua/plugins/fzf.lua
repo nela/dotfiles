@@ -1,121 +1,138 @@
 return {
   {
-    "ibhagwan/fzf-lua",
-    lazy = "BufReadPost",
+    'ibhagwan/fzf-lua',
+    lazy = 'BufReadPost',
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      'nvim-tree/nvim-web-devicons',
     },
     keys = {
       {
-        "<leader>fb",
+        '<leader>fb',
         function()
-          require("fzf-lua").buffers()
+          require('fzf-lua').buffers()
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>fh",
+        '<leader>fh',
         function()
-          require("fzf-lua").help_tags()
+          require('fzf-lua').help_tags()
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>fr",
+        '<leader>fr',
         function()
-          require("fzf-lua").registers()
+          require('fzf-lua').registers()
         end,
-        { "n", "v", "i" },
+        { 'n', 'v', 'i' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>zsh",
+        '<leader>zsh',
         function()
-          require("fzf-lua").files({ cwd = os.getenv("DOTS") .. "/zsh" })
+          require('fzf-lua').files({ cwd = os.getenv('DOTS') .. '/zsh' })
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>dot",
+        '<leader>dot',
         function()
-          require("fzf-lua").files({ cwd = os.getenv("DOTS") })
+          require('fzf-lua').files({ cwd = os.getenv('DOTS') })
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>vim",
+        '<leader>vim',
         function()
-          require("fzf-lua").files({ cwd = os.getenv("NVIM") })
+          require('fzf-lua').files({ cwd = os.getenv('NVIM') })
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>ff",
+        '<leader>ff',
         function()
-          require("fzf-lua").files()
+          require('fzf-lua').files()
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>fa",
+        '<leader>fa',
         function()
-          require("fzf-lua").files({
-            fd_opts = ". --type f --unrestricted --follow -E .DS_Store",
+          require('fzf-lua').files({
+            fd_opts = '. --type f --unrestricted --follow -E .DS_Store',
           })
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Fuzzy complete path",
+        desc = 'Fuzzy complete path',
       },
       {
-        "<leader>sg",
+        '<leader>sg',
         function()
-          require("fzf-lua").grep({ multiprocess = true })
+          require('fzf-lua').grep({ multiprocess = true })
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Static grep",
+        desc = 'Static grep',
       },
       {
-        "<leader>lg",
+        '<leader>lg',
         function()
-          require("fzf-lua").live_grep({ multiprocess = true })
+          require('fzf-lua').live_grep({ multiprocess = true })
         end,
-        { "n", "v" },
+        { 'n', 'v' },
         silent = true,
-        desc = "Live Grep Native",
+        desc = 'Live Grep Native',
+      },
+      {
+        '<leader>hg',
+        function()
+          require('fzf-lua').live_grep({
+            multiprocess = true,
+            cmd = 'rg --hidden --no-ignore --column --line-number --color=always --smart-case --max-columns=4096',
+          })
+        end,
+        { 'n', 'v' },
+        silent = true,
+        desc = 'Live grep hidden files',
       },
     },
     opts = {
+      --[[ winopts = {
+        preview = {
+          layout = 'horizontal',
+        },
+      }, ]]
       fzf_opts = {
-        ["--cycle"] = "",
+        ['--cycle'] = '',
       },
       defaults = {
-        formatter = { "path.filename_first", 2 },
-        path_shorten = true,
+        -- formatter = { 'path.filename_first', 2 },
+        -- path_shorten = true,
       },
       keymap = {
         builtin = {
-          ["<C-d>"] = "preview-page-down",
-          ["<C-u>"] = "preview-page-up",
-          ["<C-r>"] = "preview-page-reset",
+          ['<C-d>'] = 'preview-page-down',
+          ['<C-u>'] = 'preview-page-up',
+          ['<C-r>'] = 'preview-page-reset',
         },
         fzf = {
           -- ["ctrl-q"] = "select-all+accept"
-          ["ctrl-q"] = "toggle-all",
+          ['ctrl-q'] = 'toggle-all',
         },
       },
       grep = {
@@ -131,7 +148,7 @@ return {
             local max_text_width = width - min_left_padding - min_right_padding
 
             if #t > max_text_width then
-              return "..." .. t:sub(#t - max_text_width + 3 + 1, #t)
+              return '...' .. t:sub(#t - max_text_width + 3 + 1, #t)
             end
             return t
           end,
@@ -139,9 +156,9 @@ return {
       },
     },
     on_attach = function(bufnr)
-      vim.keymap.set({ "n", "v", "i" }, "<C-x><C-p>", function()
-        require("fzf-lua").complete_path()
-      end, { buffer = bufnr, silent = true, desc = "Fuzzy complete path" })
+      vim.keymap.set({ 'n', 'v', 'i' }, '<C-x><C-p>', function()
+        require('fzf-lua').complete_path()
+      end, { buffer = bufnr, silent = true, desc = 'Fuzzy complete path' })
     end,
   },
 }

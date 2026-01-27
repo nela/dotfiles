@@ -28,7 +28,7 @@ bindkey -M menuselect '^[[Z' reverse-menu-complete
 # bindkey -M menuselect '^xu' undo
 
 
-bindkey -v
+# bindkey -v # vimmode
 # down-line-or-history #
 # autoload -U history-search-end
 

@@ -1,8 +1,8 @@
 local function make_default_locations_handler(prompt)
-  local fzf = require("fzf-lua")
+  local fzf = require('fzf-lua')
 
   -- preprocess only to call load icons
-  fzf.make_entry.preprocess({ formatter = { "path.filename_first", 2 }, file_icons = true })
+  -- fzf.make_entry.preprocess({ formatter = { 'path.filename_first', 2 }, file_icons = true })
   return function(err, locations, ctx, config)
     config = config or {}
     if err then
@@ -22,31 +22,34 @@ local function make_default_locations_handler(prompt)
 
       local entries = {}
       for _, entry in ipairs(items) do
-        entry = fzf.make_entry.lcol(entry, {})
-        entry = fzf.make_entry.file(entry, { cwd = cwd, file_icons = true, color_icons = true, path_shorten = true })
-        table.insert(entries, entry)
+        if entry then
+          entry = fzf.make_entry.lcol(entry, {})
+          entry = fzf.make_entry.file(entry, { cwd = cwd, file_icons = true, color_icons = true, path_shorten = true })
+
+          table.insert(entries, entry)
+        end
       end
 
-      fzf.fzf_exec(entries, { prompt = prompt .. ">", previewer = "builtin" })
+      fzf.fzf_exec(entries, { prompt = prompt .. '>', previewer = 'builtin' })
     end
   end
 end
 
 return {
   {
-    "yioneko/nvim-vtsls",
-    dependencies = { "ibhagwan/fzf-lua" },
+    'yioneko/nvim-vtsls',
+    dependencies = { 'ibhagwan/fzf-lua' },
     opts = {
       handlers = {
-        file_references = make_default_locations_handler("File References"),
-        source_definition = make_default_locations_handler("Source Definitions"),
+        file_references = make_default_locations_handler('File References'),
+        source_definition = make_default_locations_handler('Source Definitions'),
       },
     },
     enabled = true,
-    config = function() end
+    config = function() end,
   },
   {
-    "joeveiga/ng.nvim",
+    'joeveiga/ng.nvim',
     --stylua: ignore
     keys = {
       { "<leader>at", function() require("ng").goto_template_for_component({}) end },
@@ -55,45 +58,45 @@ return {
     },
   },
   {
-    "mfussenegger/nvim-dap",
+    'mfussenegger/nvim-dap',
     -- optional = true,
     opts = function()
-      local dap = require("dap")
-      if not dap.adapters["pwa-node"] then
-        require("dap").adapters["pwa-node"] = {
-          type = "server",
-          host = "localhost",
-          port = "${port}",
+      local dap = require('dap')
+      if not dap.adapters['pwa-node'] then
+        require('dap').adapters['pwa-node'] = {
+          type = 'server',
+          host = 'localhost',
+          port = '${port}',
           executable = {
-            command = "node",
+            command = 'node',
             args = {
-              os.getenv("XDG_DATA_HOME") .. "/js-debug/src/dapDebugServer.js",
-              "${port}",
+              os.getenv('XDG_DATA_HOME') .. '/js-debug/src/dapDebugServer.js',
+              '${port}',
             },
           },
         }
       end
 
-      for _, language in ipairs({ "typescript", "javascript" }) do
+      for _, language in ipairs({ 'typescript', 'javascript' }) do
         if not dap.configurations[language] then
           dap.configurations[language] = {
             {
-              type = "pwa-node",
-              request = "launch",
-              name = "Launch file",
-              program = "${file}",
-              cwd = "${workspaceFolder}",
+              type = 'pwa-node',
+              request = 'launch',
+              name = 'Launch file',
+              program = '${file}',
+              cwd = '${workspaceFolder}',
             },
             {
-              type = "pwa-node",
-              request = "attach",
-              name = "Attach",
-              processId = require("dap.utils").pick_process,
-              cwd = "${workspaceFolder}",
+              type = 'pwa-node',
+              request = 'attach',
+              name = 'Attach',
+              processId = require('dap.utils').pick_process,
+              cwd = '${workspaceFolder}',
             },
           }
         end
       end
     end,
-  }
+  },
 }

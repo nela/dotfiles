@@ -1,5 +1,6 @@
 return {
   'yetone/avante.nvim',
+  enabled = false,
   build = function()
     return 'make'
   end,

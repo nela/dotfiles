@@ -36,7 +36,7 @@ return {
     main = 'ibl',
   },
   {
-    -- enabled = false,
+    enabled = false,
     'lewis6991/hover.nvim',
     opts = {
       preview_opts = {
@@ -57,7 +57,7 @@ return {
       require('hover.providers.dap')
       require('hover.providers.man')
       -- require('hover.providers.dictionary')
-      require('hover.providers.highlight')
+      -- require('hover.providers.highlight')
       -- require('hover.providers.gh')
       -- require('hover.providers.gh_user')
       -- require('hover.providers.jira')
@@ -66,6 +66,7 @@ return {
   },
   {
     'j-hui/fidget.nvim',
+    enabled = true,
     opts = {
       notification = {
         window = {
@@ -79,6 +80,7 @@ return {
   {
     'lewis6991/whatthejump.nvim',
     event = 'VeryLazy',
+    enabled = false,
     keys = {
       --stylua: ignore
       { '<M-k>', function() require('whatthejump').show_jumps(false) return '<C-o>' end, mode = 'n', expr = true, },
@@ -93,10 +95,16 @@ return {
       },
     },
   },
-  { 'rcarriga/nvim-notify', event = 'VeryLazy' },
+  {
+    'rcarriga/nvim-notify',
+    event = 'VeryLazy',
+    config = function()
+      vim.notify = require('notify')
+    end,
+  },
   {
     'rachartier/tiny-inline-diagnostic.nvim',
-    -- enabled = false,
+    enabled = true,
     event = 'VeryLazy', -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     opts = {
@@ -106,7 +114,7 @@ return {
       options = {
         show_source = {
           enabled = true,
-          if_many = true,
+          -- if_many = true,
         },
         multilines = {
           enabled = true,

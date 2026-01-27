@@ -18,7 +18,7 @@ thickness = 0.15
 
 
 [font]
-size = 9.5
+size = 13
 
 [font.glyph_offset]
 x = 0
@@ -80,9 +80,10 @@ history = 10000
 multiplier = 3
 
 [window]
-decorations = "None"
+decorations = "Buttonless"
 dynamic_padding = true
-# opacity = 0.9
+blur = true
+opacity = 0.75
 option_as_alt = "OnlyLeft"
 
 [window.dimensions]

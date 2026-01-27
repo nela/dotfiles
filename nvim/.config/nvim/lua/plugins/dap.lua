@@ -1,3 +1,4 @@
+local codelldb = '/Users/nela/dev/codelldb/extension/adapter/codelldb'
 return {
   {
     "mfussenegger/nvim-dap",
@@ -42,7 +43,7 @@ return {
           host = "127.0.0.1",
           port = "${port}",
           executable = {
-            command = 'codelldb',
+            command = codelldb,
             args = {
               "--port",
               "${port}"

@@ -22,9 +22,6 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-
-
-
 require("lazy").setup({
   spec = {
     { import = "plugins" },
@@ -64,6 +61,7 @@ end, {
 }) ]]
 
 -- new experimental command-line features.
-if vim.fn.has('nvim-0.12') == 1 then
-  require('vim._extui').enable({})
-end
+-- Disabled: causes cursor jumping with LSP messages in Ghostty
+-- if vim.fn.has('nvim-0.12') == 1 then
+--   require('vim._extui').enable({})
+-- end
