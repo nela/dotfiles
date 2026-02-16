@@ -34,135 +34,137 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     version = false,
+    branch = 'main',
     build = ':TSUpdate',
-    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline event = "VeryLazy",
-    init = function(plugin)
-      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
-      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
-      -- no longer trigger the **nvim-treesitter** module to be loaded in time.
-      -- Luckily, the only things that those plugins need are the custom queries, which we make available
-      -- during startup.
-      require('lazy.core.loader').add_to_rtp(plugin)
-      require('nvim-treesitter.query_predicates')
-    end,
+    lazy = false,
+    -- lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline event = "VeryLazy",
     cmd = { 'TSUpdateSync', 'TSInstall' },
     ft = filetypes,
     opts = {
       ensure_installed = filetypes,
-      highlight = { enable = true, additional_vim_regex_highlighting = true },
+      highlight = { enable = true },
+      folds = { enable = true },
       indent = { enable = true },
-      playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false, -- Whether the query persists across vim sessions
-        keybindings = {
-          toggle_query_editor = 'o',
-          toggle_hl_groups = 'i',
-          toggle_injected_languages = 't',
-          toggle_anonymous_nodes = 'a',
-          toggle_language_display = 'I',
-          focus_language = 'f',
-          unfocus_language = 'F',
-          update = 'R',
-          goto_node = '<Cr>',
-          show_help = '?',
-        },
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = '<Cr>',
-          scope_incremental = '<Cr>',
-          node_incremental = '<Tab>',
-          node_decremental = '<S-Tab>',
-        },
-      },
-      query_linter = {
-        enable = true,
-        use_virtual_text = true,
-        lint_events = { 'BufWrite', 'CursorHold' },
-      },
-      rainbow = {
-        enable = true,
-        extended_mode = true, -- highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        max_file_lines = 10000, -- Do not enable for files with more than n lines, int
-      },
-      autotag = {
-        enable = true,
-      },
-      textobjects = {
-        select = {
-          enable = false, -- provided by mini.ai
-          lookahead = true, -- jump forward to textobj, similar to targets.vim
-          keymaps = {
-            ['af'] = '@function.outer',
-            ['if'] = '@function.inner',
-            ['ac'] = '@class.outer',
-            ['ic'] = '@class.inner',
-          },
-          include_surrounding_whitespace = true,
-        },
-        swap = {
-          enable = true,
-          swap_next = {
-            ['<leader>p'] = '@parameter.inner',
-          },
-          swap_previous = {
-            ['<leader>P'] = '@parameter.inner',
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            [']a'] = '@parameter.inner',
-            [']f'] = '@function.outer',
-            -- ["]]"] = "@class.outer",
-            [']z'] = '@fold',
-            [']i'] = '@conditional.outer',
-          },
-          goto_next_end = {
-            [']A'] = '@parameter.inner',
-            [']F'] = '@function.outer',
-            -- ["]["] = "@class.outer",
-            [']I'] = '@conditional.outer',
-          },
-          goto_previous_start = {
-            ['[a'] = '@parameter.inner',
-            ['[f'] = '@function.outer',
-            -- ["[["] = "@class.outer",
-            ['[i'] = '@conditional.outer',
-          },
-          goto_previous_end = {
-            ['[A'] = '@parameter.inner',
-            ['[F'] = '@function.outer',
-            -- ["[]"] = "@class.outer",
-            ['[I'] = '@conditional.outer',
-          },
-          -- next closest, either start or end
-          --[[ goto_next = {
-            [']l'] = '@loop.*',
-          },
-          goto_previous = {
-            ['[l'] = '@loop.*',
-          }, ]]
-        },
-      },
     },
     config = function(_, opts)
-      require('nvim-treesitter.configs').setup(opts)
+      local TS = require('nvim-treesitter')
+      local installed = TS.get_installed('parsers')
+      local install = vim.tbl_filter(function(lang)
+        if installed[lang] == nil then
+          return true
+        end
+        return false
+      end, opts.ensure_installed or {})
+
+      if #install > 0 then
+        TS.install(install, { summary = true }):await(function()
+          TS.update(nil, { summary = true })
+        end)
+      end
+
+      vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('nelavim_treesitter', { clear = true }),
+        callback = function(ev)
+          local lang = vim.treesitter.language.get_lang(ev.match)
+
+          if lang == nil or TS.get_installed('parsers')[lang] == nil then
+            return
+          end
+
+          if opts.highlight.enable then
+            pcall(vim.treesitter.start, ev.buf)
+          end
+
+          if opts.fold.enable then
+            vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+            vim.wo[0][0].foldmethod = 'expr'
+          end
+
+          -- is experimental
+          if opts.indent.enable then
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
+      })
     end,
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    event = 'VeryLazy',
+    branch = 'main',
+    init = function()
+      -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+      vim.g.no_plugin_maps = true
+    end,
+    -- event = 'VeryLazy',
+    opts = {
+      select = {
+        lookahead = true,
+        selection_modes = {
+          ['@parameter.outer'] = 'v', -- charwise
+          ['@function.inner'] = 'V', -- linewise
+          -- ['@class.outer'] = '<c-v>', -- blockwise
+          include_surrounding_whitespace = true,
+        },
+        set_jumps = true,
+      },
+    },
     config = function()
-      local util = require('util')
-      if util.is_loaded('nvim-treesitter') then
-        local opts = util.get_opts('nvim-treesitter')
-        require('nvim-treesitter.configs').setup({ textobjects = opts.textobjects })
-      end
+      --swap
+      vim.keymap.set('n', '<leader>p', function()
+        require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner')
+      end)
+      vim.keymap.set('n', '<leader>P', function()
+        require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.outer')
+      end)
+      -- move
+
+      vim.keymap.set({ 'n', 'x', 'o' }, ']f', function()
+        require('nvim-treesitter-textobjects.move').goto_next_start('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, ']]', function()
+        require('nvim-treesitter-textobjects.move').goto_next_start('@class.outer', 'textobjects')
+      end)
+      -- You can also pass a list to group multiple queries.
+      vim.keymap.set({ 'n', 'x', 'o' }, ']o', function()
+        require('nvim-treesitter-textobjects.move').goto_next_start({ '@loop.inner', '@loop.outer' }, 'textobjects')
+      end)
+      -- You can also use captures from other query groups like `locals.scm` or `folds.scm`
+      vim.keymap.set({ 'n', 'x', 'o' }, ']s', function()
+        require('nvim-treesitter-textobjects.move').goto_next_start('@local.scope', 'locals')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, ']z', function()
+        require('nvim-treesitter-textobjects.move').goto_next_start('@fold', 'folds')
+      end)
+
+      vim.keymap.set({ 'n', 'x', 'o' }, ']F', function()
+        require('nvim-treesitter-textobjects.move').goto_next_end('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '][', function()
+        require('nvim-treesitter-textobjects.move').goto_next_end('@class.outer', 'textobjects')
+      end)
+
+      vim.keymap.set({ 'n', 'x', 'o' }, '[f', function()
+        require('nvim-treesitter-textobjects.move').goto_previous_start('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '[[', function()
+        require('nvim-treesitter-textobjects.move').goto_previous_start('@class.outer', 'textobjects')
+      end)
+
+      vim.keymap.set({ 'n', 'x', 'o' }, '[F', function()
+        require('nvim-treesitter-textobjects.move').goto_previous_end('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '[]', function()
+        require('nvim-treesitter-textobjects.move').goto_previous_end('@class.outer', 'textobjects')
+      end)
+
+      -- Go to either the start or the end, whichever is closer.
+      -- Use if you want more granular movements
+      vim.keymap.set({ 'n', 'x', 'o' }, ']i', function()
+        require('nvim-treesitter-textobjects.move').goto_next('@conditional.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '[i', function()
+        require('nvim-treesitter-textobjects.move').goto_previous('@conditional.outer', 'textobjects')
+      end)
     end,
   },
   {
@@ -190,6 +192,37 @@ return {
     },
   },
   {
+    'echasnovski/mini.ai',
+    version = '*',
+    event = 'VeryLazy',
+    opts = function()
+      local ai = require('mini.ai')
+      return {
+        n_lines = 500,
+        custom_textobjects = {
+          o = ai.gen_spec.treesitter({ -- code block
+            a = { '@block.outer', '@conditional.outer', '@loop.outer' },
+            i = { '@block.inner', '@conditional.inner', '@loop.inner' },
+          }),
+          f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }), -- function
+          c = ai.gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }), -- class
+          t = { '<([%p%w]-)%f[^<%w][^<>]->.-</%1>', '^<.->().*()</[^/]->$' }, -- tags
+          d = { '%f[%d]%d+' }, -- digits
+          e = { -- Word with case
+            { '%u[%l%d]+%f[^%l%d]', '%f[%S][%l%d]+%f[^%l%d]', '%f[%P][%l%d]+%f[^%l%d]', '^[%l%d]+%f[^%l%d]' },
+            '^().*()$',
+          },
+          -- g = LazyVim.mini.ai_buffer, -- buffer
+          u = ai.gen_spec.function_call(), -- u for "Usage"
+          U = ai.gen_spec.function_call({ name_pattern = '[%w_]' }), -- without dot in function name
+        },
+      }
+    end,
+    config = function(_, opts)
+      require('mini.ai').setup(opts)
+    end,
+  },
+  {
     'stevearc/aerial.nvim',
     event = { 'VeryLazy' },
     -- Optional dependencies
@@ -197,7 +230,6 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons',
     },
-
     keys = {
       {
         '<leader>af',
@@ -238,28 +270,28 @@ return {
             table.insert(contents, ent.line)
           end
 
-local builtin = require("fzf-lua.previewer.builtin")
-local MyPreviewer = builtin.buffer_or_file:extend()
+          local builtin = require('fzf-lua.previewer.builtin')
+          local MyPreviewer = builtin.buffer_or_file:extend()
 
-function MyPreviewer:new(o, opts, fzf_win)
-  MyPreviewer.super.new(self, o, opts, fzf_win)
-  setmetatable(self, MyPreviewer)
-  return self
-end
+          function MyPreviewer:new(o, opts, fzf_win)
+            MyPreviewer.super.new(self, o, opts, fzf_win)
+            setmetatable(self, MyPreviewer)
+            return self
+          end
 
----@param entry_str string
-function MyPreviewer:parse_entry(entry_str)
-  -- Assume an arbitrary entry in the format of 'file:line'
+          ---@param entry_str string
+          function MyPreviewer:parse_entry(entry_str)
+            -- Assume an arbitrary entry in the format of 'file:line'
 
-  -- local _, line = entry_str:match("([^:]+):?(.*)")
-local line, col = entry_str:match(".*:(%d+):(%d+)")
-  -- local linecol =
-  return {
-    path = fname,
-    line =  tonumber(line),
-    col = tonumber(col)
-  }
-end
+            -- local _, line = entry_str:match("([^:]+):?(.*)")
+            local line, col = entry_str:match('.*:(%d+):(%d+)')
+            -- local linecol =
+            return {
+              path = fname,
+              line = tonumber(line),
+              col = tonumber(col),
+            }
+          end
 
           if next(contents) == nil then
             vim.notify('no symbols')

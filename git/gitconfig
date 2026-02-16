@@ -1,8 +1,5 @@
 # vmim:syntax=gitconfig
 # vim:filetype=gitconfig
-[user]
-  name = "Nemanja Lakicevic"
-
 [core]
   editor = nvim
   ; pager = bash -c 'delta --side-by-side --width ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'

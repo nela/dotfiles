@@ -54,18 +54,9 @@ return {
           server = {
           --stylua: ignore
             on_attach = function(_, bufnr)
-              --[[ vim.keymap.set("n", "<leader>ca", function()
-                vim.cmd.RustLsp("codeAction")
-              end, { desc = "[Rust] Code Action", buffer = bufnr }) ]]
               vim.keymap.set("n", "<leader>dR", function()
                 vim.cmd.RustLsp("debuggables")
               end, { desc = "Rust Debuggables", buffer = bufnr })
-              --[[ vim.keymap.set( "n", "K", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-                function()
-                  vim.cmd.RustLsp({ "hover", "actions" })
-                end,
-                { silent = true, buffer = bufnr }
-              ) ]]
             end,
             default_settings = {
               ['rust-analyzer'] = {
