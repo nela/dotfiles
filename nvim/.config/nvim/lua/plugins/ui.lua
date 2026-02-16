@@ -106,7 +106,7 @@ return {
   {
     'rachartier/tiny-inline-diagnostic.nvim',
     enabled = true,
-    event = 'VeryLazy', -- Or `LspAttach`
+    event = 'LspAttach', -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     opts = {
       preset = 'classic',
@@ -129,6 +129,7 @@ return {
     config = function(_, opts)
       require('tiny-inline-diagnostic').setup(opts)
       -- vim.cmd('hi TinyInlineDiagnosticVirtualTextError guibg=NONE')
+
     end,
   },
 }
