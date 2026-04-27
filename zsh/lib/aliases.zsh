@@ -28,8 +28,7 @@ alias ....='cd ../../../..'
 alias df='df -h'
 
 # Pipe Aliases
-alias grep='egrep --color=auto '
-alias egrep='egrep --color=auto '
+alias grep='grep --color=auto '
 alias L=' | less '
 alias G=' | egrep --color=auto '
 alias T=' | tail '
