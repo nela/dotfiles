@@ -1,9 +1,0 @@
----
-- ansible.builtin.include_tasks: default.yml
-- ansible.builtin.include_tasks: ubuntu.yml
-  when: ansible_distribution == 'Ubuntu'
-
-- ansible.builtin.include_tasks: arch.yml
-  when: ansible_distribution == 'Archlinux'
-
-- ansible.builtin.include_tasks: symlink.yml
