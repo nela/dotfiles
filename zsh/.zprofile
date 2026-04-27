@@ -3,8 +3,6 @@
 
 ##### PATH #####
 
-echo 'zprof sourced'
-
 export QT_QPA_PLATFORMTHEME=qt5ct
 
 ##### XDG #####
@@ -28,7 +26,7 @@ export PNPM_CACHE="${XDG_CACHE_HOME}/pnpm"
 ##### Custom #####
 export DOTS="${HOME}/dotfiles"
 export NVIM="${DOTS}/nvim/.config/nvim"
-export ZSHRC="${ZSH}/.zshrc"
+export ZSHRC="${ZDOTDIR}/.zshrc"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export EDITOR="nvim"
 export VENV_HOME="${XDG_DATA_HOME}/nelapys"
@@ -61,7 +59,7 @@ if [[ ${OSTYPE} == *darwin* ]]; then
 fi
 
 ## Private keys and stuff
-[ -f "${ZSH}"/zsh/.envprivate ] && source "${ZSH}"/zsh/.envprivate
+[ -f "${ZDOTDIR}"/.envprivate ] && source "${ZDOTDIR}"/.envprivate
 
 
 

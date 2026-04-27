@@ -2,8 +2,6 @@
 # General
 ###############################################################################
 
-echo 'sourcing zshrc'
-
 # Module to check zsh loading times
 # zmodload zsh/zprof
 
@@ -178,7 +176,7 @@ unset _fs_highlight_dir
   && zsh-defer eval "$(zoxide init zsh)" \
   || printf ${_warning_fix} "Zoxide not installed." "Use package manager to install it"
 
-_autoloaded="${ZSH}"/autoloaded
+_autoloaded="${ZDOTDIR}"/autoloaded
 fpath=($_autoloaded $fpath)
 
 if [[ -d "$_autoloaded" ]]; then
@@ -188,7 +186,7 @@ if [[ -d "$_autoloaded" ]]; then
 fi
 unset _autoloaded
 
-local _lib="${ZSH}"/lib
+local _lib="${ZDOTDIR}"/lib
 
 if [[ -d "$_lib" ]]; then
    for file in $_lib/*.zsh; do

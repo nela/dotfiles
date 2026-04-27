@@ -8,7 +8,7 @@ background-blur = 80
 
 cursor-opacity = 0.5
 # cursor-style = block
-cursor-style-blink = true
+# cursor-style-blink = true
 mouse-hide-while-typing = true
 
 link-url = true
@@ -16,24 +16,28 @@ link-url = true
 title = " "
 
 window-decoration = auto
+window-colorspace = srgb
 
 window-padding-y = 2
 window-padding-x = 2
 window-padding-color = extend
 macos-titlebar-style = hidden
+macos-option-as-alt = true
+
 
 bold-is-bright = true
 
-alpha-blending = linear-corrected
+# alpha-blending = linear-corrected
 
 theme = Gruvbox Dark Hard
 
-shell-integration-features = no-cursor
-
+# shell-integration-features = no-cursor
 # keybind = ctrl+i=text:\x1b[105;5u
 # keybind = ctrl+i=esc:[105;5u
 
-custom-shader = shaders/cursor_smear.glsl
+custom-shader = shaders/ghostty-cursor-shaders/cursor_sweep.glsl
+# custom-shader = shaders/ghostty-cursor-shaders/cursor_tail.glsl
+# custom-shader = shaders/ghostty-cursor-shaders/cursor_warp.glsl
 # custom-shader = shaders/lava.glsl
 # custom-shader = shaders/drunkard.glsl
 # custom-shader = shaders/cursor_smear_gradient.glsl

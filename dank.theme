@@ -1,0 +1,11 @@
+{
+  "name": "Gruvbox Darker",
+  "primary": "#d65d0e",
+  "primaryText": "#141617",
+  "surface": "#282828",
+  "surfaceText": "#ebdbb2",
+  "background": "#141617",
+  "backgroundText": "#d4be98",
+  "outline": "#928374",
+  "matugen_type": "scheme-tonal-spot"
+}

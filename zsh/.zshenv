@@ -9,12 +9,10 @@ skip_global_compinit=1
 setopt noglobalrcs
 
 export SYSTEM=$(uname -s)
-export ZSH="$HOME/dotfiles/zsh"
-
-echo 'zshenv sourced'
+export ZDOTDIR="$HOME/dotfiles/zsh"
 
 # https://github.com/sorin-ionescu/prezto/blob/master/runcoms/zshenv
 # Ensure that a non-login, non-interactive shell has a defined environment.
-if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZSH:-$HOME}/.zprofile" ]]; then
-  source "${ZSH}/.zprofile"
+if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+  source "${ZDOTDIR}/.zprofile"
 fi

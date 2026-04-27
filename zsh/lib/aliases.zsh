@@ -38,7 +38,7 @@ alias W=' | wc -l '
 alias S=' | sort '
 
 alias vimconf="cd ${NVIM} && nvim init.vim"
-alias zshconf="cd ${ZSH} && nvim zsh/.zshrc"
+alias zshconf="cd ${ZDOTDIR} && nvim .zshrc"
 alias shell="exec ${SHELL}"
 
 # Tmux

@@ -5,7 +5,7 @@
 # Reference to compinstall to load this specific file.
 # If the user wants to run compinit to customize completion the compinit will
 # find existing configuration and allow to update these
-zstyle :compinstall filename "${ZSH}/completion.zsh"
+zstyle :compinstall filename "${ZDOTDIR}/lib/completion.zsh"
 
 # Load completion
 # Commenting this line does not load completion module, effectively disabling it
