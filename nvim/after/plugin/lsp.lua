@@ -1,11 +1,6 @@
 local methods = vim.lsp.protocol.Methods
 
 vim.g.inlay_hints = false
-
-vim.api.nvim_create_user_command('ToggleInlayHints', function()
-  vim.g.inlay_hints = not vim.g.inlay_hints
-end, {})
-
 local function debounce(ms, fn)
   local timer = assert(vim.uv.new_timer())
   return function(...)
@@ -21,66 +16,18 @@ end
 
 ---@param name string
 local augroup = function(name)
-  return vim.api.nvim_create_augroup('nela.lsp.' .. name, { clear = false })
-end
-
---[[ ---@param jumpCount integer
-local function pretty_jump(jumpCount)
-  pcall(vim.api.nvim_del_augroup_by_name, "nela.lsp.pretty_jump") -- prevent autocmd for repeated jumps
-
-  vim.diagnostic.jump({ count = jumpCount })
-
-  local orig_virtual_text_conf = vim.diagnostic.config().virtual_text
-  local orig_virtual_lines_conf = vim.diagnostic.config().virtual_lines
-  vim.diagnostic.config({
-    -- virtual_text = false
-    virtual_lines = { current_line = true },
-  })
-
-  vim.defer_fn(function() -- deferred to not trigger by jump itself
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      desc = "User(once): Reset diagnostics virtual lines",
-      once = true,
-      group = vim.api.nvim_create_augroup("nela.lsp.pretty_jump", {}),
-      callback = function()
-        vim.diagnostic.config({ virtual_lines = orig_virtual_lines_conf, virtual_text = orig_virtual_text_conf })
-      end,
-    })
-  end, 1)
-end ]]
-
-local function disable_virt_text_jump(count)
-  pcall(vim.api.nvim_del_augroup_by_name, 'nela.lsp.pretty_jump') -- prevent autocmd for repeated jumps
-
-  vim.diagnostic.jump({ count = count })
-
-  local orig_virtual_text_conf = vim.diagnostic.config().virtual_text
-  vim.diagnostic.config({
-    virtual_text = false,
-    -- virtual_lines = { current_line = true },
-  })
-
-  vim.defer_fn(function() -- deferred to not trigger by jump itself
-    vim.api.nvim_create_autocmd('CursorMoved', {
-      desc = 'User(once): Reset diagnostics virtual lines',
-      once = true,
-      group = vim.api.nvim_create_augroup('nela.lsp.pretty_jump', {}),
-      callback = function()
-        vim.diagnostic.config({ virtual_lines = false, virtual_text = orig_virtual_text_conf })
-      end,
-    })
-  end, 1)
+  return vim.api.nvim_create_augroup('nelavim.lsp.' .. name, { clear = false })
 end
 
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 local function on_attach(client, bufnr)
   if client:supports_method(methods.textDocument_codeLens) then
-    vim.lsp.codelens.refresh({ bufnr = bufnr })
+    vim.lsp.codelens.enable(true, { bufnr = bufnr })
     vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
-      group = augroup('codelens'),
+      group = augroup('nelavim.lsp'),
       callback = debounce(200, function(args0)
-        vim.lsp.codelens.refresh({ bufnr = args0.buf })
+        vim.lsp.codelens.enable(true, { bufnr = args0.buf })
       end),
     })
   end
@@ -103,8 +50,6 @@ local function on_attach(client, bufnr)
   end
 
   if client:supports_method(methods.textDocument_inlayHint) then
-    -- local inlay_hints_group = augroup('toggle_inlay_hints')
-
     if vim.g.inlay_hints then
       -- Initial inlay hint display.
       -- Idk why but without the delay inlay hints aren't displayed at the very start.
@@ -115,7 +60,7 @@ local function on_attach(client, bufnr)
     end
 
     vim.api.nvim_create_autocmd('InsertEnter', {
-      group = augroup('inlay_hints'),
+      group = augroup('nelavim.lsp'),
       desc = 'Enable inlay hints',
       buffer = bufnr,
       callback = function()
@@ -126,7 +71,7 @@ local function on_attach(client, bufnr)
     })
 
     vim.api.nvim_create_autocmd('InsertLeave', {
-      group = augroup('inlay_hints'),
+      group = augroup('nelavim.lsp'),
       desc = 'Disable inlay hints',
       buffer = bufnr,
       callback = function()
@@ -137,6 +82,10 @@ local function on_attach(client, bufnr)
     })
   end
 
+  vim.api.nvim_create_user_command('ToggleInlayHints', function()
+    vim.g.inlay_hints = not vim.g.inlay_hints
+  end, {})
+
   local keymap = {
     {
       lhs = '<leader>ld',
@@ -145,21 +94,13 @@ local function on_attach(client, bufnr)
       opts = { desc = 'Line Diagnostics' },
     },
     {
-      lhs = '<leader>li',
-      rhs = '<cmd>LspInfo<cr>',
-      opts = { desc = 'Lsp Info' },
-    },
-    {
       lhs = '<leader>gd',
       rhs = function()
         require('fzf-lua').lsp_definitions({
           sync = true,
-          -- jump_to_single_result = true,
           jump1 = false,
-          -- jump1_action = require('fzf-lua.actions').file_vsplit
         })
       end,
-      -- rhs = "<cmd>FzfLua lsp_definitions<cr>",
       opts = { desc = 'Go to Definitions' },
       has_method = methods.textDocument_definition,
     },
@@ -228,38 +169,32 @@ local function on_attach(client, bufnr)
     {
       lhs = ']d',
       --stylua: ignore
-      -- rhs = function() pretty_jump(1) end,
-      -- rhs = function() vim.diagnostic.jump({ count = 1, float = true }) end,
       rhs = function() vim.diagnostic.jump({ count = 1 }) end,
-      -- rhs = function() disable_virt_text_jump(1) end,
       opts = { desc = 'Next Diagnostic' },
     },
     {
       lhs = '[d',
       --stylua: ignore
-      -- rhs = function() pretty_jump(-1) end,
-      -- rhs = function() vim.diagnostic.jump({ count = -1, float = true }) end,
-      -- rhs = function() disable_virt_text_jump(-1) end,
       rhs = function() vim.diagnostic.jump({ count = -1 }) end,
       opts = { desc = 'Prev Diagnostic' },
     },
     {
       lhs = ']e',
       --stylua: ignore
-      rhs = function() vim.diagnostic.jump({ count = 1, severity = "ERROR" }) end,
+      rhs = function() vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR }) end,
       opts = { desc = 'Next Error' },
     },
     {
       lhs = '[e',
       --stylua: ignore
-      rhs = function() vim.diagnostic.jump({ count = -1, severity = "ERROR" }) end,
+      rhs = function() vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR }) end,
       opts = { desc = 'Prev Error' },
     },
     {
       lhs = ']w',
       --stylua: ignore
       rhs = function()
-        vim.diagnostic.jump({ count = 1, severity = "WARN" })
+        vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN })
       end,
       opts = { desc = 'Next Warning' },
     },
@@ -267,18 +202,10 @@ local function on_attach(client, bufnr)
       lhs = '[w',
       --stylua: ignore
       rhs = function()
-        vim.diagnostic.jump({ count = -1, severity = "WARN" })
+        vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN })
       end,
       opts = { desc = 'Prev Warning' },
     },
-    {
-      lhs = '<leader>rn',
-      rhs = vim.lsp.buf.rename,
-      opts = { desc = 'Rename' },
-      has_method = methods.textDocument_rename,
-    },
-    --{ "<leader>cf", format, desc = "Format Document", has_method = "formatting" },
-    --{ "<leader>cf", format, desc = "Format Range", mode = "v", has_method = "rangeFormatting" },
     {
       lhs = '<leader>cA',
       rhs = function()
@@ -308,9 +235,8 @@ local function on_attach(client, bufnr)
   end
 
   command('LspLog', function()
-    vim.cmd.split(vim.lsp.get_log_path())
+    vim.cmd.split(vim.lsp.log.get_filename())
   end)
-  -- command("RmLspLog", [[ exe 'silent ! rm $XDG_STATE_HOME/nvim/lsp.log' ]])
   command('LspSetLocList', function()
     vim.diagnostic.setloclist()
   end)
@@ -320,21 +246,13 @@ local function on_attach(client, bufnr)
   command('LspListWorkspaceFolders', function()
     vim.print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end)
-  command('LspRename', function()
-    vim.lsp.buf.rename()
-  end)
-end
-
-do
-  vim.fn.delete(vim.lsp.get_log_path())
-  vim.lsp.set_log_level(vim.lsp.log.levels.TRACE)
 end
 
 -- Diagnostic Config
-for _, level in ipairs({ 'Hint', 'Info', 'Warn', 'Error' }) do
-  local sign = 'DiagnosticSign' .. level
-  vim.fn.sign_define(sign, { text = '', texthl = sign, numhl = sign })
-end
+-- for _, level in ipairs({ 'Hint', 'Info', 'Warn', 'Error' }) do
+--   local sign = 'DiagnosticSign' .. level
+--   vim.fn.sign_define(sign, { text = '', texthl = sign, numhl = sign })
+-- end
 
 vim.diagnostic.config({
   float = {
@@ -344,31 +262,20 @@ vim.diagnostic.config({
   },
   underline = true,
   update_in_insert = true,
-  -- virtual_text = { Handled by tiny-diagnostic-line
-  --   spacing = 4,
-  --   source = "if_many",
-  --   prefix = "",
-  --   format = function(diagnostic)
-  --     local special_sources = {
-  --       ["Lua Diagnostics."] = "lua",
-  --       ["Lua Syntax Check."] = "lua",
-  --     }
-  --
-  --     local message = require("util.icons").diagnostics[vim.diagnostic.severity[diagnostic.severity]]
-  --
-  --     if diagnostic.source then
-  --       message = string.format("%s %s", message, special_sources[diagnostic.source] or diagnostic.source)
-  --     end
-  --
-  --     if diagnostic.code then
-  --       message = string.format("%s[%s]", message, diagnostic.code)
-  --     end
-  --
-  --     return message .. " "
-  --   end,
-  --   severity_sort = true,
-  --   update_in_insert = false,
-  -- },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.HINT] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.ERROR] = '',
+    },
+    numhl = {
+      [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+    },
+  },
 })
 
 local show_handler = vim.diagnostic.handlers.virtual_text.show
@@ -415,7 +322,6 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
   return bufnr, winid
 end
 
-
 -- Update mappings when registering dynamic capabilities.
 local register_capability = vim.lsp.handlers[methods.client_registerCapability]
 vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
@@ -461,5 +367,5 @@ vim.lsp.enable({
   'gopls',
   'golangci_lint_ls',
   'docker_language_server',
-  'vue_ls'
+  'vue_ls',
 })
