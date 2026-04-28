@@ -63,15 +63,11 @@ vim.opt.grepformat = '%f:%l:%c:%m'
 vim.opt.background = 'dark'
 vim.opt.cursorline = true
 vim.opt.filetype = 'on'
--- nvim-cmp
--- vim.opt.completeopt = 'menu,menuone,noselect'
--- vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
-
----
 vim.opt.matchpairs:append('<:>')
 vim.opt.thesaurus:append(os.getenv('XDG_DATA_HOME') .. '/thesaurus/words')
 
 vim.g.gruvbox_material_background = 'hard'
 vim.g.gruvbox_material_better_performance = 1
+vim.opt.winborder = 'rounded'
 
 vim.g.rust_diagnostics_engine = 'bacon_ls'

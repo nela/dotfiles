@@ -14,7 +14,6 @@ now(function()
     'python',
     'regex',
     'glsl',
-    'rust',
     'yaml',
     'css',
     'scss',
