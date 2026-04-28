@@ -117,7 +117,7 @@ now(function()
     require('fzf-lua').help_tags()
   end, { silent = true, desc = 'Fuzzy help tags' })
 
-  vim.keymap.set({ 'n', 'v', 'i' }, '<leader>fr', function()
+  vim.keymap.set({ 'n', 'v' }, '<leader>fr', function()
     require('fzf-lua').registers()
   end, { silent = true, desc = 'Fuzzy complete registers' })
 
