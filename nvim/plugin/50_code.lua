@@ -9,6 +9,7 @@ now_if_args(function()
   })
 
   require('Comment').setup()
+  require('nvim-autopairs').setup()
 end)
 
 now_if_args(function()
@@ -115,12 +116,22 @@ now(function()
       ['<C-d>'] = { 'scroll_documentation_down' },
       ['<C-l>'] = { 'scroll_signature_down' },
       ['<C-h>'] = { 'scroll_signature_up' },
-      ['<C-x>'] = { 'show_signature', 'hide_documentation', 'fallback' },
+      ['<C-;>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      -- ['<C-;>'] = { 'show_signature', 'hide_signature', 'fallback' },
     },
     appearance = { nerd_font_variant = 'mono' },
     sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
     fuzzy = {
       implementation = 'prefer_rust_with_warning',
+    },
+
+    signagure = {
+      enabled = true,
+    },
+    completion = {
+      menu = {
+        border = 'none',
+      },
     },
   })
 end)
