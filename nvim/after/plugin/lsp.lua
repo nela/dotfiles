@@ -22,7 +22,7 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 local function on_attach(client, bufnr)
-  if client:supports_method(methods.textDocument_codeLens) then
+  --[[ if client:supports_method(methods.textDocument_codeLens) then
     vim.lsp.codelens.enable(true, { bufnr = bufnr })
     vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
       group = augroup('nelavim.lsp'),
@@ -30,7 +30,7 @@ local function on_attach(client, bufnr)
         vim.lsp.codelens.enable(true, { bufnr = args0.buf })
       end),
     })
-  end
+  end ]]
 
   if client:supports_method(methods.textDocument_documentHighlight) then
     local cursor_highlights = augroup('cursor_highlights')
