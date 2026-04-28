@@ -1,4 +1,4 @@
-local now, now_if_args, gh = Config.now, Config.now_if_args, Config.gh
+local now, now_if_args, on_packchanged, gh = Config.now, Config.now_if_args, Config.on_packchanged, Config.gh
 
 now_if_args(function()
   vim.pack.add({
@@ -7,6 +7,8 @@ now_if_args(function()
     gh('windwp/nvim-autopairs'),
     gh('numToStr/Comment.nvim'),
   })
+
+  require('Comment').setup()
 end)
 
 now_if_args(function()
@@ -121,17 +123,8 @@ now(function()
       implementation = 'prefer_rust_with_warning',
     },
   })
-
-  local rebuild_augroup = vim.api.nvim_create_augroup('nela_pack_changed', {})
-  local rebuild_blink_cmp = function(ev)
-    local name = ev.data.spec.name
-
-    if name == 'blink.cmp' then
-      vim.system({ 'cargo build --release' }, { cwd = ev.data.path })
-    elseif name == 'luasnip' then
-      vim.system({ 'make install_jsregexp' }, { cwd = ev.data.path })
-    end
-  end
-
-  vim.api.nvim_create_autocmd('PackChanged', { group = rebuild_augroup, callback = rebuild_blink_cmp })
 end)
+
+on_packchanged('blink.cmp', { 'install', 'update' }, function(ev)
+  vim.system({ 'cargo', 'build', '--release' }, { cwd = ev.data.path })
+end, 'Rebuild blink')

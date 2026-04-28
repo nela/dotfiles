@@ -34,7 +34,7 @@ end
 Config.on_packchanged = function(plugin_name, kinds, callback, desc)
   local f = function(ev)
     local name, kind = ev.data.spec.name, ev.data.spec.kind
-    if not (name == plugin_name) and vim.tbl_contains(kinds, kind) then
+    if name ~= plugin_name or not vim.tbl_contains(kinds, kind) then
       return
     end
 
@@ -42,7 +42,7 @@ Config.on_packchanged = function(plugin_name, kinds, callback, desc)
       vim.pack.add(plugin_name)
     end
 
-    callback()
+    callback(ev)
   end
   Config.new_autocmd('PackChanged', '*', f, desc)
 end
