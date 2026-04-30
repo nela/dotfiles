@@ -1,21 +1,7 @@
 # nvim:syntax=zsh
 # nvim:filetype=zsh
 
-##### PATH #####
-
-export QT_QPA_PLATFORMTHEME=qt5ct
-
-##### XDG #####
-export XDG_DATA_HOME="${HOME}/.local/share"
-export XDG_CACHE_HOME="${HOME}/.cache"
-export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_BIN_HOME="${HOME}/.local/bin"
-export XDG_LIB_HOME="${HOME}/.local/lib"
-export XDG_STATE_HOME="${HOME}/.local/state"
-
-export PATH="${XDG_BIN_HOME}":$PATH
 ##### PNPM #####
-# export PNPM_GLOBAL_BIN="${XDG_DATA_HOME}/pnpm"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 export PNPM_STORE="${XDG_DATA_HOME}/pnpm/store"
 export PNPM_GLOBAL="${XDG_DATA_HOME}/pnpm/global"
@@ -25,32 +11,33 @@ export PNPM_CACHE="${XDG_CACHE_HOME}/pnpm"
 
 ##### Custom #####
 export DOTS="${HOME}/dotfiles"
-export NVIM="${DOTS}/nvim/.config/nvim"
-export ZSHRC="${ZDOTDIR}/.zshrc"
 export NELAPYS="${XDG_DATA_HOME}/nelapys"
 export EDITOR="nvim"
 export VENV_HOME="${XDG_DATA_HOME}/nelapys"
-# [[ $OSTYPE == *darwin* ]] &&
-#   export BREW_PREFIX="$(brew --prefix)"
 
-local uname_str=$(uname -a | tr '[:upper:]' '[:lower:]')
+uname_str=$(uname -a | tr '[:upper:]' '[:lower:]')
+
+# if [ -d "${XDG_DATA_HOME}"/asdf/source ]; then
+#   export ASDF_DIR="${XDG_DATA_HOME}"/asdf/source
+# elif [[ $uname_str == *darwin* ]]; then
+#   export ASDF_DIR="/usr/local/opt/asdf"
+# elif [[ $uname_str == *archlinux* ]]; then
+#   export ASDF_DIR="/opt/asdf-vm"
+# fi
 
 if [ -d "${XDG_DATA_HOME}"/asdf/source ]; then
   export ASDF_DIR="${XDG_DATA_HOME}"/asdf/source
-elif [[ uname_str == *darwin* ]]; then
-  export ASDF_DIR="/usr/local/opt/asdf"
-elif [[ uname_str == *archlinux* ]]; then
+elif [[ "$OSTYPE" == darwin* ]]; then
+  export ASDF_DIR="/opt/homebrew/opt/asdf"
+elif [[ "$OSTYPE" == linux-gnu ]]; then
   export ASDF_DIR="/opt/asdf-vm"
 fi
 
+
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
-
 export LESSHISTFILE="${XDG_CACHE_HOME}/less/lesshst"
-
 export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
-
 export GRADLE_USER_HOME="${XDG_DATA_HOME}/gradle"
-
 export _ZO_DATA_DIR="$XDG_STATE_HOME/zoxide"
 
 # HOMEBREW envs
@@ -59,23 +46,4 @@ if [[ ${OSTYPE} == *darwin* ]]; then
 fi
 
 ## Private keys and stuff
-[ -f "${ZDOTDIR}"/.envprivate ] && source "${ZDOTDIR}"/.envprivate
-
-
-
-##### Zsh #####
-# Keep this at the very end
-export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
-export ZCOMPCACHE="$XDG_CACHE_HOME/zsh/zcompcache"
-
-[ -d "$ZSH_CACHE_DIR" ] || mkdir -p "$ZSH_CACHE_DIR"
-[ -d "$ZCOMPCACHE" ] || mkdir -p "$ZCOMPCACHE"
-
-path=(
-  /usr/local/{bin,sbin}
-  $path
-  $XDG_BIN_HOME
-)
-
-# eliminates duplicates in *paths
-typeset -gU cdpath fpath path
+# [ -f "${ZDOTDIR}"/.envprivate ] && source "${ZDOTDIR}"/.envprivate

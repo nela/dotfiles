@@ -49,10 +49,8 @@ zstyle ':completion:*' completer \
 zstyle ':completion:*' completions 1
 
 # Use cache for commands using cache
-# [ -z "${ZCOMPCACHE}" ] && ZCOMPCACHE=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache
-# mkdir -p "${ZCOMPCACHE}"
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "${ZCOMPCACHE}"
+zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}/zcompcache"
 
 # Complete elements with spaces
 zstyle ':completion:*' add-space true

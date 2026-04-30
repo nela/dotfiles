@@ -205,4 +205,4 @@ unset error     \
   _error_fix
 
 # bun completions
-[ -s "/Users/nela/.bun/_bun" ] && source "/Users/nela/.bun/_bun"
+# [ -s "/Users/nela/.bun/_bun" ] && source "/Users/nela/.bun/_bun"
