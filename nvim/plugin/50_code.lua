@@ -117,7 +117,7 @@ now(function()
       ['<C-l>'] = { 'scroll_signature_down' },
       ['<C-h>'] = { 'scroll_signature_up' },
       ['<C-;>'] = { 'show', 'show_documentation', 'hide_documentation' },
-      -- ['<C-;>'] = { 'show_signature', 'hide_signature', 'fallback' },
+      ['<C-,>'] = { 'show_signature', 'hide_signature', 'fallback' },
     },
     appearance = { nerd_font_variant = 'mono' },
     sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
@@ -131,6 +131,15 @@ now(function()
     completion = {
       menu = {
         border = 'none',
+        draw = {
+          treesitter = { 'lsp' },
+        },
+      },
+      documentation = {
+        border = 'rounded',
+      },
+      ghost_text = {
+        enabled = true,
       },
     },
   })

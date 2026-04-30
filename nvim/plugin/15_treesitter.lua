@@ -1,35 +1,35 @@
-local now, gh = Config.now, Config.gh
+local now, gh, on_packchanged, new_autocmd = Config.now, Config.gh, Config.on_packchanged, Config.new_autocmd
+
+local ensure_installed = {
+  'bash',
+  'c',
+  'comment',
+  'html',
+  'javascript',
+  'typescript',
+  'svelte',
+  'json',
+  'lua',
+  'python',
+  'regex',
+  'glsl',
+  'yaml',
+  'css',
+  'scss',
+  'qmljs',
+  'rust',
+  'sql',
+  'terraform',
+  'markdown',
+  'vimdoc',
+  'toml',
+  'javascript',
+  'dockerfile',
+  'make',
+  'go',
+}
 
 now(function()
-  local ensure_installed = {
-    'bash',
-    'c',
-    'comment',
-    'html',
-    'javascript',
-    'typescript',
-    'svelte',
-    'json',
-    'lua',
-    'python',
-    'regex',
-    'glsl',
-    'yaml',
-    'css',
-    'scss',
-    'qmljs',
-    'rust',
-    'sql',
-    'terraform',
-    'markdown',
-    'vimdoc',
-    'toml',
-    'javascript',
-    'dockerfile',
-    'make',
-    'go',
-  }
-
   vim.pack.add({
     { src = gh('nvim-treesitter/nvim-treesitter'), version = 'main' },
   })
@@ -50,33 +50,25 @@ now(function()
       table.insert(filetypes, ft)
     end
   end
-
-  vim.api.nvim_create_autocmd('FileType', {
-    desc = 'Start treesitter',
-    group = vim.api.nvim_create_augroup('nelavim:start_treesitter', { clear = true }),
-    pattern = filetypes,
-    callback = function(ev)
-      vim.treesitter.start(ev.buf)
-
-      --folds
-      vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-      vim.wo[0][0].foldmethod = 'expr'
-      vim.wo[0][0].foldlevel = 99
-
-      -- indent - experimental
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end,
-  })
-
-  vim.api.nvim_create_autocmd('PackChanged', {
-    callback = function(ev)
-      local name, kind = ev.data.spec.name, ev.data.spec.kind
-      if name == 'nvim_treesitter' and kind == 'update' then
-        if not ev.data.active then
-          vim.cmd.packadd('nvim-treesitter')
-        end
-        vim.cmd('TSUpdate')
-      end
-    end,
-  })
 end)
+
+new_autocmd('FileType', ensure_installed, function(ev)
+  vim.treesitter.start(ev.buf)
+
+  --folds
+  vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+  vim.wo[0][0].foldmethod = 'expr'
+  vim.wo[0][0].foldlevel = 99
+
+  -- indent - experimental
+  if ev.match ~= 'lua' then
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+end, 'Start treesitter. Enable folds, indent.')
+
+on_packchanged('nvim-treesitter', { 'update' }, function(ev)
+  if not ev.data.active then
+    vim.cmd.packadd('nvim-treesitter')
+  end
+  vim.cmd('TSUpdate')
+end, 'Start and update treesitter')
