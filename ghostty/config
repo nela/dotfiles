@@ -1,5 +1,4 @@
 font-family = MesloLGS NF
-font-size = 14
 # fonts-thicken = true
 
 background = 141617
@@ -47,3 +46,5 @@ custom-shader = shaders/ghostty-cursor-shaders/cursor_sweep.glsl
 # custom-shader = shaders/shake.glsl
 # custom-shader = shaders/dither.glsl
 # custom-shader-animation = always
+
+config-file = config.local

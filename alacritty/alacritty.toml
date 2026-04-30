@@ -1,4 +1,4 @@
-general.import = ["~/dotfiles/alacritty/.config/alacritty/gruvbox-dark.toml"]
+general.import = ["~/dotfiles/alacritty/gruvbox-dark.toml"]
 
 [bell]
 animation = "EaseOutExpo"
@@ -8,17 +8,13 @@ duration = 0
 draw_bold_text_with_bright_colors = true
 
 [cursor]
-style = { blinking = "Always", shape = "Block"}
+style = { blinking = "Always", shape = "Block" }
 blink_interval = 1750
 thickness = 0.15
 
 # [env]
 # TERM = 'alacritty-direct'
 # TERM = "xterm-256color"
-
-
-[font]
-size = 13
 
 [font.glyph_offset]
 x = 0
@@ -93,3 +89,5 @@ lines = 40
 [window.padding]
 x = 2
 y = 2
+
+general.import = ["~/dotfiles/alacritty/alacritty.local.toml"]
