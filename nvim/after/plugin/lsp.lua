@@ -1,3 +1,4 @@
+local new_autocmd = Config.new_autocmd
 local methods = vim.lsp.protocol.Methods
 
 vim.g.inlay_hints = false
@@ -14,18 +15,19 @@ local function debounce(ms, fn)
   end
 end
 
----@param name string
 local augroup = function(name)
-  return vim.api.nvim_create_augroup('nelavim.lsp.' .. name, { clear = false })
+  return vim.api.nvim_create_augroup('nelavim.lsp.' .. name, { clear = true })
 end
 
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 local function on_attach(client, bufnr)
+  local buf_group = augroup(bufnr)
+
   --[[ if client:supports_method(methods.textDocument_codeLens) then
     vim.lsp.codelens.enable(true, { bufnr = bufnr })
     vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
-      group = augroup('nelavim.lsp'),
+      group = buf_group,
       callback = debounce(200, function(args0)
         vim.lsp.codelens.enable(true, { bufnr = args0.buf })
       end),
@@ -33,16 +35,16 @@ local function on_attach(client, bufnr)
   end ]]
 
   if client:supports_method(methods.textDocument_documentHighlight) then
-    local cursor_highlights = augroup('cursor_highlights')
     vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
-      group = cursor_highlights,
+      group = buf_group,
       desc = 'Highlight references under the cursor',
       buffer = bufnr,
-      -- callback = debounce(200, vim.lsp.buf.document_highlight)
-      callback = vim.lsp.buf.document_highlight,
+      callback = debounce(200, vim.lsp.buf.document_highlight),
+      -- callback = vim.lsp.buf.document_highlight,
     })
+
     vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertEnter', 'BufLeave' }, {
-      group = cursor_highlights,
+      group = buf_group,
       desc = 'Clear highlight references',
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
@@ -52,27 +54,26 @@ local function on_attach(client, bufnr)
   if client:supports_method(methods.textDocument_inlayHint) then
     if vim.g.inlay_hints then
       -- Initial inlay hint display.
-      -- Idk why but without the delay inlay hints aren't displayed at the very start.
       debounce(500, function()
         local mode = vim.api.nvim_get_mode().mode
         vim.lsp.inlay_hint.enable(mode == 'n' or mode == 'v', { bufnr = bufnr })
-      end)
+      end)()
     end
 
     vim.api.nvim_create_autocmd('InsertEnter', {
-      group = augroup('nelavim.lsp'),
-      desc = 'Enable inlay hints',
+      group = buf_group,
+      desc = 'Disable inlay hints',
       buffer = bufnr,
       callback = function()
-        if vim.g.inlay_hints then -- TODO fix inlay together with inlay toggle logic
+        if vim.g.inlay_hints then
           vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
         end
       end,
     })
 
     vim.api.nvim_create_autocmd('InsertLeave', {
-      group = augroup('nelavim.lsp'),
-      desc = 'Disable inlay hints',
+      group = buf_group,
+      desc = 'Enable inlay hints',
       buffer = bufnr,
       callback = function()
         if vim.g.inlay_hints then
@@ -81,10 +82,6 @@ local function on_attach(client, bufnr)
       end,
     })
   end
-
-  vim.api.nvim_create_user_command('ToggleInlayHints', function()
-    vim.g.inlay_hints = not vim.g.inlay_hints
-  end, {})
 
   local keymap = {
     {
@@ -223,7 +220,7 @@ local function on_attach(client, bufnr)
     },
   }
   for _, keys in pairs(keymap) do
-    if not keys.has_method or client:supports_method(keys.method) then
+    if not keys.has_method or client:supports_method(keys.has_method) then
       local opts = keys.opts or {}
       opts.buffer = bufnr
       vim.keymap.set(keys.mode or 'n', keys.lhs, keys.rhs, opts)
@@ -244,15 +241,9 @@ local function on_attach(client, bufnr)
     vim.diagnostic.setqflist()
   end)
   command('LspListWorkspaceFolders', function()
-    vim.print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    vim.print(vim.lsp.buf.list_workspace_folders())
   end)
 end
-
--- Diagnostic Config
--- for _, level in ipairs({ 'Hint', 'Info', 'Warn', 'Error' }) do
---   local sign = 'DiagnosticSign' .. level
---   vim.fn.sign_define(sign, { text = '', texthl = sign, numhl = sign })
--- end
 
 vim.diagnostic.config({
   float = {
@@ -277,6 +268,11 @@ vim.diagnostic.config({
     },
   },
 })
+
+vim.api.nvim_create_user_command('ToggleInlayHints', function()
+  vim.g.inlay_hints = not vim.g.inlay_hints
+  vim.lsp.inlay_hint.enable(vim.g.inlay_hints)
+end, {})
 
 local show_handler = vim.diagnostic.handlers.virtual_text.show
 if not show_handler then
@@ -330,25 +326,21 @@ vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
     return
   end
 
-  on_attach(client, vim.api.nvim_get_current_buf())
+  for bufnr, _ in pairs(client.attached_buffers) do
+    on_attach(client, bufnr)
+  end
 
   return register_capability(err, res, ctx)
 end
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  desc = 'Buffer lsp setup',
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
+new_autocmd('LspAttach', '*', function(args)
+  local client = vim.lsp.get_client_by_id(args.data.client_id)
+  if not client then
+    return
+  end
+  on_attach(client, args.buf)
+end, 'Lsp on attach')
 
-    if not client then
-      return
-    end
-
-    on_attach(client, args.buf)
-  end,
-})
-
--- vim.lsp.config("rust_analyzer", { enabled = false })
 vim.lsp.enable({
   'bashls',
   'clangd',
