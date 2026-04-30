@@ -1,9 +1,11 @@
 .DS_Store
-nvim/.config/nvim/plugin/packer_compiled.lua
-nvim/.config/nvim/spell/
+nvim/spell/
 *.zwc
 *.zwc.old
 *unsafe*
 *private*
 *.envprivate
 .tool-versions
+
+alacritty/alacritty.local.toml
+ghostty/config.local
