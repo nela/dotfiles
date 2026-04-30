@@ -125,7 +125,7 @@ now(function()
       implementation = 'prefer_rust_with_warning',
     },
 
-    signagure = {
+    signature = {
       enabled = true,
     },
     completion = {

@@ -19,7 +19,6 @@ now(function()
     'scss',
     'qmljs',
     'rust',
-    'toml',
     'sql',
     'terraform',
     'markdown',
