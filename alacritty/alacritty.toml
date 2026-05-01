@@ -1,4 +1,7 @@
-general.import = ["~/dotfiles/alacritty/gruvbox-dark.toml"]
+general.import = [
+  "~/dotfiles/alacritty/gruvbox-dark.toml",
+  "~/dotfiles/alacritty/alacritty.local.toml",
+]
 
 [bell]
 animation = "EaseOutExpo"
@@ -12,10 +15,6 @@ style = { blinking = "Always", shape = "Block" }
 blink_interval = 1750
 thickness = 0.15
 
-# [env]
-# TERM = 'alacritty-direct'
-# TERM = "xterm-256color"
-
 [font.glyph_offset]
 x = 0
 y = 1
@@ -25,6 +24,27 @@ family = "MesloLGS NF"
 
 [font.offset]
 x = 1
+y = 2
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[window]
+decorations = "Buttonless"
+dynamic_padding = true
+blur = true
+option_as_alt = "OnlyLeft"
+
+[window.dimensions]
+columns = 120
+lines = 40
+
+[window.padding]
+x = 2
 y = 2
 
 [[keyboard.bindings]]
@@ -62,32 +82,12 @@ chars = "\u001E"
 key = "Key6"
 mods = "Control"
 
-[mouse]
-hide_when_typing = true
+[[keyboard.bindings]]
+chars = "\u001b[59;5u"
+key = "Semicolon"
+mods = "Control"
 
-# [mouse.double_click]
-# threshold = 300
-#
-# [mouse.triple_click]
-# threshold = 300
-
-[scrolling]
-history = 10000
-multiplier = 3
-
-[window]
-decorations = "Buttonless"
-dynamic_padding = true
-blur = true
-opacity = 0.75
-option_as_alt = "OnlyLeft"
-
-[window.dimensions]
-columns = 120
-lines = 40
-
-[window.padding]
-x = 2
-y = 2
-
-general.import = ["~/dotfiles/alacritty/alacritty.local.toml"]
+[[keyboard.bindings]]
+chars = "\u001b[44;5u"
+key = "Comma"
+mods = "Control"
