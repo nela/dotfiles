@@ -136,7 +136,9 @@ now(function()
         },
       },
       documentation = {
-        border = 'rounded',
+        window = {
+          border = 'rounded',
+        },
       },
       ghost_text = {
         enabled = true,

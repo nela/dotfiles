@@ -350,14 +350,6 @@ now_if_args(function()
 end)
 -- }}}
 
-do
-  if package.loaded['lualine'] then
-    vim.print('lualien loaded')
-  else
-    vim.print('nolualine')
-  end
-end
-
 -- Treesitter Context {{{
 now_if_args(function()
   vim.pack.add({
@@ -367,11 +359,15 @@ now_if_args(function()
   require('treesitter-context').setup({
     enable = true,
     on_attach = function(bufnr)
-      --[[ local config = vim.fn['gruvbox_material#get_configuration']()
-      local palette = vim.fn['gruvbox_material#get_palette'](config.background, config.foreground, config.colors_override)
+      local config = vim.fn['gruvbox_material#get_configuration']()
+      local palette =
+        vim.fn['gruvbox_material#get_palette'](config.background, config.foreground, config.colors_override)
       vim.cmd.highlight('TreesitterContext guibg=' .. palette.bg0[1])
       vim.cmd.highlight('TreesitterContextBottom  guibg=' .. palette.bg0[1])
-      vim.cmd.highlight('TreesitterContextLineNumberBottom  guibg=' .. palette.bg_dim[1] .. ' guifg=', palette.orange[1]) ]]
+      vim.cmd.highlight(
+        'TreesitterContextLineNumberBottom  guibg=' .. palette.bg_dim[1] .. ' guifg=',
+        palette.orange[1]
+      )
       vim.keymap.set('n', '<leader>cc', function()
         require('treesitter-context').go_to_context(vim.v.count1)
       end, { silent = true, buffer = bufnr })

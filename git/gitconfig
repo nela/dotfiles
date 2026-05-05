@@ -43,10 +43,23 @@
   plus-style = syntax "#001a00"
 
 [merge]
+  tool = nvimdiff
+[mergetool]
+  keepBackup = false
+  ; optional:
   conflictstyle = diff3
+; optional:
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
 
 [diff]
+  tool = nvim_difftool
   colorMoved = default
+ # needs packadd difftool in neovim
+
+[difftool "nvim_difftool"]
+ cmd = nvim -c \"DiffTool $LOCAL $REMOTE\"
+ # use it for prs as well: git difftool -d main
 
 [pager]
   rg = delta

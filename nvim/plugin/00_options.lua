@@ -60,6 +60,9 @@ vim.opt.wrap = false
 vim.opt.grepprg = 'rg --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m'
 
+-- syncs system cliboard with default yank reg
+vim.opt.clipboard = 'unnamedplus'
+
 vim.opt.background = 'dark'
 vim.opt.cursorline = true
 vim.opt.filetype = 'on'
