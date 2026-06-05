@@ -73,4 +73,8 @@ vim.g.gruvbox_material_background = 'hard'
 vim.g.gruvbox_material_better_performance = 1
 vim.opt.winborder = 'rounded'
 
+vim.opt.exrc = true
+
 vim.g.rust_diagnostics_engine = 'bacon_ls'
+
+vim.cmd([[ packadd nvim.difftool ]])
