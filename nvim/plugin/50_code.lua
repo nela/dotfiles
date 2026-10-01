@@ -143,6 +143,10 @@ now(function()
       ghost_text = {
         enabled = true,
       },
+      cmdline = {
+        keymap = { preset = 'inherit' },
+        completion = { menu = { auto_show = true } },
+      },
     },
   })
 end)
