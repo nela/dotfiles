@@ -1,0 +1,114 @@
+# gruvbox-material (hard, original) as rendered by render-markdown.nvim
+# Colors resolved from the RenderMarkdown* highlight groups in nvim.
+
+base = "ocean"
+# leaf only ships syntect's built-in themes; mocha is the closest warm one
+syntax = "base16-mocha.dark"
+
+[ui]
+toc_bg = "#141617"
+toc_border = "#3c3836"
+content_bg = "#1d2021"
+scrollbar_hover = "#fe8019"
+status_bg = "#141617"
+status_separator = "#7c6f64"
+status_brand_fg = "#1d2021"
+status_brand_bg = "#fe8019"
+status_filename_fg = "#ebdbb2"
+status_filename_bg = "#282828"
+status_watch_fg = "#b8bb26"
+status_watch_bg = "#32361a"
+status_reloaded_fg = "#1d2021"
+status_reloaded_bg = "#b8bb26"
+status_search_fg = "#fabd2f"
+status_search_bg = "#282828"
+status_success_fg = "#b8bb26"
+status_success_bg = "#32361a"
+status_warning_fg = "#fabd2f"
+status_error_fg = "#fb4934"
+status_error_bg = "#3c1f1e"
+status_shortcut_fg = "#928374"
+status_percent_fg = "#fe8019"
+toc_hover_fg = "#ebdbb2"
+toc_header_fg = "#928374"
+toc_active_bg = "#282828"
+toc_inactive_bg = "#141617"
+toc_accent = "#fe8019"
+toc_index_inactive = "#7c6f64"
+toc_primary_active = "#ebdbb2"
+toc_primary_inactive = "#a89984"
+toc_secondary_inactive = "#7c6f64"
+toc_secondary_text_active = "#ebdbb2"
+toc_secondary_text_inactive = "#928374"
+
+[markdown]
+text = "#ebdbb2"
+strong_text = "#ebdbb2"
+
+# RenderMarkdownH1..H6 (H5/H6 share heading_other)
+heading_1 = "#fb4934"
+heading_2 = "#fe8019"
+heading_3 = "#fabd2f"
+heading_4 = "#b8bb26"
+heading_other = "#83a598"
+heading_underline = "#504945"
+
+# RenderMarkdownBullet links to Normal
+list_level_1 = "#ebdbb2"
+list_level_2 = "#ebdbb2"
+list_level_3 = "#ebdbb2"
+ordered_list = "#ebdbb2"
+
+# RenderMarkdownCode / CodeInfo / CodeInline (+ @markup.raw fg)
+code_frame = "#3c3836"
+code_label = "#fe8019"
+code_gutter = "#7c6f64"
+inline_code_fg = "#b8bb26"
+inline_code_bg = "#282828"
+
+# RenderMarkdownTableHead / TableRow
+table_header = "#fe8019"
+table_cell = "#ebdbb2"
+table_border = "#7c6f64"
+table_separator = "#504945"
+
+# RenderMarkdownQuote / Dash
+blockquote_marker = "#928374"
+blockquote_text = "#a89984"
+rule = "#7c6f64"
+
+# RenderMarkdownLink / LinkTitle
+link_icon = "#fabd2f"
+link_text = "#fabd2f"
+link_hover = "#8ec07c"
+footnote_ref = "#fabd2f"
+footnote_text = "#a89984"
+
+# RenderMarkdownMath
+latex_inline_fg = "#83a598"
+latex_inline_bg = "#282828"
+latex_block_fg = "#83a598"
+
+mermaid_keyword = "#fe8019"
+mermaid_arrow = "#83a598"
+mermaid_label = "#b8bb26"
+mermaid_block_fg = "#ebdbb2"
+
+# RenderMarkdownInlineHighlight is just bg #282828; use visual yellow so it reads
+mark_fg = "#ebdbb2"
+mark_bg = "#473c29"
+
+# RenderMarkdownChecked / Unchecked
+task_checked = "#b8bb26"
+task_unchecked = "#928374"
+
+# Callouts: Info / Success / Hint / Warn / Error
+alert_note = "#83a598"
+alert_tip = "#b8bb26"
+alert_important = "#d3869b"
+alert_warning = "#fabd2f"
+alert_caution = "#fb4934"
+
+# Search / CurSearch
+search_highlight_bg = "#504945"
+search_match_bg = "#b8bb26"
