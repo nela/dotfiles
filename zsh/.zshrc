@@ -204,5 +204,4 @@ unset error     \
   _warning_fix  \
   _error_fix
 
-# bun completions
-# [ -s "/Users/nela/.bun/_bun" ] && source "/Users/nela/.bun/_bun"
+[ -s "${XDG_DATA_HOME}"/leaf/completions/_leaf ] && source "${XDG_DATA_HOME}"/leaf/completions/_leaf
