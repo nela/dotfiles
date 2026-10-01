@@ -381,4 +381,10 @@ now_if_args(function()
 end)
 -- }}}
 
+Config.on_filetype('markdown', function()
+  vim.pack.add({
+    gh('mariocesar/beside.nvim'),
+  })
+end)
+
 --  vim: foldmethod=marker
